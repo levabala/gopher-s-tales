@@ -1,1 +1,3 @@
-# gopher-s-tales
+# Gopher's Tales
+
+Uni-Dubna project
