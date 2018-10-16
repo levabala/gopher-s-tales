@@ -27,11 +27,9 @@ class GopherProp:
     self.value += delta
     self.value = round(min(self.value, 1), 2)
     if doPrint:
-      print('>> {} changed to {}{}{} ({}{})'.format(
+      print('>> {} changed to {} ({}{})'.format(
           self.name,
-          bcolors.HEADER,
-          self.value,
-          bcolors.ENDC,
+          self.formatValueColored(),
           '+' if delta >= 0 else '',
           delta)
       )
@@ -44,4 +42,17 @@ class GopherProp:
     return self.isFatalCondition(self.value)
 
   def __str__(self):
-    return "{0}: {}{}{}".format(self.name, bcolors.HEADER, self.value. bcolors.ENDC)
+    return "{}: {}".format(self.name, self.formatValueColored())
+
+  def formatValueColored(self):
+    start = ''
+    if self.value < 0.2:
+      start = bcolors.FAIL
+    elif self.value < 0.5:
+      start = bcolors.WARNING
+    elif self.value < 0.7:
+      start = bcolors.OKBLUE
+    else:
+      start = bcolors.OKGREEN
+
+    return "{}{}{}".format(start, self.value, bcolors.ENDC)
