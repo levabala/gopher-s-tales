@@ -38,7 +38,7 @@ def defaultGopher(name):
       charisma=0.5,
       origin=None,
       actionPoints=0,
-      diggingLevel=1,
-      fightingLevel=1,
-      tradingLevel=1,
+      diggingLevel=1.0,
+      fightingLevel=1.0,
+      tradingLevel=1.0,
   )

@@ -1,14 +1,8 @@
+from random import randint
 from classes.ConsoleColors import bcolors
 from classes.GopherVisual import formatValueColored
 from classes.Gopher import Gopher
-
-RESPECT_A_COEFF = 1
-RESPECT_B_COEFF = 1
-DIG_INTELLIGENCE_COEFF = 1
-DIG_STRENGTH_COEFF = 1
-LEVEL_DIGGING_COEFF = 1
-LEVEL_FIGHTING_COEFF = 1
-LEVEL_TRADING_COEFF = 1
+from classes.Constants import *
 
 
 def getDigDeep(gopher):
@@ -16,7 +10,19 @@ def getDigDeep(gopher):
   digI = DIG_INTELLIGENCE_COEFF * gopher.intelligence + digLA
   digS = DIG_STRENGTH_COEFF * gopher.strenght + digLA
   avrg = (digI + digS) / 2
-  return min(avrg, max(digI, digS))
+  digBuff = min(avrg, max(digI, digS))
+  
+  d = d20()
+
+  if d < DIGGING_FAILURE_CRIT_BOUND:
+    return 0
+  elif d < DIGGING_FAILURE_SIMPLE_BOUND:
+    return -DIGGING_NORMAL_DEEP
+  elif d < DIGGING_SUCCESS_SIMPLE_BOUND:
+    return DIGGING_NORMAL_DEEP
+
+  # should be never
+  raise Exception('very strange dice')
 
 
 def calcRespect(gopher):
@@ -71,3 +77,7 @@ def showActionsLeft(gopher):
       bcolors.ENDC,
       's' if gopher.actionPoints != 1 else '')
   )
+
+
+def d20():
+  return randint(1, 20)

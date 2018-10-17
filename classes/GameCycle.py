@@ -3,7 +3,7 @@ from collections import namedtuple
 from classes.Gopher import Gopher, defaultGopher
 from classes.GopherMethods import *
 
-AFTER_SLEEP_ACTION_POINTS = 2
+ReturnTuple = namedtuple('ReturnTuple', 'g e')  # gopher events
 
 
 def runGameCycle(exitCommand='exit', gopher=defaultGopher('Jackobs')):
@@ -15,18 +15,23 @@ def runGameCycle(exitCommand='exit', gopher=defaultGopher('Jackobs')):
 
 
 actions = {
-    'dig': lambda g: g._replace(
-        holeDeep=g.holeDeep + getDigDeep(g),
-        actionPoints=g.actionPoints - 1
-    ),
-    'sleep': lambda g: g._replace(
-        actionPoints=AFTER_SLEEP_ACTION_POINTS,
-        holeDeep=g.holeDeep - 0.2,
-        health=g.health + 0.2,
-        fame=g.fame - 0.1,
-        weight=g.weight - 1 / 6,
-        respect=calcRespect(g)
-    ),
+    'dig': lambda rt: ReturnTuple(
+        g=rt.g._replace(
+            holeDeep=rt.g.holeDeep + getDigDeep(rt.g),
+            actionPoints=rt.g.actionPoints - 1
+        ),
+        e=rt.e),
+    'sleep': lambda rt:
+    ReturnTuple(
+        g=rt.g._replace(
+            actionPoints=AFTER_SLEEP_ACTION_POINTS,
+            holeDeep=rt.g.holeDeep - 0.2,
+            health=rt.g.health + 0.2,
+            fame=rt.g.fame - 0.1,
+            weight=rt.g.weight - 1 / 6,
+            respect=calcRespect(rt.g)
+        ),
+        e=rt.e),
     'myprops': lambda g: showCharacter(g),
     # not implemented
     'eat': lambda g: g,
@@ -42,8 +47,10 @@ def days(gopher, day=0):
   # 1. perform user actions
   # 2. sleep for night
   # 3. check if is died
-  gopher = pipe(gopher, controlByUser, actions['sleep'], pr2rn)
+  gopher = pipe(ReturnTuple(g=gopher, e=[]), controlByUser, actions['sleep'], pr2rn)
   died = isDied(gopher)
+
+  # TODO: implement RetureTuple
 
   # print after-night props
   print('\n' + gopherStateAfterNight(gopher))
@@ -57,8 +64,13 @@ def days(gopher, day=0):
 
 def controlByUser(gopher):
   while gopher.actionPoints > 0:
-    gopher = pipe(gopher, getUserAction(), pr2rn)
+    gopher = performAction(gopher, getUserAction())
     showActionsLeft(gopher)
+  return gopher
+
+
+def performAction(gopher, action):
+  gopher = pipe(gopher, action, pr2rn)
   return gopher
 
 
