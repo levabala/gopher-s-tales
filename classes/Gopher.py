@@ -14,6 +14,9 @@ Gopher = namedtuple('Gopher', [
     'charisma',
     'origin',
     'actionPoints',
+    'diggingLevel',
+    'fightingLevel',
+    'tradingLevel',
 ])
 
 # set default values
@@ -34,5 +37,8 @@ def defaultGopher(name):
       intelligence=0.5,
       charisma=0.5,
       origin=None,
-      actionPoints=0
+      actionPoints=0,
+      diggingLevel=1,
+      fightingLevel=1,
+      tradingLevel=1,
   )

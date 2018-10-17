@@ -1,7 +1,7 @@
-from classes.Gopher import Gopher, defaultGopher
-from classes.ConsoleColors import bcolors
-from classes.GopherVisual import formatValueColored
 from toolz.functoolz import pipe
+from collections import namedtuple
+from classes.Gopher import Gopher, defaultGopher
+from classes.GopherMethods import *
 
 AFTER_SLEEP_ACTION_POINTS = 2
 
@@ -16,7 +16,7 @@ def runGameCycle(exitCommand='exit', gopher=defaultGopher('Jackobs')):
 
 actions = {
     'dig': lambda g: g._replace(
-        holeDeep=g.holeDeep + (1 - g.holeDeep) * 0.1,
+        holeDeep=g.holeDeep + getDigDeep(g),
         actionPoints=g.actionPoints - 1
     ),
     'sleep': lambda g: g._replace(
@@ -24,9 +24,14 @@ actions = {
         holeDeep=g.holeDeep - 0.2,
         health=g.health + 0.2,
         fame=g.fame - 0.1,
-        weight=g.weight - 1 / 6
+        weight=g.weight - 1 / 6,
+        respect=calcRespect(g)
     ),
-    'myprops': lambda g: showCharacter(g)
+    'myprops': lambda g: showCharacter(g),
+    # not implemented
+    'eat': lambda g: g,
+    'fight': lambda g: g,
+    'trade': lambda g: g,
 }
 
 
@@ -50,19 +55,6 @@ def days(gopher, day=0):
     return days(gopher, day + 1)
 
 
-def showActionsLeft(gopher):
-  print('{}{}{} action{} left'.format(
-      bcolors.HEADER,
-      gopher.actionPoints,
-      bcolors.ENDC,
-      's' if gopher.actionPoints != 1 else '')
-  )
-
-
-def isDied(g):
-  return g.health <= 0 or g.holeDeep <= 0 or g.weight <= 0
-
-
 def controlByUser(gopher):
   while gopher.actionPoints > 0:
     gopher = pipe(gopher, getUserAction(), pr2rn)
@@ -80,40 +72,3 @@ def getUserAction():
     return getUserAction()
   else:
     return actions[actionName]
-
-
-def gopherStateAfterNight(gopher):
-  notToPrint = 'name strenght agility intelligence charisma origin'.split(' ')
-  return '\n'.join(
-      [
-          '{}{}{} is now: {}'.format(
-              bcolors.BOLD, f, bcolors.ENDC,
-              formatValueColored(getattr(gopher, f))
-          )
-          for f in gopher._fields if not f in notToPrint
-      ]
-  )
-
-
-def showCharacter(gopher):
-  toPrint = 'name strenght agility intelligence charisma origin'.split(' ')
-  string = '\n'.join(
-      [
-          '{}{}{} is now: {}'.format(
-              bcolors.BOLD, f, bcolors.ENDC,
-              formatValueColored(getattr(gopher, f))
-          )
-          for f in gopher._fields if f in toPrint
-      ]
-  )
-  print(string)
-  return gopher
-
-
-def pr2rn(gopher):
-  """Properties to range"""
-  # I LOVE GENERATORS
-  # I REAALY LOVE THEN
-  return Gopher(
-      *[min(max(prop, 0), 1) if type(prop) is float else prop for prop in gopher]
-  )
