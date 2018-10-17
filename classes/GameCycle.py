@@ -21,7 +21,7 @@ def runGameCycle(exitCommand='exit'):
     passed = False
     while not passed:
       try:
-        command = input('Enter command:\n')
+        command = raw_input('Enter command:\n')
 
         runCommand(command, gopher)
         passed = True
