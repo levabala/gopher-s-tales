@@ -1,6 +1,7 @@
 from classes.Assets import d20
 from classes.SmoothPrint import smoothPrint
 from classes.Constants import *
+from textes.events import FloodTexts, DownfallTexts
 from classes.GopherVisual import (
     CRITICAL_FAILURE,
     SIMPLE_FAILURE,
@@ -10,32 +11,27 @@ from classes.GopherVisual import (
 
 
 def floodEvent(gopher):
-  showStory('\nOhhhh! FLOODING!!!')
-  showStory('You\'re trying to escape the water...\n')
+  showStory(FloodTexts.INIT)
 
   d = d20() + FLOOD_EVENT_ESCAPE_COEFF * gopher.agility
 
   if d < FLOOD_EVENT_FAILURE_CRIT_BOUND:
     smoothPrint(CRITICAL_FAILURE)
-    showStory('You\'ve not time to react on this!')
-    showStory('Frrrrr... You\'re completly wet')
-    showStory('\nA huge part of the hole was flooded')
+    showStory(FloodTexts.FAILURE_CRIT)
     gopher._replace(
         holeDeep=gopher.holeDeep - FLOOD_EVENT_CRIT_HOLE_REDUCTION,
     )
     return gopher
   elif d < FLOOD_EVENT_FAILURE_SIMPLE_BOUND:
     smoothPrint(SIMPLE_FAILURE)
-    showStory('\nYour legs are a bit wet')
-    showStory('And the hole a bit flooded...')
+    showStory(FloodTexts.FAILURE_SIMPLE)
     gopher._replace(
         holeDeep=gopher.holeDeep - FLOOD_EVENT_SIMPLE_HOLE_REDUCTION,
     )
     return gopher
   elif d < FLOOD_EVENT_SUCCESS_SIMPLE_BOUND:
     smoothPrint(SIMPLE_SUCCESS)
-    showStory('\nYou\'ve escaped beating water!')
-    showStory('Just a little water...')
+    showStory(FloodTexts.SUCCESS_SIMPLE)
     return gopher
 
   # should be never
@@ -43,15 +39,13 @@ def floodEvent(gopher):
 
 
 def downFallEvent(gopher):
-  showStory('\nOhhhh! DOWNFALL!!!')
-  showStory('You\'re trying to jump off falling roof...\n')
+  showStory(DownfallTexts.INIT)
 
   d = d20() + FLOOD_EVENT_ESCAPE_COEFF * gopher.agility
 
   if d < DOWNFALL_EVENT_FAILURE_CRIT_BOUND:
     smoothPrint(CRITICAL_FAILURE, SMALL_DELAY)
-    showStory('\nAuch! Falling stones have damaged you!')
-    showStory('And the hole is littered!')
+    showStory(DownfallTexts.FAILURE_CRIT)
     gopher._replace(
         holeDeep=gopher.holeDeep - DOWNFALL_EVENT_CRIT_HOLE_REDUCTION,
         health=gopher.health - DOWNFALL_EVENT_CRIT_GOPHER_DAMAGE
@@ -59,8 +53,7 @@ def downFallEvent(gopher):
     return gopher
   elif d < DOWNFALL_EVENT_FAILURE_SIMPLE_BOUND:
     smoothPrint(SIMPLE_FAILURE, SMALL_DELAY)
-    showStory('\nOne little stone hurts you arm. Nothing critical...')
-    showStory('And the hole becomes a bit less deep!')
+    showStory(DownfallTexts.FAILURE_SIMPLE)
     gopher._replace(
         holeDeep=gopher.holeDeep - DOWNFALL_EVENT_SIMPLE_HOLE_REDUCTION,
         health=gopher.health - DOWNFALL_EVENT_SIMPLE_GOPHER_DAMAGE
@@ -68,7 +61,7 @@ def downFallEvent(gopher):
     return gopher
   elif d < DOWNFALL_EVENT_SUCCESS_SIMPLE_BOUND:
     smoothPrint(SIMPLE_SUCCESS, SMALL_DELAY)
-    showStory('\nJust sand. whew')
+    showStory(DownfallTexts.SUCCESS_SIMPLE)
     return gopher
 
   # should be never

@@ -11,7 +11,7 @@ RT = namedtuple('ReturnTuple', 'g e')  # gopher events
 
 
 def runGameCycle(exitCommand='exit', gopher=defaultGopher('Jackobs')):
-  showStory('\n\n{} wakes up in a countryside'.format(gopher.name))
+  showStory('\n\n{} wakes up in a countryside'.format(gopher.name), raw=True)
 
   gopher = gopher._replace(actionPoints=AFTER_SLEEP_ACTION_POINTS)
   daysLived = days(RT(g=gopher, e=[]))
@@ -51,7 +51,7 @@ def days(rt, day=0):
 
   gopherAfterDay = rt.g
   rt = actions['sleep'](rt)
-  smoothPrint('\n{}AFTER DAY CHANGES{}'.format(bcolors.BOLD, bcolors.ENDC))
+  smoothPrint('{}AFTER DAY CHANGES{}'.format(bcolors.BOLD, bcolors.ENDC))
   showChangedProps(gopherBefore, gopherAfterDay, ['actionPoints'])
 
   rt = pr2rn(rt)
@@ -98,14 +98,13 @@ def performAction(rt, action):
   gopherAfter = rt.g
   showChangedProps(gopherBefore, gopherAfter, ['actionPoints'])
 
-  print()
-
   return rt
 
 
 def getUserAction():
   # request action
   actionName = input('Enter action to do: ')
+  print()
 
   # check if action exists
   if not actionName in actions:
