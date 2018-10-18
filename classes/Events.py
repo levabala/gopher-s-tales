@@ -1,7 +1,7 @@
 from classes.Assets import d20
 from classes.SmoothPrint import smoothPrint
 from classes.Constants import *
-from textes.events import FloodTexts, DownfallTexts
+from texts.events import FloodTexts, DownfallTexts
 from classes.GopherVisual import (
     CRITICAL_FAILURE,
     SIMPLE_FAILURE,
