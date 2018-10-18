@@ -28,7 +28,7 @@ def defaultGopher(name):
       name=name,
       health=1,
       weight=0.5,
-      fame=0,
+      fame=0.3,
       holeDeep=0.5,
       wealth=0.5,
       respect=0.5,

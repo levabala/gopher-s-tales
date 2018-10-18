@@ -3,16 +3,19 @@ from collections import namedtuple
 from copy import deepcopy
 from classes.Gopher import Gopher, defaultGopher
 from classes.GopherMethods import *
+from classes.Constants import SMALL_DELAY, MEDIUM_DELAY, BIG_DELAY
+from classes.SmoothPrint import smoothPrint
+from classes.GopherVisual import showStory
 
 RT = namedtuple('ReturnTuple', 'g e')  # gopher events
 
 
 def runGameCycle(exitCommand='exit', gopher=defaultGopher('Jackobs')):
-  print('\n\n{} wakes up in a countryside'.format(gopher.name))
+  showStory('\n\n{} wakes up in a countryside'.format(gopher.name))
 
   gopher = gopher._replace(actionPoints=AFTER_SLEEP_ACTION_POINTS)
   daysLived = days(RT(g=gopher, e=[]))
-  print('\n--- FINISH ---\nyour survived for: {} days'.format(daysLived))
+  smoothPrint('\n--- FINISH ---\nyour survived for: {} days'.format(daysLived))
 
 
 actions = {
@@ -20,9 +23,9 @@ actions = {
     'sleep': lambda rt: RT(
         g=rt.g._replace(
             actionPoints=AFTER_SLEEP_ACTION_POINTS,
-            holeDeep=rt.g.holeDeep - 0.2,
-            health=rt.g.health + 0.2,
-            fame=rt.g.fame - 0.1,
+            holeDeep=rt.g.holeDeep - 0.02,
+            health=rt.g.health + 0.1,
+            fame=rt.g.fame - 0.01,
             # weight=rt.g.weight - 1 / 6,
             respect=calcRespect(rt.g)
         ),
@@ -36,7 +39,7 @@ actions = {
 
 
 def days(rt, day=0):
-  print('\n--- Day {} ---\n'.format(day))
+  smoothPrint('\n--- Day {} ---\n'.format(day), BIG_DELAY)
   gopherBefore = deepcopy(rt.g)
 
   # do all actions:
@@ -44,14 +47,23 @@ def days(rt, day=0):
   # 1. perform user actions
   # 2. sleep for night
   # 3. check if is died
-  rt = pipe(rt, controlByUser, actions['sleep'], pr2rn)
+  rt = controlByUser(rt)
+
+  gopherAfterDay = rt.g
+  rt = actions['sleep'](rt)
+  smoothPrint('\n{}AFTER DAY CHANGES{}'.format(bcolors.BOLD, bcolors.ENDC))
+  showChangedProps(gopherBefore, gopherAfterDay, ['actionPoints'])
+
+  rt = pr2rn(rt)
+
   died = isDied(rt.g)
 
-  # print after-night props
-  gopherAfter = rt.g
-  print('\n{}AFTER DAY CHANGES{}'.format(bcolors.BOLD, bcolors.ENDC))
-  showChangedProps(gopherBefore, gopherAfter)
-  # print('\n' + gopherStateAfterNight(rt.g))
+  # smoothPrint after-night props
+  gopherAfterDayAndNight = rt.g
+  smoothPrint('\n{}AFTER DAY&NIGHT CHANGES{}'.format(bcolors.BOLD, bcolors.ENDC))
+
+  showChangedProps(gopherBefore, gopherAfterDayAndNight, ['actionPoints'])
+  # smoothPrint('\n' + gopherStateAfterNight(rt.g))
 
   # if not died then go to the next day
   if (died):
@@ -77,7 +89,10 @@ def performAction(rt, action):
     event = rt.e.pop(0)
 
     # perform event
+    gopherBeforeEvent = deepcopy(rt.g)
     rt._replace(g=event(rt.g))
+    gopherAfterEvent = rt.g
+    showChangedProps(gopherBeforeEvent, gopherAfterEvent, ['actionPoints'])
 
   # display changes
   gopherAfter = rt.g
