@@ -1,25 +1,39 @@
 from random import randint
 from classes.ConsoleColors import bcolors
-from classes.GopherVisual import formatValueColored
+from classes.GopherVisual import *
 from classes.Gopher import Gopher
 from classes.Constants import *
+from classes.Events import floodEvent, downFallEvent
+from classes.Assets import d20
 
 
-def getDigDeep(gopher):
-  digLA = LEVEL_DIGGING_COEFF * gopher.diggingLevel
-  digI = DIG_INTELLIGENCE_COEFF * gopher.intelligence + digLA
-  digS = DIG_STRENGTH_COEFF * gopher.strenght + digLA
+def performDig(rt):
+  digLA = LEVEL_DIGGING_COEFF * rt.g.diggingLevel
+  digI = DIG_INTELLIGENCE_COEFF * rt.g.intelligence + digLA
+  digS = DIG_STRENGTH_COEFF * rt.g.strenght + digLA
   avrg = (digI + digS) / 2
   digBuff = min(avrg, max(digI, digS))
-  
-  d = d20()
+
+  digBuff = 0  # TEMP
+
+  d = d20() + digBuff
 
   if d < DIGGING_FAILURE_CRIT_BOUND:
-    return 0
+    printCriticalFailure()
+    event = floodEvent if randint(0, 1) else downFallEvent
+    return rt._replace(e=rt.e + [event], g=rt.g._replace(actionPoints=0))
   elif d < DIGGING_FAILURE_SIMPLE_BOUND:
-    return -DIGGING_NORMAL_DEEP
+    printFailure()
+    return rt._replace(g=rt.g._replace(
+        holeDeep=rt.g.holeDeep - DIGGING_NORMAL_DEEP,
+        actionPoints=rt.g.actionPoints-1)
+    )
   elif d < DIGGING_SUCCESS_SIMPLE_BOUND:
-    return DIGGING_NORMAL_DEEP
+    printSuccess()
+    return rt._replace(g=rt.g._replace(
+        holeDeep=rt.g.holeDeep + DIGGING_NORMAL_DEEP,
+        actionPoints=rt.g.actionPoints-1)
+    )
 
   # should be never
   raise Exception('very strange dice')
@@ -29,8 +43,8 @@ def calcRespect(gopher):
   return RESPECT_A_COEFF * gopher.fame + RESPECT_B_COEFF * gopher.wealth
 
 
-def isDied(g):
-  return g.health <= 0 or g.holeDeep <= 0 or g.weight <= 0
+def isDied(gopher):
+  return gopher.health <= 0 or gopher.holeDeep <= 0 or gopher.weight <= 0
 
 
 def gopherStateAfterNight(gopher):
@@ -61,12 +75,12 @@ def showCharacter(gopher):
   return gopher
 
 
-def pr2rn(gopher):
+def pr2rn(rt):
   """Properties to range"""
   # I LOVE GENERATORS
   # I REAALY LOVE THEN
-  return Gopher(
-      *[min(max(prop, 0), 1) if type(prop) is float else prop for prop in gopher]
+  return rt._replace(
+      g=Gopher(*[min(max(prop, 0), 1) if type(prop) is float else prop for prop in rt.g])
   )
 
 
@@ -79,5 +93,13 @@ def showActionsLeft(gopher):
   )
 
 
-def d20():
-  return randint(1, 20)
+def showChangedProps(gopher1, gopher2, propsExcept=[]):
+  for propName in [field for field in gopher1._fields if not field in propsExcept]:
+    val1 = getattr(gopher1, propName)
+    val2 = getattr(gopher2, propName)
+    if val1 != val2:
+      print(formatValueChanged(
+          propName,
+          val2,
+          val2 - val1 if type(val1) == float or type(val1) == int else None
+      ))

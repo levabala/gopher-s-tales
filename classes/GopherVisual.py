@@ -21,10 +21,32 @@ def formatValueColored(value):
   return "{}{}{}".format(start, value, bcolors.ENDC)
 
 
-def formatValueChanged(self, name, value, delta):
-  return '>> {} changed to {} ({}{})'.format(
-      name,
-      formatValueColored(value),
-      '+' if delta >= 0 else '',
-      round(delta, ROUND_DIGITS)
-  )
+def formatValueChanged(name, value, delta):
+  if delta != None:
+    return '>> {} changed to {} ({}{})'.format(
+        name,
+        formatValueColored(value),
+        '+' if delta >= 0 else '',
+        round(delta, ROUND_DIGITS)
+    )
+  else:
+    return '>> {} changed to {}'.format(
+        name,
+        formatValueColored(value),
+    )
+
+
+def printCriticalSuccess():
+  print('{}CRITICAL SUCCESS{}'.format(bcolors.HEADER, bcolors.ENDC))
+
+
+def printSuccess():
+  print('{}SUCCESS{}'.format(bcolors.OKGREEN, bcolors.ENDC))
+
+
+def printFailure():
+  print('{}FAILURE{}'.format(bcolors.WARNING, bcolors.ENDC))
+
+
+def printCriticalFailure():
+  print('{}CRITICAL FAILURE{}'.format(bcolors.FAIL, bcolors.ENDC))
