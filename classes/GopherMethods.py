@@ -6,7 +6,7 @@ from classes.GopherVisual import (
     showCharacter, CRITICAL_FAILURE, SIMPLE_FAILURE, SIMPLE_SUCCESS)
 from classes.Gopher import Gopher
 from classes.Constants import *
-from classes.Events import floodEvent, downFallEvent
+from classes.Events import floodEvent, downfallEvent
 from classes.Assets import d20
 from classes.SmoothPrint import smoothPrint
 
@@ -24,7 +24,7 @@ def performDig(rt):
 
   if d < DIGGING_FAILURE_CRIT_BOUND:
     smoothPrint(CRITICAL_FAILURE)
-    event = floodEvent if randint(0, 1) else downFallEvent
+    event = floodEvent if randint(0, 1) else downfallEvent
     return rt._replace(e=rt.e + [event], g=rt.g._replace(actionPoints=0))
   elif d < DIGGING_FAILURE_SIMPLE_BOUND:
     smoothPrint(SIMPLE_FAILURE)
@@ -46,7 +46,7 @@ def calcRespect(gopher):
   return RESPECT_A_COEFF * gopher.fame + RESPECT_B_COEFF * gopher.wealth
 
 
-def isDied(gopher):
+def isDead(gopher):
   return gopher.health <= 0 or gopher.holeDeep <= 0 or gopher.weight <= 0
 
 
@@ -66,7 +66,7 @@ def gopherStateAfterNight(gopher):
 def pr2rn(rt):
   """Properties to range"""
   # I LOVE GENERATORS
-  # I REAALY LOVE THEN
+  # I REAALY LOVE THEM
   return rt._replace(
       g=Gopher(*[min(max(prop, 0), 1) if type(prop) is float else prop for prop in rt.g])
   )

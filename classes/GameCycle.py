@@ -47,6 +47,7 @@ def days(rt, day=0):
   # 1. perform user actions
   # 2. sleep for night
   # 3. check if is died
+
   rt = controlByUser(rt)
 
   gopherAfterDay = rt.g
@@ -56,7 +57,7 @@ def days(rt, day=0):
 
   rt = pr2rn(rt)
 
-  died = isDied(rt.g)
+  died = isDead(rt.g)
 
   # smoothPrint after-night props
   gopherAfterDayAndNight = rt.g
