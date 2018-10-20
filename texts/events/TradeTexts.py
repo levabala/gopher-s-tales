@@ -1,5 +1,6 @@
 INIT = '''
-  You enter into a huge market building
+  Your bet accepted
+  Now you're trying to have a profit
 '''
 
 FAILURE_CRIT = '''

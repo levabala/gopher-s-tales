@@ -35,8 +35,12 @@ def gopherStateAfterNight(gopher):
 
 def pr2rn(rt):
   """Properties to range"""
+
+  excluded = 'wealth'.split(' ')
+
   # I LOVE GENERATORS
   # I REAALY LOVE THEM
   return rt._replace(
-      g=Gopher(*[min(max(prop, 0), 1) if type(prop) is float else prop for prop in rt.g])
+      g=Gopher(*[min(max(prop, 0), 1) if type(prop)
+                 is float and not propName in excluded else prop for propName, prop in rt.g._asdict().items()])
   )

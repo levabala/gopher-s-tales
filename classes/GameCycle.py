@@ -2,6 +2,7 @@ from toolz.functoolz import pipe
 from collections import namedtuple
 from copy import deepcopy
 from classes.Gopher import Gopher, defaultGopher
+from classes.World import World, defaultWorld
 from classes.GopherMethods import *
 from classes.Constants import SMALL_DELAY, MEDIUM_DELAY, BIG_DELAY
 from classes.SmoothPrint import smoothPrint
@@ -9,67 +10,47 @@ from classes.GopherVisual import showStory
 
 # importing user-performable events
 from classes.events.performable.DigEvent import DigEvent
-from classes.events.performable.TradeEvent import TradeEvent
+from classes.events.performable.SleepEvent import SleepEvent
+from classes.events.performable.EnterMarketEvent import EnterMarketEvent
 
-RT = namedtuple('ReturnTuple', 'g e')  # gopher events
+# importing user-unperformable events
+from classes.events.StartDayEvent import StartDayEvent
+from classes.events.EndDayEvent import EndDayEvent
+
+RT = namedtuple('ReturnTuple', 'g e w')  # gopher, events, world
 
 
-def runGameCycle(exitCommand='exit', gopher=defaultGopher('Jackobs')):
+def runGameCycle(exitCommand='exit', gopher=defaultGopher('Jackobs'), world=defaultWorld()):
   showStory('\n\n{} wakes up in a countryside'.format(gopher.name), raw=True)
 
   gopher = gopher._replace(actionPoints=AFTER_SLEEP_ACTION_POINTS)
-  daysLived = days(RT(g=gopher, e=[]))
+  daysLived = days(RT(g=gopher, e=[], w=world))
   smoothPrint('\n--- FINISH ---\nyour survived for: {} days'.format(daysLived))
 
 
 actions = {
     'dig': lambda rt: DigEvent(rt),
-    'trade': lambda rt: TradeEvent(rt),
-    'sleep': lambda rt: RT(
-        g=rt.g._replace(
-            actionPoints=AFTER_SLEEP_ACTION_POINTS,
-            holeDeep=rt.g.holeDeep - 0.02,
-            health=rt.g.health + 0.1,
-            fame=rt.g.fame - 0.01,
-            # weight=rt.g.weight - 1 / 6,
-            respect=calcRespect(rt.g)
-        ),
-        e=rt.e),
+    'trade': lambda rt: EnterMarketEvent(rt),
+    'sleep': lambda rt: SleepEvent(rt),
     'myprops': lambda rt: showCharacter(rt),
+
     # not implemented
     'eat': lambda rt: rt,
     'fight': lambda rt: rt,
-    'trade': lambda rt: rt,
 }
 
 
 def days(rt, day=0):
-  smoothPrint('\n--- Day {} ---\n'.format(day), BIG_DELAY)
-  gopherBefore = deepcopy(rt.g)
-
   # do all actions:
   # 0. we use ReturnTuple (see above)
   # 1. perform user actions
   # 2. sleep for night
   # 3. check if is died
 
-  rt = controlByUser(rt)
+  rt = pipe(rt, StartDayEvent, controlByUser, EndDayEvent, pr2rn)
 
-  gopherAfterDay = rt.g
-  rt = actions['sleep'](rt)
-  smoothPrint('{}AFTER DAY CHANGES{}'.format(bcolors.BOLD, bcolors.ENDC))
-  showChangedProps(gopherBefore, gopherAfterDay, ['actionPoints'])
-
-  rt = pr2rn(rt)
-
+  # check if died
   died = isDead(rt.g)
-
-  # smoothPrint after-night props
-  gopherAfterDayAndNight = rt.g
-  smoothPrint('\n{}AFTER DAY&NIGHT CHANGES{}'.format(bcolors.BOLD, bcolors.ENDC))
-
-  showChangedProps(gopherBefore, gopherAfterDayAndNight, ['actionPoints'])
-  # smoothPrint('\n' + gopherStateAfterNight(rt.g))
 
   # if not died then go to the next day
   if (died):

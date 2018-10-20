@@ -5,22 +5,24 @@ from classes.Constants import *
 
 
 def TradeEvent(rt):
-  __EventFunc__(
+  return __EventFunc__(
       rt,
       TradeTexts,
-      lambda rt: d20() + rt.g.trading,
+      lambda rt: d20() + rt.g.tradingLevel,
       TRADE_EVENT_FAILURE_CRIT_BOUND,
       TRADE_EVENT_FAILURE_SIMPLE_BOUND,
       TRADE_EVENT_SUCCESS_SIMPLE_BOUND,
       TRADE_EVENT_SUCCESS_CRIT_BOUND,
       lambda rt: rt._replace(g=rt.g._replace(
-          holeDeep=rt.g.holeDeep - DOWNFALL_EVENT_CRIT_HOLE_REDUCTION,
-          health=rt.g.health - DOWNFALL_EVENT_CRIT_GOPHER_DAMAGE
+          wealth=rt.g.wealth - rt.w.yourBet
       )),
       lambda rt: rt._replace(g=rt.g._replace(
-          holeDeep=rt.g.holeDeep - DOWNFALL_EVENT_SIMPLE_HOLE_REDUCTION,
-          health=rt.g.health - DOWNFALL_EVENT_SIMPLE_GOPHER_DAMAGE
+          wealth=rt.g.wealth + WEEK_TAX / 7
       )),
-      lambda rt: rt,
-      lambda rt: rt,
+      lambda rt: rt._replace(g=rt.g._replace(
+          wealth=rt.g.wealth + rt.w.yourBet * (1 / 3)
+      )),
+      lambda rt: rt._replace(g=rt.g._replace(
+          wealth=rt.g.wealth + rt.w.yourBet * (3 / 3)
+      )),
   )

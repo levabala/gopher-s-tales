@@ -10,6 +10,15 @@ from classes.GopherVisual import (
 )
 
 
+def __EventTrivialFunc__(
+    rt,
+    textsModule,
+    changeFunc,
+):
+  showStory(textsModule.DESCRIBE)
+  return changeFunc(rt)
+
+
 def __EventFunc__(
     rt,
     textsModule,
@@ -20,8 +29,8 @@ def __EventFunc__(
     successSimpleBound,
     failureCritChange,
     failureSimpleChange,
-    successCritChange,
     successSimpleChange,
+    successCritChange,
 ):
   showStory(textsModule.INIT)
 
