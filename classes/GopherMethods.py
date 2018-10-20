@@ -6,40 +6,10 @@ from classes.GopherVisual import (
     showCharacter, CRITICAL_FAILURE, SIMPLE_FAILURE, SIMPLE_SUCCESS)
 from classes.Gopher import Gopher
 from classes.Constants import *
-from classes.Events import floodEvent, downfallEvent
+from classes.events.FloodEvent import FloodEvent
+from classes.events.DownfallEvent import DownfallEvent
 from classes.Assets import d20
 from classes.SmoothPrint import smoothPrint
-
-
-def performDig(rt):
-  digLA = LEVEL_DIGGING_COEFF * rt.g.diggingLevel
-  digI = DIG_INTELLIGENCE_COEFF * rt.g.intelligence + digLA
-  digS = DIG_STRENGTH_COEFF * rt.g.strenght + digLA
-  avrg = (digI + digS) / 2
-  digBuff = min(avrg, max(digI, digS))
-
-  digBuff = 0  # TEMP
-
-  d = d20() + digBuff
-
-  if d < DIGGING_FAILURE_CRIT_BOUND:
-    smoothPrint(CRITICAL_FAILURE)
-    event = floodEvent if randint(0, 1) else downfallEvent
-    return rt._replace(e=rt.e + [event], g=rt.g._replace(actionPoints=0))
-  elif d < DIGGING_FAILURE_SIMPLE_BOUND:
-    smoothPrint(SIMPLE_FAILURE)
-    return rt._replace(g=rt.g._replace(
-        actionPoints=rt.g.actionPoints-1)
-    )
-  elif d < DIGGING_SUCCESS_SIMPLE_BOUND:
-    smoothPrint(SIMPLE_SUCCESS)
-    return rt._replace(g=rt.g._replace(
-        holeDeep=rt.g.holeDeep + DIGGING_NORMAL_DEEP,
-        actionPoints=rt.g.actionPoints-1)
-    )
-
-  # should be never
-  raise Exception('very strange dice')
 
 
 def calcRespect(gopher):

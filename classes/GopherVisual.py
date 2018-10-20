@@ -51,6 +51,10 @@ def showStory(text, raw=False):
     del lines[-1]
 
   print()
+
+  if not lines:
+    return
+
   for line in lines:
     line = line.lstrip()
     smoothPrint('{}{}'.format('' if len(line) == 0 else '| ', line))

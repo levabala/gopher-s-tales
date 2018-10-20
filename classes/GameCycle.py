@@ -7,6 +7,10 @@ from classes.Constants import SMALL_DELAY, MEDIUM_DELAY, BIG_DELAY
 from classes.SmoothPrint import smoothPrint
 from classes.GopherVisual import showStory
 
+# importing user-performable events
+from classes.events.performable.DigEvent import DigEvent
+from classes.events.performable.TradeEvent import TradeEvent
+
 RT = namedtuple('ReturnTuple', 'g e')  # gopher events
 
 
@@ -19,7 +23,8 @@ def runGameCycle(exitCommand='exit', gopher=defaultGopher('Jackobs')):
 
 
 actions = {
-    'dig': lambda rt: performDig(rt),
+    'dig': lambda rt: DigEvent(rt),
+    'trade': lambda rt: TradeEvent(rt),
     'sleep': lambda rt: RT(
         g=rt.g._replace(
             actionPoints=AFTER_SLEEP_ACTION_POINTS,
@@ -91,7 +96,7 @@ def performAction(rt, action):
 
     # perform event
     gopherBeforeEvent = deepcopy(rt.g)
-    rt._replace(g=event(rt.g))
+    rt._replace(g=event(rt))
     gopherAfterEvent = rt.g
     showChangedProps(gopherBeforeEvent, gopherAfterEvent, ['actionPoints'])
 
