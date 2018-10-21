@@ -8,12 +8,15 @@ from classes.Gopher import Gopher
 from classes.Constants import *
 from classes.events.FloodEvent import FloodEvent
 from classes.events.DownfallEvent import DownfallEvent
-from classes.Assets import d20
 from classes.SmoothPrint import smoothPrint
 
 
 def calcRespect(gopher):
   return RESPECT_A_COEFF * gopher.fame + RESPECT_B_COEFF * gopher.wealth
+
+
+def calcWeekTax(gopher):
+  return START_WEALTH / 4 + gopher.wealth * WEEK_TAX
 
 
 def isDead(gopher):
@@ -26,7 +29,7 @@ def gopherStateAfterNight(gopher):
       [
           '{}{}{} is now: {}'.format(
               bcolors.BOLD, f, bcolors.ENDC,
-              formatValueColored(getattr(gopher, f))
+              formatValueColored(getattr(gopher, f), getattr(gopher, f))
           )
           for f in gopher._fields if not f in notToPrint
       ]

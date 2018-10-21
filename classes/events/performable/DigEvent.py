@@ -1,8 +1,9 @@
 from random import randint
 from classes.Event import __EventFunc__
-from classes.Assets import d20
+from classes.Assets import rollDice, showRollResult
 from texts.events import DiggingTexts
 from classes.Constants import *
+from classes.GopherVisual import smoothPrint
 from classes.events.FloodEvent import FloodEvent
 from classes.events.DownfallEvent import DownfallEvent
 
@@ -40,6 +41,8 @@ def __calcDice__(rt):
 
   digBuff = 0  # TEMP
 
-  d = d20() + digBuff
+  dice = rollDice(20)
+  d = dice + digBuff
+  showRollResult([dice, digBuff], ['d20', 'digBuff'], DIGGING_EVENT_SUCCESS_SIMPLE_BOUND)
 
   return d

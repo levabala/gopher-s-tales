@@ -1,3 +1,5 @@
+import math
+from classes.Converter import COEFFS, POSTFIXES
 from classes.ConsoleColors import bcolors
 from classes.SmoothPrint import smoothPrint
 from classes.Constants import SMALL_DELAY, MEDIUM_DELAY, BIG_DELAY
@@ -5,17 +7,17 @@ from classes.Constants import SMALL_DELAY, MEDIUM_DELAY, BIG_DELAY
 ROUND_DIGITS = 2
 
 
-def formatValueColored(value):
+def formatValueColored(value, valueRaw):
   start = ''
-  if not type(value) is float:
+  if not type(valueRaw) is float:
     start = bcolors.OKBLUE
   else:
     value = round(value, ROUND_DIGITS)
-    if value <= 0.2:
+    if valueRaw <= 0.2:
       start = bcolors.FAIL
-    elif value < 0.5:
+    elif valueRaw < 0.5:
       start = bcolors.WARNING
-    elif value < 0.7:
+    elif valueRaw < 0.7:
       start = bcolors.OKBLUE
     else:
       start = bcolors.OKGREEN
@@ -23,18 +25,20 @@ def formatValueColored(value):
   return "{}{}{}".format(start, value, bcolors.ENDC)
 
 
-def formatValueChanged(name, value, delta):
+def formatValueChanged(name, value, valueRaw, delta):
   if delta != None:
-    return '>> {} changed to {} ({}{})'.format(
+    return '>> {} changed to {}{} ({}{}{})'.format(
         name,
-        formatValueColored(value),
+        formatValueColored(value, valueRaw),
+        '',  # POSTFIXES[name],
         '+' if delta >= 0 else '',
-        round(delta, ROUND_DIGITS)
+        round(delta, ROUND_DIGITS),
+        '',  # POSTFIXES[name],
     )
   else:
     return '>> {} changed to {}'.format(
         name,
-        formatValueColored(value),
+        formatValueColored(value, valueRaw),
     )
 
 
@@ -50,6 +54,9 @@ def showStory(text, raw=False):
     lines.pop(0)
     del lines[-1]
 
+  if not lines:
+    return
+
   print()
 
   if not lines:
@@ -64,9 +71,10 @@ def showStory(text, raw=False):
 def showCharacter(rt):
   toPrint = 'name strenght agility intelligence charisma origin'.split(' ')
   for f in [f for f in rt.g._fields if f in toPrint]:
+    val = getattr(rt.g, f)
     smoothPrint('{}{}{} is now: {}'.format(
         bcolors.BOLD, f, bcolors.ENDC,
-        formatValueColored(getattr(rt.g, f))), SMALL_DELAY)
+        formatValueColored(val, val)), SMALL_DELAY)
   print()
   return rt
 
@@ -87,10 +95,13 @@ def showChangedProps(gopher1, gopher2, propsExcept=[]):
     val1 = getattr(gopher1, propName)
     val2 = getattr(gopher2, propName)
     if val1 != val2:
+      val1Trfrm = round(val1 * COEFFS[propName], ROUND_DIGITS)
+      val2Trfrm = round(val2 * COEFFS[propName], ROUND_DIGITS)
       smoothPrint(formatValueChanged(
           propName,
+          val2Trfrm,
           val2,
-          val2 - val1 if type(val1) == float or type(val1) == int else None
+          val2Trfrm - val1Trfrm if type(val1) == float or type(val1) == int else None
       ), SMALL_DELAY)
       printed += 1
 

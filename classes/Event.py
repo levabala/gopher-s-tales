@@ -1,4 +1,3 @@
-from classes.Assets import d20
 from classes.SmoothPrint import smoothPrint
 from texts.events import FloodTexts, DownfallTexts, TradeTexts
 from classes.GopherVisual import (

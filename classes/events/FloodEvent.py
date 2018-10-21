@@ -1,5 +1,5 @@
 from classes.Event import __EventFunc__
-from classes.Assets import d20
+from classes.Assets import rollDice
 from texts.events import FloodTexts
 from classes.Constants import *
 
@@ -8,7 +8,7 @@ def FloodEvent(rt):
   return __EventFunc__(
       rt,
       FloodTexts,
-      lambda rt: d20() + FLOOD_EVENT_ESCAPE_COEFF * rt.g.agility,
+      lambda rt: rollDice(20) + FLOOD_EVENT_ESCAPE_COEFF * rt.g.agility,
       FLOOD_EVENT_FAILURE_CRIT_BOUND,
       FLOOD_EVENT_FAILURE_SIMPLE_BOUND,
       FLOOD_EVENT_SUCCESS_SIMPLE_BOUND,

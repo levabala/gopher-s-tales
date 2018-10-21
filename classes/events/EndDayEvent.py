@@ -36,4 +36,4 @@ def manageDay(rt):
   smoothPrint('\n{}AFTER DAY&NIGHT CHANGES{}'.format(bcolors.BOLD, bcolors.ENDC))
   showChangedProps(gopherAfterDay, gopherAfterNight, ['actionPoints'])
 
-  return rt._replace(w=rt.w._replace(weekday=rt.w.weekday + 1))
+  return rt._replace(w=rt.w._replace(weekday=rt.w.weekday + 1, totalDays=rt.w.totalDays + 1, ))

@@ -1,5 +1,5 @@
 from classes.Event import __EventFunc__
-from classes.Assets import d20
+from classes.Assets import rollDice
 from texts.events import DownfallTexts
 from classes.Constants import *
 
@@ -8,7 +8,7 @@ def DownfallEvent(rt):
   __EventFunc__(
       rt,
       DownfallTexts,
-      lambda rt: d20() + DOWNFALL_EVENT_ESCAPE_COEFF * rt.g.strenght,
+      lambda rt: rollDice(20) + DOWNFALL_EVENT_ESCAPE_COEFF * rt.g.strenght,
       DOWNFALL_EVENT_FAILURE_CRIT_BOUND,
       DOWNFALL_EVENT_FAILURE_SIMPLE_BOUND,
       DOWNFALL_EVENT_SUCCESS_SIMPLE_BOUND,
