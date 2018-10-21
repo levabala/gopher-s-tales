@@ -16,6 +16,7 @@ from classes.events.performable.EnterMarketEvent import EnterMarketEvent
 # importing user-unperformable events
 from classes.events.StartDayEvent import StartDayEvent
 from classes.events.EndDayEvent import EndDayEvent
+from classes.events.FightEvent import FightEvent
 
 RT = namedtuple('ReturnTuple', 'g e w')  # gopher, events, world
 
@@ -34,10 +35,10 @@ actions = {
     'sleep': lambda rt: SleepEvent(rt),
     'myprops': lambda rt: showCharacter(rt),
     'skip': lambda rt: rt._replace(g=rt.g._replace(actionPoints=0)),
+    'fight': lambda rt: testFightEvent(rt),
 
     # not implemented
     'eat': lambda rt: rt,
-    'fight': lambda rt: rt,
 }
 
 
@@ -53,6 +54,12 @@ def days(rt, day=0):
     return day
   else:
     return days(rt, day + 1)
+
+
+def testFightEvent(rt):
+  rt = rt._replace(w=rt.w._replace(currentEnemy=defaultGopher(name="Parker")))
+  rt = pipe(rt, FightEvent)
+  return rt
 
 
 def controlByUser(rt):

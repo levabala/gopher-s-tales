@@ -5,6 +5,7 @@ World = namedtuple('World', [
     'weekday',
     'totalDays',
     'yourBet',
+    'currentEnemy'
 ])
 
 # set default values
@@ -16,4 +17,5 @@ def defaultWorld():
       gopherAfterNight=None,
       totalDays=0,
       yourBet=0,
+      currentEnemy=None
   )

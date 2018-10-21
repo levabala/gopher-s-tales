@@ -1,0 +1,3 @@
+DESCRIBE = '''
+  Start fighting!
+'''
