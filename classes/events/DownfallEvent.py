@@ -5,7 +5,7 @@ from classes.Constants import *
 
 
 def DownfallEvent(rt):
-  __EventFunc__(
+  return __EventFunc__(
       rt,
       DownfallTexts,
       lambda rt: rollDice(20) + DOWNFALL_EVENT_ESCAPE_COEFF * rt.g.strenght,

@@ -1,0 +1,3 @@
+DESCRIBE = '''
+  You enter into a huge Arena building...
+'''

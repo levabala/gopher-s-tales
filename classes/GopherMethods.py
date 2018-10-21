@@ -11,6 +11,10 @@ from classes.events.DownfallEvent import DownfallEvent
 from classes.SmoothPrint import smoothPrint
 
 
+def updateRespect(rt):
+  return rt._replace(g=rt.g._replace(respect=calcRespect(rt.g)))
+
+
 def calcRespect(gopher):
   return RESPECT_A_COEFF * gopher.fame + RESPECT_B_COEFF * gopher.wealth
 
@@ -39,7 +43,7 @@ def gopherStateAfterNight(gopher):
 def pr2rn(rt):
   """Properties to range"""
 
-  excluded = 'wealth'.split(' ')
+  excluded = 'wealth actionPoints respect'.split(' ')
 
   # I LOVE GENERATORS
   # I REAALY LOVE THEM

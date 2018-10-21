@@ -33,6 +33,7 @@ actions = {
     'trade': lambda rt: EnterMarketEvent(rt),
     'sleep': lambda rt: SleepEvent(rt),
     'myprops': lambda rt: showCharacter(rt),
+    'skip': lambda rt: rt._replace(g=rt.g._replace(actionPoints=0)),
 
     # not implemented
     'eat': lambda rt: rt,
@@ -41,13 +42,8 @@ actions = {
 
 
 def days(rt, day=0):
-  # do all actions:
-  # 0. we use ReturnTuple (see above)
-  # 1. perform user actions
-  # 2. sleep for night
-  # 3. check if is died
-
-  rt = pipe(rt, StartDayEvent, controlByUser, EndDayEvent, pr2rn)
+  # do all actions
+  rt = pipe(rt, updateRespect, StartDayEvent, controlByUser, EndDayEvent, performEvents)
 
   # check if died
   died = isDead(rt.g)
@@ -62,28 +58,23 @@ def days(rt, day=0):
 def controlByUser(rt):
   showActionsLeft(rt.g)
   while rt.g.actionPoints > 0:
-    rt = performAction(rt, getUserAction())
+    rt = pipe(rt, getUserAction(), pr2rn, performEvents)
     showActionsLeft(rt.g)
   return rt
 
 
-def performAction(rt, action):
-  gopherBefore = deepcopy(rt.g)
-  rt = pipe(rt, action, pr2rn)
-
+def performEvents(rt):
   while rt.e:
     # take&remove first event
     event = rt.e.pop(0)
 
     # perform event
     gopherBeforeEvent = deepcopy(rt.g)
-    rt._replace(g=event(rt))
+    rt = pipe(rt, event, pr2rn)
+
+    # display changes
     gopherAfterEvent = rt.g
     showChangedProps(gopherBeforeEvent, gopherAfterEvent, ['actionPoints'])
-
-  # display changes
-  gopherAfter = rt.g
-  showChangedProps(gopherBefore, gopherAfter, ['actionPoints'])
 
   return rt
 

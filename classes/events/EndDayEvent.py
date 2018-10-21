@@ -19,12 +19,9 @@ def EndDayEvent(rt):
 
 
 def manageDay(rt):
-  if rt.w.weekday == 7:
+  if rt.w.totalDays % 7 == 0:
     # register week tax event
     rt._replace(e=rt.e + [WeekTaxEvent])
-
-    # reset counter
-    rt._replace(w=rt.w._replace(weekday=0))
 
   gopherBeforeDay = rt.w.gopherAfterNight
   gopherAfterDay = deepcopy(rt.g)
@@ -34,6 +31,6 @@ def manageDay(rt):
   rt = pipe(rt, SleepEvent, pr2rn)
   gopherAfterNight = deepcopy(rt.g)
   smoothPrint('\n{}AFTER DAY&NIGHT CHANGES{}'.format(bcolors.BOLD, bcolors.ENDC))
-  showChangedProps(gopherAfterDay, gopherAfterNight, ['actionPoints'])
+  showChangedProps(gopherBeforeDay, gopherAfterNight, ['actionPoints'])
 
-  return rt._replace(w=rt.w._replace(weekday=rt.w.weekday + 1, totalDays=rt.w.totalDays + 1, ))
+  return rt._replace(w=rt.w._replace(totalDays=rt.w.totalDays + 1))

@@ -107,3 +107,5 @@ def showChangedProps(gopher1, gopher2, propsExcept=[]):
 
   if printed:
     print()
+  else:
+    smoothPrint('>> nothing changed\n')
