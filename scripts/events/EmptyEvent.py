@@ -1,0 +1,1 @@
+EmptyEvent = 'EMPTY_EVENT'
