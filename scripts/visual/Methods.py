@@ -109,3 +109,28 @@ def showChangedProps(gopher1, gopher2, propsExcept=[]):
     print()
   else:
     smoothPrint('>> nothing changed\n')
+
+
+def showMap(w):
+  y = 0
+  for line in w.areas:
+    elements = [el['area name'].center(7) for el in line]
+
+    string = ''
+    x = 0
+    for el in elements:
+      if (
+          y == w.currentAreaPointer.y and
+          x == w.currentAreaPointer.x
+      ):
+        string += '{}{}{}'.format(bcolors.BOLD, el, bcolors.ENDC)
+      else:
+        string += el
+      string += ' '
+      x += 1
+
+    smoothPrint(string)
+
+    y += 1
+
+  print()

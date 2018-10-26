@@ -1,7 +1,8 @@
 from collections import namedtuple
 
 WorldState = namedtuple('WorldState', [
-    'currentArea',
+    'currentAreaPointer',
     'areas',
-    'g'
+    'g',
+    'yourBet',
 ])

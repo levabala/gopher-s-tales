@@ -17,6 +17,7 @@ Gopher = namedtuple('Gopher', [
     'diggingLevel',
     'fightingLevel',
     'tradingLevel',
+    'alive',
 ])
 
 
@@ -38,4 +39,5 @@ def defaultGopher(name):
       diggingLevel=1.0,
       fightingLevel=1.0,
       tradingLevel=1.0,
+      alive=True
   )

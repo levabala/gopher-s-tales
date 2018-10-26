@@ -13,6 +13,7 @@ def StartDayEvent(w):
 
 
 def _process(w):
-  while True:
+  while w.g.alive:
     w = w._replace(g=w.g._replace(actionPoints=3))
-    w, emptyEvent = EventPipe(w, MidwayEvent)
+    w = EventPipe(w, MidwayEvent)
+  return (w, None)

@@ -1,6 +1,6 @@
 from scripts.areas.ConnectedArea import ConnectedArea
 
-EmptyArea = {
-    'area name': 'None',
+RoadArea = {
+    'area name': 'Road',
     **ConnectedArea
 }

@@ -1,10 +1,9 @@
 from scripts.events.EmptyEvent import EmptyEvent
 from scripts.events.Event import EventTrivialFunc
+from scripts.WorldMethods import getArea
+from scripts.visual.SmoothPrint import smoothPrint
+from scripts.visual.Methods import showMap
 from texts.events import UserActionTexts
-
-# import all posible actions
-from scripts.events.performable.EnterMarketEvent import EnterMarketEvent
-from scripts.events.performable.DigEvent import DigEvent
 
 
 def UserActionEvent(w):
@@ -17,26 +16,40 @@ def UserActionEvent(w):
 
 
 def _process(w):
-  while w.g.actionPoints > 0:
-    action = _getUserAction(w.currentArea)
+  while w.g.actionPoints > 0 and w.g.alive:
+    action = _getUserAction(w)
     w = action(w)
+    print()
 
   return (w, None)
 
 
-def _getUserAction(area):
+def _getUserAction(w):
+  area = getArea(w, w.currentAreaPointer)
   # request action
   actionName = input('Enter action to do: ')
   print()
 
   # check for service commands
   if actionName == 'actions':
-    print(area.keys())
-    return _getUserAction(area)
+    smoothPrint('Available actions:')
+    for key in area.keys():
+      smoothPrint('  ' + key)
+    print()
+    return _getUserAction(w)
+
+  if actionName == 'my location':
+    p = w.currentAreaPointer
+    smoothPrint('You location: ({}, {})'.format(p.x, p.y))
+    return _getUserAction(w)
+
+  if actionName == 'show map':
+    showMap(w)
+    return _getUserAction(w)
 
   # check if action exists
   if not actionName in area:
     print('no such action!\n')
-    return _getUserAction(area)
+    return _getUserAction(w)
   else:
     return area[actionName]

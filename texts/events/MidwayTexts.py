@@ -1,3 +1,2 @@
-DESCRIBE = '''
-  Midway
+DESCRIBE = '''  
 '''

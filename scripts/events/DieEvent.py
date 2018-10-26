@@ -7,5 +7,5 @@ def DieEvent(w):
   return EventTrivialFunc(
       w,
       DieTexts,
-      lambda w: (w, FinishGameEvent)
+      lambda w: (w._replace(g=w.g._replace(alive=False)), FinishGameEvent)
   )

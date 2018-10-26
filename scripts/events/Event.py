@@ -20,6 +20,7 @@ def EventTrivialFunc(
 
 def EventFunc(
     world,
+    worldProcessor,
     textsModule,
     diceFunc,
     failureCritBound,
@@ -33,6 +34,7 @@ def EventFunc(
 ):
   showStory(textsModule.INIT)
 
+  world = worldProcessor(world)
   d = diceFunc(world)
 
   if d < failureCritBound:
