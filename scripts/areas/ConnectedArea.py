@@ -6,7 +6,8 @@ from scripts.events.performable.MoveEastEvent import MoveEastEvent
 from scripts.events.performable.MoveSouthEvent import MoveSouthEvent
 from scripts.events.performable.MoveWestEvent import MoveWestEvent
 
-ConnectedArea = {
+
+def ConnectedArea(): return {
     'go north': lambda w: EventPipe(w, MoveNorthEvent),
     'go east': lambda w: EventPipe(w, MoveEastEvent),
     'go south': lambda w: EventPipe(w, MoveSouthEvent),

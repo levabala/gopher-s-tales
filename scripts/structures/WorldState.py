@@ -5,4 +5,5 @@ WorldState = namedtuple('WorldState', [
     'areas',
     'g',
     'yourBet',
+    'enemy'
 ])

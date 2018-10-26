@@ -1,6 +1,7 @@
 from scripts.areas.ConnectedArea import ConnectedArea
 
-EmptyArea = {
+
+def EmptyArea(): return {
     'area name': 'None',
-    **ConnectedArea
+    **ConnectedArea()
 }

@@ -4,8 +4,9 @@ from scripts.EventPipe import EventPipe
 # possible events
 from scripts.events.performable.DigEvent import DigEvent
 
-HoleArea = {
+
+def HoleArea(): return {
     'area name': 'Hole',
     'dig': lambda w: EventPipe(w, DigEvent),
-    **ConnectedArea
+    **ConnectedArea()
 }

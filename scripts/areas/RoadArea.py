@@ -1,6 +1,7 @@
 from scripts.areas.ConnectedArea import ConnectedArea
 
-RoadArea = {
+
+def RoadArea(): return {
     'area name': 'Road',
-    **ConnectedArea
+    **ConnectedArea()
 }

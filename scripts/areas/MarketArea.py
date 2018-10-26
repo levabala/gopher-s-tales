@@ -4,8 +4,9 @@ from scripts.EventPipe import EventPipe
 # possible events
 from scripts.events.performable.TradeEvent import TradeEvent
 
-MarketArea = {
+
+def MarketArea(): return {
     'area name': 'Market',
     'trade': lambda w: EventPipe(w, TradeEvent),
-    **ConnectedArea
+    **ConnectedArea()
 }

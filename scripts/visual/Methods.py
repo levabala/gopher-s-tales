@@ -130,6 +130,7 @@ def showMap(w):
       x += 1
 
     smoothPrint(string)
+    smoothPrint()
 
     y += 1
 

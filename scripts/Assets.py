@@ -10,7 +10,7 @@ def rollDice(rang=6):
 def showRollResult(values, variables, successBound):
   string = '''
     you rolled: {}{} = {}{},
-    cacled by: {}{}{},
+    calced by: {}{}{},
     for success: > {}{}{}
   '''.format(
       bcolors.BOLD,
