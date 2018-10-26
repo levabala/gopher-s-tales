@@ -1,31 +1,30 @@
 from scripts.GopherMethods import isDead
+from scripts.EventPipe import EventPipe
+
+# importing events
+from scripts.events.StartGameEvent import StartGameEvent
+from scripts.events.BornEvent import BornEvent
+from scripts.events.StartDayEvent import StartDayEvent
+from scripts.events.MidwayEvent import MidwayEvent
+from scripts.events.UserActionEvent import UserActionEvent
+from scripts.events.EndDayEvent import EndDayEvent
+from scripts.events.SleepEvent import SleepEvent
 
 
 def runGameCycle(world):
-  while not isDead(world.gopher):
-    world = performUserCommand(world)
+  # Game Structure:
+  #
+  # StartGame (root event) ->
+  # Born ->
+  # StartDay ->
+  # Midway ->
+  # - EndDay -> StartDay
+  # - Sleep -> EndDay
+  # - UserAction -> Other -> Other -> Midway
+  # - Dead -> FinishGame
 
+  worldAfterEternity = EventPipe(world, StartGameEvent)
 
-def day(world):
-  if isDead(world.gopher):
-    print('You\'re dead!')
-    return
-
-  world =
-
-
-def performUserCommand(world):
-  areaPoint = world.currentArea
-  area = world.areas[areaPoint.x][areaPoint.y]
-  areaAfterAction = area[requestCommand(area)](world)
-
-  return world._replace(currentArea=areaAfterAction)
-
-
-def requestCommand(area):
-  cmd = input('Enter action: ')
-  if not cmd in area:
-    print('no such action in the area')
-    return requestCommand(area)
-
-  return cmd
+  # just to use this var
+  if worldAfterEternity:
+    pass

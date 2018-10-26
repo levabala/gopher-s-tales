@@ -1,18 +1,25 @@
-from scripts.SmoothPrint import smoothPrint
+from scripts.visual.SmoothPrint import smoothPrint
+from scripts.visual.Methods import (
+    showStory,
+    CRITICAL_FAILURE,
+    CRITICAL_SUCCESS,
+    SIMPLE_FAILURE,
+    SIMPLE_SUCCESS
+)
 from texts.events import FloodTexts, DownfallTexts, TradeTexts
 
 
 def EventTrivialFunc(
-    rt,
+    world,
     textsModule,
     changeFunc,
 ):
-  # showStory(textsModule.DESCRIBE)
-  return changeFunc(rt)
+  showStory(textsModule.DESCRIBE)
+  return changeFunc(world)
 
 
 def EventFunc(
-    rt,
+    world,
     textsModule,
     diceFunc,
     failureCritBound,
@@ -24,29 +31,29 @@ def EventFunc(
     successSimpleChange,
     successCritChange,
 ):
-  # showStory(textsModule.INIT)
+  showStory(textsModule.INIT)
 
-  d = diceFunc(rt)
+  d = diceFunc(world)
 
   if d < failureCritBound:
-    # smoothPrint(CRITICAL_FAILURE)
-    # showStory(textsModule.FAILURE_CRIT)
-    return failureCritChange(rt)
+    smoothPrint(CRITICAL_FAILURE)
+    showStory(textsModule.FAILURE_CRIT)
+    return failureCritChange(world)
 
   elif d < failureSimpleBound:
-    # smoothPrint(SIMPLE_FAILURE)
-    # showStory(textsModule.FAILURE_SIMPLE)
-    return failureSimpleChange(rt)
+    smoothPrint(SIMPLE_FAILURE)
+    showStory(textsModule.FAILURE_SIMPLE)
+    return failureSimpleChange(world)
 
   elif d < successSimpleBound:
-    # smoothPrint(SIMPLE_SUCCESS)
-    # showStory(textsModule.SUCCESS_SIMPLE)
-    return successSimpleChange(rt)
+    smoothPrint(SIMPLE_SUCCESS)
+    showStory(textsModule.SUCCESS_SIMPLE)
+    return successSimpleChange(world)
 
   elif d < successCritBound:
-    # smoothPrint(CRITICAL_SUCCESS)
-    # showStory(textsModule.SUCCESS_CRIT)
-    return successCritChange(rt)
+    smoothPrint(CRITICAL_SUCCESS)
+    showStory(textsModule.SUCCESS_CRIT)
+    return successCritChange(world)
 
   # should be never
   raise Exception('very strange dice')

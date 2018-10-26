@@ -16,7 +16,7 @@ gopher = defaultGopher('Jacob')
 world = WorldState(
     currentArea=Point(x=1, y=1),
     areas=areas,
-    gopher=gopher
+    g=gopher
 )
 
 
