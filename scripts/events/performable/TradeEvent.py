@@ -7,8 +7,9 @@ from scripts.Constants import (
     TRADE_EVENT_SUCCESS_SIMPLE_BOUND,
     TRADE_EVENT_SUCCESS_CRIT_BOUND,
     WEEK_TAX,
+    YOU_STRING
 )
-from scripts.Converter import POSTFIXES, COEFFS
+from scripts.visual.Converter import POSTFIXES, COEFFS
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.visual.Methods import showStory, bcolors
 from texts.events import TradeTexts
@@ -64,6 +65,6 @@ def requestBet(w):
 def __calcDice__(w):
   dice = rollDice(20)
   d = dice + w.g.tradingLevel
-  showRollResult([dice, w.g.tradingLevel], ['d20', 'tradingLevel'],
+  showRollResult(YOU_STRING, [dice, w.g.tradingLevel], ['d20', 'tradingLevel'],
                  TRADE_EVENT_SUCCESS_SIMPLE_BOUND)
   return d

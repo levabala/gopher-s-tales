@@ -1,17 +1,20 @@
+from copy import deepcopy
 from scripts.WorldMethods import getArea
 from scripts.events.Event import EventTrivialFunc
 from scripts.visual.SmoothPrint import smoothPrint
-from scripts.visual.Methods import showStory
+from scripts.visual.Methods import showStory, showChangedProps, formatValueColored
 from scripts.EventPipe import EventPipe
-from scripts.Assets import rollDice
+from scripts.Assets import rollDice, showRollResult
+from scripts.visual.Converter import COEFFS
 from texts.events import EmptyTexts
 from scripts.Constants import (
     LIGHT_DAMAGE_COEFF,
     FULL_DAMAGE_COEFF,
     CRIT_DAMAGE_COEFF,
+    YOU_STRING,
 )
 
-from scripts.events.ConsiderMonsterEvent import ConsiderMonsterEvent
+from scripts.events.RecognizeMonsterEvent import RecognizeMonsterEvent
 
 
 def FightEvent(w):
@@ -23,38 +26,88 @@ def FightEvent(w):
 
 
 def _process(w):
-  w = EventPipe(w, ConsiderMonsterEvent)
+  w = EventPipe(w, RecognizeMonsterEvent)
 
   monsterState = w.enemy.init()
 
-  while w.g.health > 0 and monsterState.hp > 0:
-    evasion = monsterState.evasion
+  gopherBefore = None
+  rounds = 0
+  while True:
+    rounds += 1
+    smoothPrint('--- Round {} ---'.format(rounds))
+    smoothPrint()
 
-    # def attack(gopher, monsterState):
+    gopherBefore = deepcopy(w.g)
 
     actions = {
-        'attack',
-        'strong attack',
-        'hold',
-        'change weapon',
-        'change thing'
+        'attack': simpleAttack,
+        'strong attack': strongAttack,
+        'hold': simpleAttack,
+        'change weapon': simpleAttack,
+        'change thing': simpleAttack,
     }
 
-    attackPoints = rollDice(10) + w.g.fightingLevel
+    actionName = ''
+    actionName = input('Enter fight action: ')
 
-    input('do do do? ')
+    while not actionName in actions:
+      smoothPrint('No such action')
+      actionName = input('Enter fight action: ')
 
-    if attackPoints < evasion * 0.8:
-      w.enemy.takeDamage(monsterState, 0)
-      smoothPrint('miss')
-    elif attackPoints < evasion:
-      w.enemy.takeDamage(monsterState, attackPoints * LIGHT_DAMAGE_COEFF)
-      smoothPrint('light damage')
-    elif attackPoints < evasion * 1.5:
-      smoothPrint('full damage')
-      w.enemy.takeDamage(monsterState, attackPoints * FULL_DAMAGE_COEFF)
-    else:
-      smoothPrint('crit damage')
-      w.enemy.takeDamage(monsterState, attackPoints * CRIT_DAMAGE_COEFF)
+    print()
+
+    monsterBefore = deepcopy(monsterState)
+    monsterState = actions[actionName](w, monsterState)
+    showChangedProps(monsterBefore, monsterState, prefix='monster\'s ')  # , postPrint=False)
+
+    if monsterState.health <= 0:
+      smoothPrint('monster defeated')
+      w = w._replace(g=w.g._replace(fame=w.g.fame + 0.1))
+      break
+
+    w = w._replace(g=w.enemy.attack(monsterState, w.g))
+
+    print()
+    showChangedProps(gopherBefore, w.g, prefix='your ')
+
+    if w.g.health <= 0:
+      smoothPrint('you defeated')
+      break
+
+  print()
+  showChangedProps(gopherBefore, w.g)
 
   return (w, None)
+
+
+def strongAttack(w, monsterState):
+  pass
+
+
+def simpleAttack(w, monsterState):
+  dice = rollDice(8)
+  attackPoints = dice + w.g.fightingLevel
+
+  showRollResult(
+      YOU_STRING,
+      [dice, w.g.fightingLevel],
+      ['d8', 'fightingLevel'],
+      monsterState.evasion * COEFFS['health'] * 0.8,
+      monsterState.evasion * COEFFS['health'],
+      monsterState.evasion * COEFFS['health'] * 1.5,
+  )
+
+  attackPoints /= COEFFS['health']
+
+  if attackPoints < monsterState.evasion * 0.8:
+    smoothPrint('miss')
+    return w.enemy.takeDamage(monsterState, 0)
+  elif attackPoints < monsterState.evasion:
+    smoothPrint('light damage')
+    return w.enemy.takeDamage(monsterState, attackPoints * LIGHT_DAMAGE_COEFF)
+  elif attackPoints < monsterState.evasion * 1.5:
+    smoothPrint('full damage')
+    return w.enemy.takeDamage(monsterState, attackPoints * FULL_DAMAGE_COEFF)
+  else:
+    smoothPrint('crit damage')
+    return w.enemy.takeDamage(monsterState, attackPoints * CRIT_DAMAGE_COEFF)

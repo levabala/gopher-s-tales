@@ -10,7 +10,8 @@ from scripts.Constants import (
     DIGGING_EVENT_SUCCESS_SIMPLE_BOUND,
     LEVEL_DIGGING_COEFF,
     DIG_INTELLIGENCE_COEFF,
-    DIG_STRENGTH_COEFF
+    DIG_STRENGTH_COEFF,
+    YOU_STRING
 )
 from texts.events import DigTexts
 
@@ -54,6 +55,7 @@ def __calcDice__(rt):
 
   dice = rollDice(20)
   d = dice + digBuff
-  showRollResult([dice, digBuff], ['d20', 'digBuff'], DIGGING_EVENT_SUCCESS_SIMPLE_BOUND)
+  showRollResult(YOU_STRING, [dice, digBuff], ['d20', 'digBuff'],
+                 DIGGING_EVENT_SUCCESS_SIMPLE_BOUND)
 
   return d

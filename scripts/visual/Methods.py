@@ -88,7 +88,7 @@ def showActionsLeft(gopher):
   print()
 
 
-def showChangedProps(gopher1, gopher2, propsExcept=[]):
+def showChangedProps(gopher1, gopher2, propsExcept=[], prefix='', postPrint=True):
   arr = [field for field in gopher1._fields if not field in propsExcept]
   printed = 0
   for propName in arr:
@@ -98,12 +98,15 @@ def showChangedProps(gopher1, gopher2, propsExcept=[]):
       val1Trfrm = round(val1 * COEFFS[propName], ROUND_DIGITS)
       val2Trfrm = round(val2 * COEFFS[propName], ROUND_DIGITS)
       smoothPrint(formatValueChanged(
-          propName,
+          prefix + propName,
           val2Trfrm,
           val2,
           val2Trfrm - val1Trfrm if type(val1) == float or type(val1) == int else None
       ), SMALL_DELAY)
       printed += 1
+
+  if not postPrint:
+    return
 
   if printed:
     print()
