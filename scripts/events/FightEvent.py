@@ -30,6 +30,16 @@ def _process(w):
   while w.g.health > 0 and monsterState.hp > 0:
     evasion = monsterState.evasion
 
+    # def attack(gopher, monsterState):
+
+    actions = {
+        'attack',
+        'strong attack',
+        'hold',
+        'change weapon',
+        'change thing'
+    }
+
     attackPoints = rollDice(10) + w.g.fightingLevel
 
     input('do do do? ')
