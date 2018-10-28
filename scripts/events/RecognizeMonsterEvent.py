@@ -36,17 +36,17 @@ def RecognizeMonsterEvent(w):
 
 
 def displayMinDescription(w):
-  showStory(w.enemy.minDescription())
+  showStory(w.enemyType.minDescription())
   return (w, None)
 
 
 def displayMediumDescription(w):
-  showStory(w.enemy.mediumDescription())
+  showStory(w.enemyType.mediumDescription())
   return (w, None)
 
 
 def displayFullDescription(w):
-  showStory(w.enemy.fullDescription())
+  showStory(w.enemyType.fullDescription())
   return (w, None)
 
 

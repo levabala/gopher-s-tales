@@ -1,4 +1,5 @@
 from copy import deepcopy
+from scripts.EventPipe import EventPipe
 from scripts.WorldMethods import getArea
 from scripts.events.Event import EventTrivialFunc
 from scripts.visual.SmoothPrint import smoothPrint
@@ -15,6 +16,7 @@ from scripts.Constants import (
 )
 
 from scripts.events.RecognizeMonsterEvent import RecognizeMonsterEvent
+from scripts.events.fightActions.SimpleAttackEvent import SimpleAttackEvent
 
 
 def FightEvent(w):
@@ -28,25 +30,27 @@ def FightEvent(w):
 def _process(w):
   w = EventPipe(w, RecognizeMonsterEvent)
 
-  monsterState = w.enemy.init()
+  w = w._replace(enemyState=w.enemyType.init())
 
   gopherBefore = None
   rounds = 0
   while True:
     rounds += 1
     smoothPrint('--- Round {} ---'.format(rounds))
+    smoothPrint('you: {} monster: {}'.format(
+        round(w.g.health * COEFFS['health'], 1), round(w.enemyState.health * COEFFS['health'], 1)))
     smoothPrint()
 
-    gopherBefore = deepcopy(w.g)
-
+    # possible attack actions
     actions = {
-        'attack': simpleAttack,
-        'strong attack': strongAttack,
-        'hold': simpleAttack,
-        'change weapon': simpleAttack,
-        'change thing': simpleAttack,
+        'attack': lambda w: EventPipe(w, SimpleAttackEvent),
+        'strong attack': lambda w: EventPipe(w, SimpleAttackEvent),
+        'hold': lambda w: EventPipe(w, SimpleAttackEvent),
+        'change weapon': lambda w: EventPipe(w, SimpleAttackEvent),
+        'change thing': lambda w: EventPipe(w, SimpleAttackEvent),
     }
 
+    # get action name
     actionName = ''
     actionName = input('Enter fight action: ')
 
@@ -56,16 +60,35 @@ def _process(w):
 
     print()
 
-    monsterBefore = deepcopy(monsterState)
-    monsterState = actions[actionName](w, monsterState)
-    showChangedProps(monsterBefore, monsterState, prefix='monster\'s ')  # , postPrint=False)
+    # set monster as target and gopher as attacker
+    w = w._replace(targetState=w.enemyState, attackerState=w.g, attackerName=w.g.name)
 
-    if monsterState.health <= 0:
+    # perform attack on monster
+    showStory('You attacks Slug', True)
+    monsterBefore = deepcopy(w.enemyState)
+    w = actions[actionName](w)
+
+    # change monster's state
+    w = w._replace(enemyState=w.targetState)
+
+    showChangedProps(monsterBefore, w.enemyState, prefix='monster\'s ')  # , postPrint=False)
+
+    # check if monster is dead
+    if w.enemyState.health <= 0:
       smoothPrint('monster defeated')
       w = w._replace(g=w.g._replace(fame=w.g.fame + 0.1))
       break
 
-    w = w._replace(g=w.enemy.attack(monsterState, w.g))
+    # now set gopher as target and monster as attacker
+    w = w._replace(targetState=w.g, attackerState=w.enemyState, attackerName='Slug')
+
+    # perform attack on gopher
+    gopherBefore = deepcopy(w.g)
+    showStory('Slug attacks you', True)
+    w = actions['attack'](w)
+
+    # change gopher's state
+    w = w._replace(g=w.targetState)
 
     print()
     showChangedProps(gopherBefore, w.g, prefix='your ')
@@ -78,36 +101,3 @@ def _process(w):
   showChangedProps(gopherBefore, w.g)
 
   return (w, None)
-
-
-def strongAttack(w, monsterState):
-  pass
-
-
-def simpleAttack(w, monsterState):
-  dice = rollDice(8)
-  attackPoints = dice + w.g.fightingLevel
-
-  showRollResult(
-      YOU_STRING,
-      [dice, w.g.fightingLevel],
-      ['d8', 'fightingLevel'],
-      monsterState.evasion * COEFFS['health'] * 0.8,
-      monsterState.evasion * COEFFS['health'],
-      monsterState.evasion * COEFFS['health'] * 1.5,
-  )
-
-  attackPoints /= COEFFS['health']
-
-  if attackPoints < monsterState.evasion * 0.8:
-    smoothPrint('miss')
-    return w.enemy.takeDamage(monsterState, 0)
-  elif attackPoints < monsterState.evasion:
-    smoothPrint('light damage')
-    return w.enemy.takeDamage(monsterState, attackPoints * LIGHT_DAMAGE_COEFF)
-  elif attackPoints < monsterState.evasion * 1.5:
-    smoothPrint('full damage')
-    return w.enemy.takeDamage(monsterState, attackPoints * FULL_DAMAGE_COEFF)
-  else:
-    smoothPrint('crit damage')
-    return w.enemy.takeDamage(monsterState, attackPoints * CRIT_DAMAGE_COEFF)

@@ -22,4 +22,4 @@ def _process(w):
     showStory('No monsters here!')
     return (w, None)
 
-  return (w._replace(enemy=SlugMonster), FightEvent)
+  return (w._replace(enemyType=SlugMonster), FightEvent)

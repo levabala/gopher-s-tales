@@ -19,13 +19,15 @@ DICE = 10
 SlugState = namedtuple('SlugState', [
     'health',
     'evasion',
+    'fightingLevel',
 ])
 
 
 def init():
   return SlugState(
       health=HEALTH_POINTS,
-      evasion=EVASION_POINTS
+      evasion=EVASION_POINTS,
+      fightingLevel=FIGHTING_LEVEL,
   )
 
 
@@ -41,8 +43,12 @@ def fullDescription():
   return SlugTexts.FULL_DESCRIPTION
 
 
-def takeDamage(state, damage):
-  return state._replace(health=state.health - damage)
+def takeDamage(w, damage):
+  return w._replace(
+      enemyState=w.enemyState._replace(
+          health=w.enemyState.health - damage
+      )
+  )
 
 
 def attack(state, gopher):

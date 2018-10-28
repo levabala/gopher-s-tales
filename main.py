@@ -21,7 +21,6 @@ world = WorldState(
     areas=areas,
     g=gopher,
     yourBet=0,
-    enemy=None
 )
 
 
