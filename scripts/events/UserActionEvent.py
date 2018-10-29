@@ -34,7 +34,8 @@ def _getUserAction(w):
   if actionName == 'actions':
     smoothPrint('Available actions:')
     for key in area.keys():
-      smoothPrint('  ' + key)
+      if callable(area[key]):
+        smoothPrint('  ' + key)
     print()
     return _getUserAction(w)
 
