@@ -1,12 +1,12 @@
 from scripts.structures.Thing import Thing
 
 
-def Sword(): return {
-    'name': 'sword',
+def Dagger(): return {
+    'name': 'black sword',
     'type': 'weapon',
-    'dice': (12, 1),  # 12 edges and 1 dice to roll
-    'sm': 1,  # smashing damage
-    'sl': 6,  # slicing damage
+    'dice': (3, 3),  # 3 edges and 3 dices to roll
+    'sm': 0,  # smashing damage
+    'sl': 2,  # slicing damage
     'pr': 3,  # piercing damage
     'fr': 0,  # fire damage
     'ac': 0,  # acid damage

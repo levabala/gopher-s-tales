@@ -152,20 +152,41 @@ def showMap(w):
   return w
 
 
-def showInventory(w):
+def showEquipment(w):
   counter = 0
-  smoothPrint('Your inventory:')
-  for elem in sorted([el['name'] for el in w.g.inventory]):
+  smoothPrint('Your equipement:')
+  for elem in sorted(w.g.equipement, key=lambda el: el['name']):
     counter += 1
-    smoothPrint('  {}: {}'.format(counter, elem))
+    smoothPrint('  {}: {}{}{}'.format(counter, bcolors.BOLD, elem['name'], bcolors.ENDC))
 
   return w
+
+
+def showInventory(w, highlightEquiped=False):
+  counter = 0
+  smoothPrint('Your inventory (not equipement):')
+
+  inventory = sorted(w.g.inventory, key=lambda el: el['name'])
+  equipement = w.g.equipement
+  for elem in inventory:
+    counter += 1
+    equipedSameType = next(
+        (el for el in equipement if el['type'] == elem['type']),
+        False)
+    if equipedSameType and highlightEquiped:
+      smoothPrint('  {}{}:{} {}'.format(bcolors.FAIL, counter, bcolors.ENDC, elem['name']))
+    else:
+      smoothPrint('  {}: {}'.format(counter, elem['name']))
+
+  return w._replace(g=w.g._replace(inventory=inventory))
 
 
 def showThings(w):
   counter = 0
   smoothPrint('Your things:')
-  for elem in sorted(w.g.equipement + w.g.inventory, key=lambda el: el['name']):
+
+  things = sorted(w.g.equipement + w.g.inventory, key=lambda el: el['name'])
+  for elem in things:
     counter += 1
     name = elem['name']
     if elem['equiped']:
@@ -173,4 +194,7 @@ def showThings(w):
     else:
       smoothPrint('  {}: {}'.format(counter, name))
 
-  return w
+  inventory = sorted(w.g.inventory, key=lambda el: el['name'])
+  equipement = sorted(w.g.equipement, key=lambda el: el['name'])
+
+  return w._replace(g=w.g._replace(inventory=inventory, equipement=equipement))

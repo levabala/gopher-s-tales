@@ -1,7 +1,7 @@
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.WorldMethods import getArea
 from scripts.EventPipe import EventPipe
-from scripts.visual.Methods import showMap, showInventory, showThings
+from scripts.visual.Methods import showMap, showThings
 from scripts.Constants import SMALL_DELAY
 
 # possible events

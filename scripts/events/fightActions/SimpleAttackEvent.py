@@ -15,6 +15,7 @@ from scripts.Constants import (
     CRIT_DAMAGE_EVASION_COEFF,
 )
 from texts.events import SimpleAttackTexts
+from scripts.inventory.NoWeapon import NoWeapon
 
 
 def SimpleAttackEvent(w):
@@ -24,8 +25,8 @@ def SimpleAttackEvent(w):
       SimpleAttackTexts,
       __calcDice__,
       w.targetState.evasion * MISS_DAMAGE_EVASION_COEFF,
-      w.targetState.evasion * LIGHT_DAMAGE_COEFF,
-      w.targetState.evasion * FULL_DAMAGE_COEFF,
+      w.targetState.evasion * LIGHT_DAMAGE_EVASION_COEFF,
+      w.targetState.evasion * FULL_DAMAGE_EVASION_COEFF,
       w.targetState.evasion * CRIT_DAMAGE_EVASION_COEFF,
       lambda w: (takeDamage(w, 0), None),
       lambda w: (takeDamage(w, w.attackPoints * LIGHT_DAMAGE_COEFF), None),
@@ -35,13 +36,18 @@ def SimpleAttackEvent(w):
 
 
 def __preCalc__(w):
-  dice = rollDice(8)
+  noWeapon = NoWeapon()
+  weapon = next(
+      (wea for wea in w.attackerState.equipement if wea['type'] == 'weapon'),
+      noWeapon
+  )
+  dice = rollDice(*weapon['dice'])
   attackPoints = dice + w.attackerState.fightingLevel
 
   showRollResult(
       w.attackerName,
       [dice, w.attackerState.fightingLevel],
-      ['d' + str(dice), 'fightingLevel'],
+      ['d{}x{}'.format(*weapon['dice']), 'fightingLevel'],
       w.targetState.evasion * COEFFS['health'] * MISS_DAMAGE_EVASION_COEFF,
       w.targetState.evasion * COEFFS['health'] * LIGHT_DAMAGE_EVASION_COEFF,
       w.targetState.evasion * COEFFS['health'] * FULL_DAMAGE_EVASION_COEFF,

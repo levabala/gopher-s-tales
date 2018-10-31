@@ -11,8 +11,11 @@ from scripts.Constants import (
     MONSTER_STRING,
 )
 
+from scripts.inventory.GooArmor import GooArmor
+from scripts.inventory.GooSlap import GooSlap
+
 HEALTH_POINTS = 0.3
-EVASION_POINTS = 0.05
+EVASION_POINTS = 0.07
 FIGHTING_LEVEL = 5
 DICE = 10
 
@@ -20,6 +23,7 @@ SlugState = namedtuple('SlugState', [
     'health',
     'evasion',
     'fightingLevel',
+    'equipement',
 ])
 
 
@@ -28,6 +32,7 @@ def init():
       health=HEALTH_POINTS,
       evasion=EVASION_POINTS,
       fightingLevel=FIGHTING_LEVEL,
+      equipement=[GooArmor(), GooSlap()]
   )
 
 
@@ -49,34 +54,3 @@ def takeDamage(w, damage):
           health=w.enemyState.health - damage
       )
   )
-
-
-def attack(state, gopher):
-  showStory('Slug attacks you', True)
-
-  dice = rollDice(DICE)
-  attackPoints = dice + FIGHTING_LEVEL
-
-  attackPoints /= COEFFS['health']
-
-  showRollResult(
-      MONSTER_STRING,
-      [dice, FIGHTING_LEVEL],
-      ['d' + str(DICE), 'fightingLevel'],
-      gopher.evasion * COEFFS['health'] * 0.8,
-      gopher.evasion * COEFFS['health'],
-      gopher.evasion * COEFFS['health'] * 1.5,
-  )
-
-  if attackPoints < gopher.evasion * 0.8:
-    smoothPrint('miss')
-    return gopher._replace(health=gopher.health - 0)
-  elif attackPoints < gopher.evasion:
-    smoothPrint('light damage')
-    return gopher._replace(health=gopher.health - attackPoints * LIGHT_DAMAGE_COEFF)
-  elif attackPoints < gopher.evasion * 1.5:
-    smoothPrint('full damage')
-    return gopher._replace(health=gopher.health - attackPoints * FULL_DAMAGE_COEFF)
-  else:
-    smoothPrint('crit damage')
-    return gopher._replace(health=gopher.health - attackPoints * CRIT_DAMAGE_COEFF)

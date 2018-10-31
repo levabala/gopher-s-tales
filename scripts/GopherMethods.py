@@ -6,11 +6,11 @@ def isDead(gopher):
 
 
 def isTypeInEquipement(gopher, t):
-  return any(elem['type'] != t for elem in gopher.equipement)
+  return any(elem['type'] == t for elem in gopher.equipement)
 
 
 def equipItem(gopher, index):
-  inv = gopher.inventory
+  inv = sorted(gopher.inventory, key=lambda el: el['name'])
   item = inv.pop(index)
 
   typeAlreadyExist = isTypeInEquipement(gopher, item['type'])
@@ -26,7 +26,7 @@ def equipItem(gopher, index):
 
 
 def unequipItem(gopher, index):
-  eqp = gopher.equipement
+  eqp = sorted(gopher.equipement, key=lambda el: el['name'])
   item = eqp.pop(index)
 
   item['equiped'] = False

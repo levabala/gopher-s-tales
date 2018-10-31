@@ -12,6 +12,8 @@ from scripts.areas.MarketArea import MarketArea
 from scripts.areas.HoleArea import HoleArea
 
 from scripts.inventory.Sword import Sword
+from scripts.inventory.BlackSword import BlackSword
+from scripts.inventory.Dagger import Dagger
 from scripts.inventory.Сuirass import Сuirass
 
 regions = [
@@ -21,13 +23,15 @@ regions = [
 ]
 
 simpleSword = Sword()
+blackSword = BlackSword()
+dagger = Dagger()
 simpleCuirass = Сuirass()
 
 gopher = defaultGopher('Jacob')._replace(
     inventory=[
-        simpleSword, simpleCuirass
+        blackSword, simpleCuirass, dagger
     ],
-    equipement=[],
+    equipement=[simpleSword],
 )
 
 world = WorldState(

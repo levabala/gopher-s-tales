@@ -18,6 +18,12 @@ def UserActionEvent(w):
 def _process(w):
   while w.g.actionPoints > 0 and w.g.alive:
     action = _getUserAction(w)
+
+    if type(action) is str:
+      smoothPrint(action)
+      print()
+      continue
+
     w = action(w)
     print()
 
@@ -27,7 +33,7 @@ def _process(w):
 def _getUserAction(w):
   area = getArea(w, w.currentAreaPointer)
   # request action
-  actionName = input('Enter action to do: ')
+  actionName = input('Enter action to do: ').strip()
   print()
 
   # check if action exists

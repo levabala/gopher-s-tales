@@ -3,13 +3,13 @@ from scripts.visual.ConsoleColors import bcolors
 from scripts.visual.Methods import showStory
 
 
-def rollDice(rang=6):
-  return randint(1, rang)
+def rollDice(rang=6, dices=1):
+  return sum([randint(1, rang) for i in range(dices)])
 
 
 def showRollResult(who, values, variables, *bounds):
   strBounds = ', '.join([
-      '> {}{}{}'.format(bcolors.BOLD, bound, bcolors.ENDC)
+      '> {}{}{}'.format(bcolors.BOLD, round(bound, 1), bcolors.ENDC)
       for bound in bounds
   ])
   string = '''

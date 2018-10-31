@@ -3,7 +3,7 @@ from scripts.events.MoveEvent import MoveEvent
 from scripts.events.Event import EventTrivialFunc
 from scripts.WorldMethods import isPointerValid
 from scripts.visual.SmoothPrint import smoothPrint
-from scripts.visual.Methods import showMap, showInventory, showStory, showThings
+from scripts.visual.Methods import showMap, showEquipment, showStory, showThings
 from scripts.GopherMethods import isTypeInEquipement, unequipItem
 from texts.events import EmptyTexts
 from scripts.structures.Point import Point
@@ -24,15 +24,21 @@ def _process(w):
 
     return (w, UnequipItemEvent)
 
-  showThings(w)
+  if not w.g.equipement:
+    smoothPrint('You have nothing equiped')
+    return (w, None)
+
+  showEquipment(w)
   print()
 
   mess = 'Enter item to equip index: '
-  print()
 
   num = input(mess)
+  print()
 
   if not num.isdigit():
+    if num == 'abort':
+      return (w, None)
     return nextPlease(w)
 
   num = int(num) - 1
