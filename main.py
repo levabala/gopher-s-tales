@@ -14,7 +14,9 @@ areas = [
     [ForestArea(), ForestArea(), RoadArea(), MarketArea()],
 ]
 
-gopher = defaultGopher('Jacob')
+gopher = defaultGopher('Jacob')._replace(
+    inventory=[],
+)
 
 world = WorldState(
     currentAreaPointer=Point(x=1, y=2),

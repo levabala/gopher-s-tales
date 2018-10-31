@@ -30,23 +30,6 @@ def _getUserAction(w):
   actionName = input('Enter action to do: ')
   print()
 
-  # check for service commands
-  if actionName == 'actions':
-    smoothPrint('Available actions:')
-    for key in area.keys():
-      smoothPrint('  ' + key)
-    print()
-    return _getUserAction(w)
-
-  if actionName == 'my location':
-    p = w.currentAreaPointer
-    smoothPrint('You location: ({}, {})'.format(p.x, p.y))
-    return _getUserAction(w)
-
-  if actionName == 'show map':
-    showMap(w)
-    return _getUserAction(w)
-
   # check if action exists
   if not actionName in area:
     print('no such action!\n')

@@ -1,4 +1,8 @@
+from scripts.visual.SmoothPrint import smoothPrint
+from scripts.WorldMethods import getArea
 from scripts.EventPipe import EventPipe
+from scripts.visual.Methods import showMap
+from scripts.Constants import SMALL_DELAY
 
 # possible events
 from scripts.events.performable.MoveNorthEvent import MoveNorthEvent
@@ -7,10 +11,23 @@ from scripts.events.performable.MoveSouthEvent import MoveSouthEvent
 from scripts.events.performable.MoveWestEvent import MoveWestEvent
 
 
-def ConnectedArea(): return {
+def RootArea(): return {
     'go north': lambda w: EventPipe(w, MoveNorthEvent),
     'go east': lambda w: EventPipe(w, MoveEastEvent),
     'go south': lambda w: EventPipe(w, MoveSouthEvent),
     'go west': lambda w: EventPipe(w, MoveWestEvent),
     'die': lambda w: w._replace(g=w.g._replace(alive=False)),
+    'inventory': lambda w: w,
+    'actions': showActions,
+    'show map': showMap
 }
+
+
+def showActions(w):
+  area = getArea(w, w.currentAreaPointer)
+
+  smoothPrint('Available actions:')
+  for key in sorted(area.keys()):
+    smoothPrint('  ' + key, delay=SMALL_DELAY)
+  print()
+  return w

@@ -64,7 +64,7 @@ def _process(w):
     w = w._replace(targetState=w.enemyState, attackerState=w.g, attackerName=w.g.name)
 
     # perform attack on monster
-    showStory('You attacks Slug', True)
+    showStory('You attack Slug', True)
     monsterBefore = deepcopy(w.enemyState)
     w = actions[actionName](w)
 

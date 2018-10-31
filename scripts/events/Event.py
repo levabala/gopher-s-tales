@@ -23,10 +23,12 @@ def EventFunc(
     worldProcessor,
     textsModule,
     diceFunc,
+
     failureCritBound,
     failureSimpleBound,
-    successCritBound,
     successSimpleBound,
+    successCritBound,
+
     failureCritChange,
     failureSimpleChange,
     successSimpleChange,

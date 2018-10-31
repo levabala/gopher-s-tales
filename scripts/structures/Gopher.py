@@ -19,6 +19,9 @@ Gopher = namedtuple('Gopher', [
     'fightingLevel',
     'tradingLevel',
     'alive',
+    'equipement',
+    'inventory',
+    'quickSlot',
 ])
 
 
@@ -41,5 +44,8 @@ def defaultGopher(name):
       diggingLevel=1.0,
       fightingLevel=1.0,
       tradingLevel=1.0,
-      alive=True
+      alive=True,
+      inventory=[],
+      quickSlot=[],
+      equipement=[],
   )

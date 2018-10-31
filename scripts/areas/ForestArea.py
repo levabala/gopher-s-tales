@@ -1,5 +1,5 @@
 from random import randint
-from scripts.areas.ConnectedArea import ConnectedArea
+from scripts.areas.RootArea import RootArea
 from scripts.EventPipe import EventPipe
 from scripts.monsters import SlugMonster
 
@@ -15,5 +15,5 @@ def ForestArea(): return {
     'monsters count': randint(MIN_MONSTERS_COUNT, MAX_MONSTERS_COUNT),
     'monster type': SlugMonster,
     'purge': lambda w: EventPipe(w, PurgeEvent),
-    **ConnectedArea()
+    **RootArea()
 }

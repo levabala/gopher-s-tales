@@ -37,8 +37,8 @@ def __preCalc__(w):
 
   showRollResult(
       w.attackerName,
-      [dice, w.g.fightingLevel],
-      ['d8', 'fightingLevel'],
+      [dice, w.attackerState.fightingLevel],
+      ['d' + str(dice), 'fightingLevel'],
       w.targetState.evasion * COEFFS['health'] * 0.8,
       w.targetState.evasion * COEFFS['health'],
       w.targetState.evasion * COEFFS['health'] * 1.5,
