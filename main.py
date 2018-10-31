@@ -11,6 +11,8 @@ from scripts.areas.RoadArea import RoadArea
 from scripts.areas.MarketArea import MarketArea
 from scripts.areas.HoleArea import HoleArea
 
+from scripts.inventory.Sword import Sword
+from scripts.inventory.Plate import Plate
 
 regions = [
     [ForestArea(), ForestArea(), ForestArea()],
@@ -18,7 +20,15 @@ regions = [
     [ForestArea(), ForestArea(), ForestArea()],
 ]
 
-gopher = defaultGopher('Jacob')
+simpleSword = Sword()
+simplePlate = Plate()
+
+gopher = defaultGopher('Jacob')._replace(
+    inventory=[
+        Sword, Plate
+    ],
+    equipment=[],
+)
 
 world = WorldState(
     currentAreaPointer=Point(x=1, y=1),
