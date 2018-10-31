@@ -1,5 +1,5 @@
 {
-  "window.zoomLevel": 0,
+  "window.zoomLevel": 0.8,
   "terminal.integrated.fontSize": 16,
   "editor.fontSize": 18,
   "editor.formatOnSave": true,
