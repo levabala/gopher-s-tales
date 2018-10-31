@@ -127,7 +127,7 @@ def showMap(w):
   y = 0
   collection, pointer = getCurrentMapCollection(w)
   for line in collection:
-    elements = [el['area name'].center(9) for el in line]
+    elements = [el['area name'].center(8) for el in line]
 
     string = ''
     x = 0
@@ -148,3 +148,29 @@ def showMap(w):
     y += 1
 
   print()
+
+  return w
+
+
+def showInventory(w):
+  counter = 0
+  smoothPrint('Your inventory:')
+  for elem in sorted([el['name'] for el in w.g.inventory]):
+    counter += 1
+    smoothPrint('  {}: {}'.format(counter, elem))
+
+  return w
+
+
+def showThings(w):
+  counter = 0
+  smoothPrint('Your things:')
+  for elem in sorted(w.g.equipement + w.g.inventory, key=lambda el: el['name']):
+    counter += 1
+    name = elem['name']
+    if elem['equiped']:
+      smoothPrint('  {}: {}{}{}'.format(counter, bcolors.BOLD, name, bcolors.ENDC))
+    else:
+      smoothPrint('  {}: {}'.format(counter, name))
+
+  return w

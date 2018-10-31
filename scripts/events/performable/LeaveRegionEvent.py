@@ -19,4 +19,8 @@ def LeaveRegionEvent(w):
 
 def _process(w):
   # TODO: entering from different sides
-  return (w._replace(currentAreaPointer=None), None)
+  w = w._replace(currentAreaPointer=None)
+
+  showMap(w)
+
+  return (w, None)

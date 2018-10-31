@@ -19,4 +19,9 @@ def EnterRegionEvent(w):
 
 def _process(w):
   # TODO: entering from different sides
-  return (w._replace(currentAreaPointer=Point(0, 0)), None)
+
+  w = w._replace(currentAreaPointer=Point(0, 0))
+
+  showMap(w)
+
+  return (w, None)

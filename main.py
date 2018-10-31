@@ -12,7 +12,7 @@ from scripts.areas.MarketArea import MarketArea
 from scripts.areas.HoleArea import HoleArea
 
 from scripts.inventory.Sword import Sword
-from scripts.inventory.Plate import Plate
+from scripts.inventory.Сuirass import Сuirass
 
 regions = [
     [ForestArea(), ForestArea(), ForestArea()],
@@ -21,11 +21,11 @@ regions = [
 ]
 
 simpleSword = Sword()
-simplePlate = Plate()
+simpleCuirass = Сuirass()
 
 gopher = defaultGopher('Jacob')._replace(
     inventory=[
-        Sword, Plate
+        simpleSword, simpleCuirass
     ],
     equipement=[],
 )

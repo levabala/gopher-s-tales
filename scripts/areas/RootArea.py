@@ -1,7 +1,7 @@
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.WorldMethods import getArea
 from scripts.EventPipe import EventPipe
-from scripts.visual.Methods import showMap
+from scripts.visual.Methods import showMap, showInventory, showThings
 from scripts.Constants import SMALL_DELAY
 
 # possible events
@@ -10,6 +10,8 @@ from scripts.events.performable.MoveEastEvent import MoveEastEvent
 from scripts.events.performable.MoveSouthEvent import MoveSouthEvent
 from scripts.events.performable.MoveWestEvent import MoveWestEvent
 from scripts.events.performable.LeaveRegionEvent import LeaveRegionEvent
+from scripts.events.performable.EquipItemEvent import EquipItemEvent
+from scripts.events.performable.UnequipItemEvent import UnequipItemEvent
 
 
 def RootArea(): return {
@@ -18,10 +20,12 @@ def RootArea(): return {
     'go south': lambda w: EventPipe(w, MoveSouthEvent),
     'go west': lambda w: EventPipe(w, MoveWestEvent),
     'die': lambda w: w._replace(g=w.g._replace(alive=False)),
-    'inventory': lambda w: w,
+    'inventory': showThings,
     'actions': showActions,
-    'show map': showMap,
+    'map': showMap,
     'leave region': lambda w: EventPipe(w, LeaveRegionEvent),
+    'equip': lambda w: EventPipe(w, EquipItemEvent),
+    'unequip': lambda w: EventPipe(w, UnequipItemEvent),
 }
 
 
