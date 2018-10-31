@@ -1,3 +1,4 @@
+from scripts.WorldMethods import getArea
 from scripts.EventPipe import EventPipe
 from scripts.events.MoveEvent import MoveEvent
 from scripts.events.Event import EventTrivialFunc
@@ -8,9 +9,14 @@ from texts.events import EmptyTexts
 from scripts.structures.Point import Point
 
 
-def MoveNorthEvent(w):
+def LeaveRegionEvent(w):
   return EventTrivialFunc(
       w,
       EmptyTexts,
-      lambda w: (w._replace(moveDelta=Point(0, -1)), MoveEvent)
+      _process
   )
+
+
+def _process(w):
+  # TODO: entering from different sides
+  return (w._replace(currentAreaPointer=None), None)

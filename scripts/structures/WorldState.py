@@ -1,8 +1,10 @@
 from collections import namedtuple
+from scripts.structures.Point import Point
 
 WorldState = namedtuple('WorldState', [
     'currentAreaPointer',
-    'areas',
+    'currentRegionPointer',
+    'regions',
     'g',
     'yourBet',
     'enemyType',
@@ -11,9 +13,15 @@ WorldState = namedtuple('WorldState', [
     'attackerName',
     'attackerState',
     'targetState',
+    'moveDelta',
 ])
 
 WorldState.__new__.__defaults__ = (
+    None,
+    None,
+    None,
+    None,
+    None,
     None,
     None,
     None,

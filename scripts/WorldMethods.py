@@ -1,11 +1,19 @@
 def getArea(world, pointer):
-  return world.areas[pointer.y][pointer.x]
+  region = getRegion(world, world.currentRegionPointer)
+  if not 'areas' in region or pointer is None:
+    return region
+
+  return region['areas'][pointer.y][pointer.x]
 
 
-def isPointerValid(world, pointer):
+def getRegion(world, pointer):
+  return world.regions[pointer.y][pointer.x]
+
+
+def isPointerValid(world, pointer, targetMap):
   return (
-      pointer.y >= 0 and pointer.y < len(world.areas) and
-      pointer.x >= 0 and pointer.x < len(world.areas[0])
+      pointer.y >= 0 and pointer.y < len(targetMap) and
+      pointer.x >= 0 and pointer.x < len(targetMap[0])
   )
 
 

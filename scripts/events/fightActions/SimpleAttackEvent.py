@@ -1,5 +1,4 @@
 from random import randint
-from infinity import inf
 from scripts.events.EmptyEvent import EmptyEvent
 from scripts.events.Event import EventFunc
 from scripts.Assets import showRollResult, rollDice
@@ -10,6 +9,10 @@ from scripts.Constants import (
     FULL_DAMAGE_COEFF,
     CRIT_DAMAGE_COEFF,
     YOU_STRING,
+    MISS_DAMAGE_EVASION_COEFF,
+    LIGHT_DAMAGE_EVASION_COEFF,
+    FULL_DAMAGE_EVASION_COEFF,
+    CRIT_DAMAGE_EVASION_COEFF,
 )
 from texts.events import SimpleAttackTexts
 
@@ -20,10 +23,10 @@ def SimpleAttackEvent(w):
       __preCalc__,
       SimpleAttackTexts,
       __calcDice__,
-      w.targetState.evasion * 0.8,
-      w.targetState.evasion,
-      w.targetState.evasion * 1.5,
-      inf,
+      w.targetState.evasion * MISS_DAMAGE_EVASION_COEFF,
+      w.targetState.evasion * LIGHT_DAMAGE_COEFF,
+      w.targetState.evasion * FULL_DAMAGE_COEFF,
+      w.targetState.evasion * CRIT_DAMAGE_EVASION_COEFF,
       lambda w: (takeDamage(w, 0), None),
       lambda w: (takeDamage(w, w.attackPoints * LIGHT_DAMAGE_COEFF), None),
       lambda w: (takeDamage(w, w.attackPoints * FULL_DAMAGE_COEFF), None),
@@ -39,9 +42,9 @@ def __preCalc__(w):
       w.attackerName,
       [dice, w.attackerState.fightingLevel],
       ['d' + str(dice), 'fightingLevel'],
-      w.targetState.evasion * COEFFS['health'] * 0.8,
-      w.targetState.evasion * COEFFS['health'],
-      w.targetState.evasion * COEFFS['health'] * 1.5,
+      w.targetState.evasion * COEFFS['health'] * MISS_DAMAGE_EVASION_COEFF,
+      w.targetState.evasion * COEFFS['health'] * LIGHT_DAMAGE_EVASION_COEFF,
+      w.targetState.evasion * COEFFS['health'] * FULL_DAMAGE_EVASION_COEFF,
   )
 
   attackPoints /= COEFFS['health']
