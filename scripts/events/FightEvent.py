@@ -32,9 +32,10 @@ def _process(w):
 
   w = w._replace(enemyState=w.enemyType.init())
 
-  gopherBefore = None
   rounds = 0
   while True:
+    gopherBefore = deepcopy(w.g)
+
     rounds += 1
     smoothPrint('--- Round {} ---'.format(rounds))
     smoothPrint('you: {} monster: {}'.format(
@@ -83,7 +84,6 @@ def _process(w):
     w = w._replace(targetState=w.g, attackerState=w.enemyState, attackerName='Slug')
 
     # perform attack on gopher
-    gopherBefore = deepcopy(w.g)
     showStory('Slug attacks you', True)
     w = actions['attack'](w)
 

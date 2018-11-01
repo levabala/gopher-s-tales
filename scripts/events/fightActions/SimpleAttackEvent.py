@@ -1,7 +1,8 @@
+from math import tanh, pow
 from random import randint
 from scripts.events.EmptyEvent import EmptyEvent
 from scripts.events.Event import EventFunc
-from scripts.Assets import showRollResult, rollDice
+from scripts.Assets import showRollResult, showRollResultAttack, rollDice
 from scripts.visual.Converter import COEFFS
 from scripts.WorldMethods import takeDamage
 from scripts.Constants import (
@@ -15,6 +16,7 @@ from scripts.Constants import (
     CRIT_DAMAGE_EVASION_COEFF,
 )
 from texts.events import SimpleAttackTexts
+from scripts.GopherMethods import sumArmor
 from scripts.inventory.NoWeapon import NoWeapon
 
 
@@ -37,17 +39,32 @@ def SimpleAttackEvent(w):
 
 def __preCalc__(w):
   noWeapon = NoWeapon()
+
   weapon = next(
       (wea for wea in w.attackerState.equipement if wea['type'] == 'weapon'),
       noWeapon
   )
   dice = rollDice(*weapon['dice'])
-  attackPoints = dice + w.attackerState.fightingLevel
 
-  showRollResult(
+  armor = sumArmor(w.targetState)
+  attackProp = max(armor.items(), key=lambda a: a[1] - weapon[a[0]])
+  coeff = 1 + tanh(attackProp[1] / 10) ** (1 / 3)
+
+  attackPoints = coeff * (dice + w.attackerState.fightingLevel)
+
+  prop = attackProp[0]
+  showRollResultAttack(
       w.attackerName,
-      [dice, w.attackerState.fightingLevel],
-      ['d{}x{}'.format(*weapon['dice']), 'fightingLevel'],
+      '1 + tanh({}[{}] - {}[{}])^(1 / 3) = {}'.format(
+          weapon[prop],
+          prop,
+          armor[prop],
+          prop,
+          round(coeff)
+      ),
+      '{} * ({} + {})'.format(round(coeff, 2), dice, w.attackerState.fightingLevel),
+      'coeff + d{}x{} + fightingLevel'.format(*weapon['dice']),
+      attackPoints,
       w.targetState.evasion * COEFFS['health'] * MISS_DAMAGE_EVASION_COEFF,
       w.targetState.evasion * COEFFS['health'] * LIGHT_DAMAGE_EVASION_COEFF,
       w.targetState.evasion * COEFFS['health'] * FULL_DAMAGE_EVASION_COEFF,

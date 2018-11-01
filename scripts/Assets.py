@@ -28,3 +28,30 @@ def showRollResult(who, values, variables, *bounds):
       strBounds,
   )
   showStory(string)
+
+
+def showRollResultAttack(who, coeffString, rollString, exprString, sum, *bounds):
+  strBounds = ', '.join([
+      '> {}{}{}'.format(bcolors.BOLD, round(bound, 1), bcolors.ENDC)
+      for bound in bounds
+  ])
+  string = '''
+    {} rolled: {}{} = {}{} ,
+    attack coeff: {}{}{},
+    calced by: {}{}{},
+    for success: {}
+  '''.format(
+      who,
+      bcolors.BOLD,
+      rollString,
+      round(sum, 1),
+      bcolors.ENDC,
+      bcolors.BOLD,
+      coeffString,
+      bcolors.ENDC,
+      bcolors.BOLD,
+      exprString,
+      bcolors.ENDC,
+      strBounds,
+  )
+  showStory(string)

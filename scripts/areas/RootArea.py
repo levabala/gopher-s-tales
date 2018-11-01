@@ -12,6 +12,7 @@ from scripts.events.performable.MoveWestEvent import MoveWestEvent
 from scripts.events.performable.LeaveRegionEvent import LeaveRegionEvent
 from scripts.events.performable.EquipItemEvent import EquipItemEvent
 from scripts.events.performable.UnequipItemEvent import UnequipItemEvent
+from scripts.events.performable.ShowThingEvent import ShowThingEvent
 
 
 def RootArea(): return {
@@ -26,6 +27,7 @@ def RootArea(): return {
     'leave region': lambda w: EventPipe(w, LeaveRegionEvent),
     'equip': lambda w: EventPipe(w, EquipItemEvent),
     'unequip': lambda w: EventPipe(w, UnequipItemEvent),
+    'thing': lambda w: EventPipe(w, ShowThingEvent),
 }
 
 

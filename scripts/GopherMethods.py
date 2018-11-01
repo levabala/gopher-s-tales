@@ -35,3 +35,22 @@ def unequipItem(gopher, index):
       inventory=gopher.inventory + [item],
       equipement=eqp,
   )
+
+
+def sumArmor(target):
+  props = {
+      'sm': 0,  # smashing damage
+      'sl': 0,  # slicing damage
+      'pr': 0,  # piercing damage
+      'fr': 0,  # fire damage
+      'ac': 0,  # acid damage
+  }
+
+  propsKeys = props.keys()
+
+  for t in target.equipement:
+    if 'armor' in t['type']:
+      for p in propsKeys:
+        props[p] += t[p]
+
+  return props

@@ -198,3 +198,24 @@ def showThings(w):
   equipement = sorted(w.g.equipement, key=lambda el: el['name'])
 
   return w._replace(g=w.g._replace(inventory=inventory, equipement=equipement))
+
+def showThingProps(thing):
+  m = {    
+    'type': lambda p: 'type: {}{}{}'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+    'dice': lambda p: '(edges, count): d{}{}{}x{}{}{}'.format(
+      bcolors.OKGREEN, p[0], bcolors.ENDC, 
+      bcolors.OKGREEN, p[1], bcolors.ENDC,
+      ),
+    'sm': lambda p: 'smash: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+    'sl': lambda p: 'slice: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+    'pr': lambda p: 'pierce: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+    'fr': lambda p: 'fire: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+    'ac': lambda p: 'acid: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),    
+  }  
+
+  smoothPrint('Thing "{}{}{}"'.format(bcolors.OKGREEN, thing['name'], bcolors.ENDC))
+
+  mKeys = m.keys()
+  for k in sorted(thing.keys()):
+    if k in mKeys:
+      smoothPrint('  - ' + m[k](thing[k]))

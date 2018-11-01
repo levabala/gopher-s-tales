@@ -2,7 +2,7 @@ from scripts.structures.Thing import Thing
 
 
 def Dagger(): return {
-    'name': 'black sword',
+    'name': 'dagger',
     'type': 'weapon',
     'dice': (3, 3),  # 3 edges and 3 dices to roll
     'sm': 0,  # smashing damage
