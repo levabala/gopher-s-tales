@@ -1,6 +1,8 @@
+from copy import deepcopy
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.visual.Methods import (
     showStory,
+    showChangedProps,
     CRITICAL_FAILURE,
     CRITICAL_SUCCESS,
     SIMPLE_FAILURE,
@@ -33,31 +35,45 @@ def EventFunc(
     failureSimpleChange,
     successSimpleChange,
     successCritChange,
+
+    afterEventAction=lambda w: w,
+    showChangedPropsAfterAll=False
 ):
   showStory(textsModule.INIT)
 
   world = worldProcessor(world)
   d = diceFunc(world)
 
+  gopherBefore = deepcopy(world.g)
+
+  tuplya = None
   if d < failureCritBound:
     smoothPrint(CRITICAL_FAILURE)
     showStory(textsModule.FAILURE_CRIT)
-    return failureCritChange(world)
+    tuplya = failureCritChange(world)
 
   elif d < failureSimpleBound:
     smoothPrint(SIMPLE_FAILURE)
     showStory(textsModule.FAILURE_SIMPLE)
-    return failureSimpleChange(world)
+    tuplya = failureSimpleChange(world)
 
   elif d < successSimpleBound:
     smoothPrint(SIMPLE_SUCCESS)
     showStory(textsModule.SUCCESS_SIMPLE)
-    return successSimpleChange(world)
+    tuplya = successSimpleChange(world)
 
   elif d < successCritBound:
     smoothPrint(CRITICAL_SUCCESS)
     showStory(textsModule.SUCCESS_CRIT)
-    return successCritChange(world)
+    tuplya = successCritChange(world)
 
-  # should be never
-  raise Exception('very strange dice')
+  else:
+    # should be never
+    raise Exception('very strange dice')
+
+  tuplya = (afterEventAction(tuplya[0]), tuplya[1])
+
+  if showChangedPropsAfterAll:
+    showChangedProps(gopherBefore, tuplya[0].g)
+
+  return tuplya

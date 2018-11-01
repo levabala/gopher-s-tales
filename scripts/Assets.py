@@ -7,20 +7,20 @@ def rollDice(rang=6, dices=1):
   return sum([randint(1, rang) for i in range(dices)])
 
 
-def showRollResult(who, values, variables, *bounds):
+def showRollResult(who, rollString, exprString, sum, *bounds):
   strBounds = ', '.join([
-      '> {}{}{}'.format(bcolors.BOLD, round(bound, 1), bcolors.ENDC)
+      '> {}'.format(green(round(bound, 1)))
       for bound in bounds
   ])
   string = '''
     {} rolled: {} = {},
-    calced by: {},
+    calced by: {},    
     for success: {}
   '''.format(
       who,
-      ' + '.join(green(round(v, 1) for v in values)),
-      green(round(sum(values), 1)),
-      bold(' + '.join(variables)),
+      rollString,
+      green(round(sum, 1)),
+      bold(exprString),
       strBounds,
   )
   showStory(string)

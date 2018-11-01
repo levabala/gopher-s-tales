@@ -1,7 +1,7 @@
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.WorldMethods import getArea
 from scripts.EventPipe import EventPipe
-from scripts.visual.Methods import showMap, showThings, showStory
+from scripts.visual.Methods import showMap, showThings, showStory, showProps, showCharacter, showLifeProps
 from scripts.Constants import SMALL_DELAY
 
 # possible events
@@ -24,17 +24,20 @@ def RootArea(): return {
     'inventory': showThings,
     'actions': showActions,
     'map': showMap,
+    'all props': showProps,
+    'life props': showLifeProps,
+    'character': showCharacter,
     'leave region': lambda w: EventPipe(w, LeaveRegionEvent),
     'equip': lambda w: EventPipe(w, EquipItemEvent),
     'unequip': lambda w: EventPipe(w, UnequipItemEvent),
     'thing': lambda w: EventPipe(w, ShowThingEvent),
-    'help': lambda w: help,
+    'help': lambda w: help(w),
 }
 
 
 def help(w):
   showStory('Nothing here yet', True)
-  return (w, None)
+  return w
 
 
 def showActions(w):

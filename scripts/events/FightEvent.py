@@ -8,6 +8,7 @@ from scripts.EventPipe import EventPipe
 from scripts.Assets import rollDice, showRollResult
 from scripts.visual.Converter import COEFFS
 from texts.events import EmptyTexts
+from scripts.GopherMethods import spendActionPoint
 from scripts.Constants import (
     LIGHT_DAMAGE_COEFF,
     FULL_DAMAGE_COEFF,
@@ -103,6 +104,8 @@ def _process(w):
       break
 
   print()
+  w = spendActionPoint(w)
+
   showChangedProps(gopherBefore, w.g)
 
   return (w, None)

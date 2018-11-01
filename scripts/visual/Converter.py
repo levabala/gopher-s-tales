@@ -9,7 +9,7 @@ COEFFS = {
     'agility': 100,
     'intelligence': 10,
     'charisma': 100,
-    'actionPoints': 100,
+    'actionPoints': 1,
     'diggingLevel': 100,
     'fightingLevel': 100,
     'tradingLevel': 100,

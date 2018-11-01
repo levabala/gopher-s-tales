@@ -66,15 +66,42 @@ def showStory(text, raw=False):
   print()
 
 
-def showCharacter(rt):
-  toPrint = 'name strenght agility intelligence charisma origin'.split(' ')
-  for f in [f for f in rt.g._fields if f in toPrint]:
-    val = getattr(rt.g, f)
+def showLifeProps(w):
+  toPrint = '''
+    health weight fame holeDeep wealth respect
+  '''.replace('\n', '').strip().split(' ')
+  for f in [f for f in w.g._fields if f in toPrint]:
+    val = getattr(w.g, f)
     smoothPrint('{}{}{} is now: {}'.format(
         bcolors.BOLD, f, bcolors.ENDC,
         formatValueColored(val, val)), SMALL_DELAY)
   print()
-  return rt
+  return w
+
+
+def showProps(w):
+  toExcept = '''
+    name quickSlot
+    origin equipement inventory
+  '''.replace('\n', '').strip().split(' ')
+  for f in [f for f in w.g._fields if not f in toExcept]:
+    val = getattr(w.g, f)
+    smoothPrint('{}{}{} is now: {}'.format(
+        bcolors.BOLD, f, bcolors.ENDC,
+        formatValueColored(val, val)), SMALL_DELAY)
+  print()
+  return w
+
+
+def showCharacter(w):
+  toPrint = 'name strenght agility intelligence charisma origin'.split(' ')
+  for f in [f for f in w.g._fields if f in toPrint]:
+    val = getattr(w.g, f)
+    smoothPrint('{}{}{} is now: {}'.format(
+        bcolors.BOLD, f, bcolors.ENDC,
+        formatValueColored(val, val)), SMALL_DELAY)
+  print()
+  return w
 
 
 def showActionsLeft(gopher):

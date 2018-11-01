@@ -1,6 +1,5 @@
 INIT = '''
-  Your bet accepted
-  Now you're trying to have a profit
+  You started trading
 '''
 
 FAILURE_CRIT = '''

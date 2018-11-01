@@ -10,6 +10,10 @@ def isTypeInEquipement(gopher, t):
   return any(elem['type'] == t for elem in gopher.equipement)
 
 
+def spendActionPoint(w):
+  return w._replace(g=w.g._replace(actionPoints=w.g.actionPoints - 1))
+
+
 def equipItem(gopher, index):
   inv = sorted(gopher.inventory, key=lambda el: el['name'])
   item = inv.pop(index)

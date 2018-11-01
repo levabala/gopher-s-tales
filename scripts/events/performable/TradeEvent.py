@@ -1,6 +1,7 @@
 from scripts.events.EmptyEvent import EmptyEvent
 from scripts.events.Event import EventFunc
 from scripts.Assets import showRollResult, rollDice
+from scripts.visual.ConsoleColors import green
 from scripts.Constants import (
     TRADE_EVENT_FAILURE_CRIT_BOUND,
     TRADE_EVENT_FAILURE_SIMPLE_BOUND,
@@ -41,6 +42,7 @@ def TradeEvent(w):
           wealth=w.g.wealth + w.yourBet * (3 / 3),
           actionPoints=w.g.actionPoints - 1
       )), None),
+      showChangedPropsAfterAll=True
   )
 
 
@@ -56,6 +58,12 @@ def requestBet(w):
   while True:
     value = req()
     if value.isdigit() and int(value) / COEFFS['wealth'] <= w.g.wealth:
+      showStory(
+          '''
+            Your bet accepted
+            Now you're trying to have a profit
+      '''
+      )
       return w._replace(yourBet=int(value) / COEFFS['wealth'])
 
     # if bet is invalid
@@ -63,8 +71,23 @@ def requestBet(w):
 
 
 def __calcDice__(w):
-  dice = rollDice(20)
+  dd = (20, 1)
+  dice = rollDice(*dd)
   d = dice + w.g.tradingLevel
-  showRollResult(YOU_STRING, [dice, w.g.tradingLevel], ['d20', 'tradingLevel'],
-                 TRADE_EVENT_SUCCESS_SIMPLE_BOUND)
+  showRollResult(
+      YOU_STRING,
+      '{} + {}'.format(
+          dice,
+          w.g.tradingLevel
+      ),
+      'd{}x{} + tradingLevel'.format(
+          green(dd[0]),
+          green(dd[1]),
+      ),
+      d,
+      TRADE_EVENT_FAILURE_CRIT_BOUND,
+      TRADE_EVENT_FAILURE_SIMPLE_BOUND,
+      TRADE_EVENT_SUCCESS_SIMPLE_BOUND,
+      TRADE_EVENT_SUCCESS_CRIT_BOUND,
+  )
   return d

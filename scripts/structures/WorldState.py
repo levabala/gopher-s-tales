@@ -14,6 +14,7 @@ WorldState = namedtuple('WorldState', [
     'attackerState',
     'targetState',
     'moveDelta',
+    'days',
 ])
 
 WorldState.__new__.__defaults__ = (
@@ -29,4 +30,5 @@ WorldState.__new__.__defaults__ = (
     None,
     None,
     None,
+    0
 )
