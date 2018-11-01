@@ -1,5 +1,5 @@
 from random import randint
-from scripts.visual.ConsoleColors import bcolors
+from scripts.visual.ConsoleColors import bcolors, green, bold
 from scripts.visual.Methods import showStory
 
 
@@ -13,18 +13,14 @@ def showRollResult(who, values, variables, *bounds):
       for bound in bounds
   ])
   string = '''
-    {} rolled: {}{} = {}{},
-    calced by: {}{}{},
+    {} rolled: {} = {},
+    calced by: {},
     for success: {}
   '''.format(
       who,
-      bcolors.BOLD,
-      ' + '.join(str(round(v, 2)) for v in values),
-      str(round(sum(values), 2)),
-      bcolors.ENDC,
-      bcolors.BOLD,
-      ' + '.join(variables),
-      bcolors.ENDC,
+      ' + '.join(green(round(v, 1) for v in values)),
+      green(round(sum(values), 1)),
+      bold(' + '.join(variables)),
       strBounds,
   )
   showStory(string)
@@ -32,26 +28,20 @@ def showRollResult(who, values, variables, *bounds):
 
 def showRollResultAttack(who, coeffString, rollString, exprString, sum, *bounds):
   strBounds = ', '.join([
-      '> {}{}{}'.format(bcolors.BOLD, round(bound, 1), bcolors.ENDC)
+      '> {}'.format(green(round(bound, 1)))
       for bound in bounds
   ])
   string = '''
-    {} rolled: {}{} = {}{} ,
-    attack coeff: {}{}{},
-    calced by: {}{}{},
+    {} rolled: {} = {},
+    calced by: {},
+    attack coeff: {},
     for success: {}
   '''.format(
       who,
-      bcolors.BOLD,
       rollString,
-      round(sum, 1),
-      bcolors.ENDC,
-      bcolors.BOLD,
+      green(round(sum, 1)),
+      bold(exprString),
       coeffString,
-      bcolors.ENDC,
-      bcolors.BOLD,
-      exprString,
-      bcolors.ENDC,
       strBounds,
   )
   showStory(string)

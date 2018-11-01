@@ -1,3 +1,4 @@
+from math import tanh
 from scripts.structures.Gopher import Gopher
 
 
@@ -54,3 +55,7 @@ def sumArmor(target):
         props[p] += t[p]
 
   return props
+
+
+def getAttackCoeff(diff):
+  return 1 + tanh(diff / 10) ** 1

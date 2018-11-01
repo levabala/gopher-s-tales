@@ -17,6 +17,8 @@ from scripts.Constants import (
 
 from scripts.events.RecognizeMonsterEvent import RecognizeMonsterEvent
 from scripts.events.fightActions.SimpleAttackEvent import SimpleAttackEvent
+from scripts.events.performable.EquipItemEvent import EquipItemEvent
+from scripts.events.performable.UnequipItemEvent import UnequipItemEvent
 
 
 def FightEvent(w):
@@ -49,6 +51,8 @@ def _process(w):
         'hold': lambda w: EventPipe(w, SimpleAttackEvent),
         'change weapon': lambda w: EventPipe(w, SimpleAttackEvent),
         'change thing': lambda w: EventPipe(w, SimpleAttackEvent),
+        'equip': lambda w: EventPipe(w, EquipItemEvent),
+        'unequip': lambda w: EventPipe(w, UnequipItemEvent),
     }
 
     # get action name
@@ -65,13 +69,13 @@ def _process(w):
     w = w._replace(targetState=w.enemyState, attackerState=w.g, attackerName=w.g.name)
 
     # perform attack on monster
-    showStory('You attack Slug', True)
     monsterBefore = deepcopy(w.enemyState)
     w = actions[actionName](w)
 
     # change monster's state
     w = w._replace(enemyState=w.targetState)
 
+    print()
     showChangedProps(monsterBefore, w.enemyState, prefix='monster\'s ')  # , postPrint=False)
 
     # check if monster is dead
@@ -80,11 +84,12 @@ def _process(w):
       w = w._replace(g=w.g._replace(fame=w.g.fame + 0.1))
       break
 
+    input('Press Enter...\n')
+
     # now set gopher as target and monster as attacker
     w = w._replace(targetState=w.g, attackerState=w.enemyState, attackerName='Slug')
 
     # perform attack on gopher
-    showStory('Slug attacks you', True)
     w = actions['attack'](w)
 
     # change gopher's state

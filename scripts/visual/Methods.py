@@ -60,9 +60,6 @@ def showStory(text, raw=False):
 
   print()
 
-  if not lines:
-    return
-
   for line in lines:
     line = line.lstrip()
     smoothPrint('{}{}'.format('' if len(line) == 0 else '| ', line))
@@ -90,6 +87,15 @@ def showActionsLeft(gopher):
 
 
 def showChangedProps(gopher1, gopher2, propsExcept=[], prefix='', postPrint=True):
+  propsExcept += [
+      'equipement',
+      'inventory',
+      'quickSlot',
+      'alive',
+      'origin',
+      'name'
+  ]  # default except
+
   arr = [field for field in gopher1._fields if not field in propsExcept]
   printed = 0
   for propName in arr:
@@ -199,19 +205,20 @@ def showThings(w):
 
   return w._replace(g=w.g._replace(inventory=inventory, equipement=equipement))
 
+
 def showThingProps(thing):
-  m = {    
-    'type': lambda p: 'type: {}{}{}'.format(bcolors.OKGREEN, p, bcolors.ENDC),
-    'dice': lambda p: '(edges, count): d{}{}{}x{}{}{}'.format(
-      bcolors.OKGREEN, p[0], bcolors.ENDC, 
-      bcolors.OKGREEN, p[1], bcolors.ENDC,
+  m = {
+      'type': lambda p: 'type: {}{}{}'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+      'dice': lambda p: '(edges, count): d{}{}{}x{}{}{}'.format(
+          bcolors.OKGREEN, p[0], bcolors.ENDC,
+          bcolors.OKGREEN, p[1], bcolors.ENDC,
       ),
-    'sm': lambda p: 'smash: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
-    'sl': lambda p: 'slice: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
-    'pr': lambda p: 'pierce: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
-    'fr': lambda p: 'fire: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
-    'ac': lambda p: 'acid: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),    
-  }  
+      'sm': lambda p: 'smash: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+      'sl': lambda p: 'slice: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+      'pr': lambda p: 'pierce: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+      'fr': lambda p: 'fire: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+      'ac': lambda p: 'acid: {}{}{}p'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+  }
 
   smoothPrint('Thing "{}{}{}"'.format(bcolors.OKGREEN, thing['name'], bcolors.ENDC))
 

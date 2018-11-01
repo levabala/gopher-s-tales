@@ -32,6 +32,8 @@ def _process(w):
   print()
 
   if not num.isdigit():
+    if num == 'abort':
+      return (w, None)
     return nextPlease(w)
 
   num = int(num) - 1

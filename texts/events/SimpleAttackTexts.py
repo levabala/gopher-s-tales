@@ -1,5 +1,4 @@
-INIT = '''
-  Performing simple attack
+INIT = '''  
 '''
 
 FAILURE_CRIT = '''

@@ -1,8 +1,10 @@
-from math import tanh, pow
+from math import pow
 from random import randint
+from scripts.visual.ConsoleColors import bcolors, green, blue
 from scripts.events.EmptyEvent import EmptyEvent
 from scripts.events.Event import EventFunc
 from scripts.Assets import showRollResult, showRollResultAttack, rollDice
+from scripts.visual.Methods import showStory
 from scripts.visual.Converter import COEFFS
 from scripts.WorldMethods import takeDamage
 from scripts.Constants import (
@@ -16,7 +18,7 @@ from scripts.Constants import (
     CRIT_DAMAGE_EVASION_COEFF,
 )
 from texts.events import SimpleAttackTexts
-from scripts.GopherMethods import sumArmor
+from scripts.GopherMethods import sumArmor, getAttackCoeff
 from scripts.inventory.NoWeapon import NoWeapon
 
 
@@ -44,26 +46,36 @@ def __preCalc__(w):
       (wea for wea in w.attackerState.equipement if wea['type'] == 'weapon'),
       noWeapon
   )
+  weaponProps = {k: v for k, v in weapon.items() if isinstance(v, (int, float)) and v > 0}
   dice = rollDice(*weapon['dice'])
 
   armor = sumArmor(w.targetState)
-  attackProp = max(armor.items(), key=lambda a: a[1] - weapon[a[0]])
-  coeff = 1 + tanh(attackProp[1] / 10) ** (1 / 3)
+  attackProp = max(weaponProps.items(), key=lambda a: armor[a[0]] - a[1])
+  coeff = getAttackCoeff(attackProp[1])
 
   attackPoints = coeff * (dice + w.attackerState.fightingLevel)
 
   prop = attackProp[0]
+  showStory('{} performs a simple attack by {}'.format(
+      w.attackerName,
+      blue(weapon['name']),
+  ), True)
   showRollResultAttack(
       w.attackerName,
-      '1 + tanh({}[{}] - {}[{}])^(1 / 3) = {}'.format(
-          weapon[prop],
-          prop,
-          armor[prop],
-          prop,
-          round(coeff)
+      '{} (because of max diff {} in {})'.format(
+          green(round(coeff, 2)),
+          green(attackProp[1]),
+          green(prop),
       ),
-      '{} * ({} + {})'.format(round(coeff, 2), dice, w.attackerState.fightingLevel),
-      'coeff + d{}x{} + fightingLevel'.format(*weapon['dice']),
+      '{} * ({} + {})'.format(
+          green(round(coeff, 2)),
+          green(dice),
+          green(w.attackerState.fightingLevel)
+      ),
+      'coeff * (d{}x{} + fightingLevel)'.format(
+          green(weapon['dice'][0]),
+          green(weapon['dice'][1]),
+      ),
       attackPoints,
       w.targetState.evasion * COEFFS['health'] * MISS_DAMAGE_EVASION_COEFF,
       w.targetState.evasion * COEFFS['health'] * LIGHT_DAMAGE_EVASION_COEFF,
