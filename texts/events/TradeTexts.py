@@ -18,3 +18,7 @@ SUCCESS_SIMPLE = '''
 SUCCESS_CRIT = '''
   You double you money!
 '''
+
+REPLACE_BET_REQUEST = '''
+  Invalid bet value. Please, re-enter
+'''

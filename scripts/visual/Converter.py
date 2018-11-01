@@ -1,0 +1,33 @@
+COEFFS = {
+    'health': 100,
+    'weight': 100,
+    'fame': 100,
+    'holeDeep': 100,
+    'wealth': 100,
+    'respect': 100,
+    'strenght': 100,
+    'agility': 100,
+    'intelligence': 10,
+    'charisma': 100,
+    'actionPoints': 100,
+    'diggingLevel': 100,
+    'fightingLevel': 100,
+    'tradingLevel': 100,
+}
+
+POSTFIXES = {
+    'health': 'hp',
+    'weight': 'kg',
+    'fame': 'f',
+    'holeDeep': 'm',
+    'wealth': 'w',
+    'respect': 'r',
+    'strenght': 'str',
+    'agility': 'ag',
+    'intelligence': 'int',
+    'charisma': 'chr',
+    'actionPoints': 'points',
+    'diggingLevel': 'level',
+    'fightingLevel': 'level',
+    'tradingLevel': 'level',
+}

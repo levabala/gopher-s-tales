@@ -13,7 +13,7 @@ FAILURE_SIMPLE = '''
   Your legs are a bit wet
   And the hole a bit flooded...
 '''
-
+ 
 SUCCESS_CRIT = '''
 
 '''
