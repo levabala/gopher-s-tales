@@ -1,7 +1,13 @@
+from copy import deepcopy
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.WorldMethods import getArea
 from scripts.EventPipe import EventPipe
-from scripts.visual.Methods import showMap, showThings, showStory, showProps, showCharacter, showLifeProps
+from scripts.visual.Methods import (
+    showMap, showThings, showStory,
+    showProps, showCharacter, showLifeProps,
+    showChangedProps
+)
+from scripts.GopherMethods import spendActionPoint
 from scripts.Constants import SMALL_DELAY
 
 # possible events
@@ -32,7 +38,31 @@ def RootArea(): return {
     'unequip': lambda w: EventPipe(w, UnequipItemEvent),
     'thing': lambda w: EventPipe(w, ShowThingEvent),
     'help': lambda w: help(w),
+    'wait': wait,
+    'eat': eat,  # TODO: advance it
 }
+
+
+def eat(w):
+  showStory('You eat magic food :)', True)
+  gopherBefore = deepcopy(w.g)
+  w = w._replace(
+      g=w.g._replace(
+          weight=w.g.weight + 0.5,
+          actionPoints=w.g.actionPoints - 1
+      )
+  )
+  showChangedProps(gopherBefore, w.g)
+
+  return w
+
+
+def wait(w):
+  gopherBefore = deepcopy(w.g)
+  w = spendActionPoint(w)
+  showChangedProps(gopherBefore, w.g)
+
+  return w
 
 
 def help(w):

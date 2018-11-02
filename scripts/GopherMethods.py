@@ -63,3 +63,16 @@ def sumArmor(target):
 
 def getAttackCoeff(diff):
   return 1 + tanh(diff / 10) ** 1
+
+
+def normalizeProps(w):
+  toNormalize = '''
+    health weight holeDeep
+  '''.replace('\n', '').strip().split(' ')
+
+  # normalize Gopher
+  g = w.g._asdict()
+  for prop in [k for k in g.keys() if k in toNormalize]:
+    g[prop] = max([min([g[prop], 1]), 0])
+
+  return w._replace(g=Gopher(**g))

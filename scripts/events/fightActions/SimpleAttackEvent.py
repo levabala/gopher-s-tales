@@ -46,7 +46,9 @@ def __preCalc__(w):
       (wea for wea in w.attackerState.equipement if wea['type'] == 'weapon'),
       noWeapon
   )
-  weaponProps = {k: v for k, v in weapon.items() if isinstance(v, (int, float)) and v > 0}
+  # TODO: fix no-weapon bug
+  weaponProps = {k: v for k, v in weapon.items() if k != 'equiped' and isinstance(v,
+                                                                                  (int, float)) and v > 0}
   dice = rollDice(*weapon['dice'])
 
   armor = sumArmor(w.targetState)

@@ -3,7 +3,12 @@ MIN_DESCRIPTION = '''
 '''
 
 MEDIUM_DESCRIPTION = '''
-  Slimmy sluggy
+  "Slimmy sluggy"
+  Defense: 
+  - afraids of fire and smash attacks
+  - huge resistance for acid
+  Attack:
+  - huge acid damage
 '''
 
 FULL_DESCRIPTION = '''

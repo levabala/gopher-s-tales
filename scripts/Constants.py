@@ -4,7 +4,7 @@ SMALL_DELAY = 0.03
 MEDIUM_DELAY = 0.1
 BIG_DELAY = 0.6
 
-AFTER_SLEEP_ACTION_POINTS = 2
+AFTER_SLEEP_ACTION_POINTS = 3
 
 RESPECT_A_COEFF = 1
 RESPECT_B_COEFF = 1
@@ -83,3 +83,11 @@ CRIT_DAMAGE_EVASION_COEFF = inf
 # other
 YOU_STRING = 'you'
 MONSTER_STRING = 'monster'
+
+# sleep changes
+SLEEP_CHANGES = {
+    'health': 0.2,
+    'weight': -0.1,
+    'fame': -0.05,
+    'holeDeep': -0.05,
+}

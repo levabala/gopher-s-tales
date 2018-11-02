@@ -2,7 +2,7 @@ from scripts.structures.Thing import Thing
 
 
 def GooArmor(): return {
-    'name': 'cuirass',
+    'name': 'goo armor',
     'type': 'body armor',
     'sm': -3,  # smash resistance
     'sl': 4,  # slice resistance

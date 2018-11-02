@@ -1,4 +1,5 @@
 from random import randint
+from scripts.visual.ConsoleColors import green
 from scripts.events.EmptyEvent import EmptyEvent
 from scripts.events.Event import EventFunc
 from scripts.Assets import showRollResult, rollDice
@@ -41,6 +42,7 @@ def DigEvent(w):
           actionPoints=w.g.actionPoints-1)
       ), None),
       lambda w: (w, None),
+      showChangedPropsAfterAll=True,
   )
 
 
@@ -53,9 +55,23 @@ def __calcDice__(rt):
 
   digBuff = 0  # TEMP
 
-  dice = rollDice(20)
+  dd = (20, 1)
+  dice = rollDice(dd[0])
   d = dice + digBuff
-  showRollResult(YOU_STRING, [dice, digBuff], ['d20', 'digBuff'],
-                 DIGGING_EVENT_SUCCESS_SIMPLE_BOUND)
+  showRollResult(
+      YOU_STRING,
+      '{} + {}'.format(
+          dice,
+          digBuff
+      ),
+      'd{}x{} + digBuff'.format(
+          green(dd[0]),
+          green(dd[1]),
+      ),
+      d,
+      DIGGING_EVENT_FAILURE_CRIT_BOUND,
+      DIGGING_EVENT_FAILURE_SIMPLE_BOUND,
+      DIGGING_EVENT_SUCCESS_SIMPLE_BOUND,
+  )
 
   return d
