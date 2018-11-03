@@ -74,18 +74,20 @@ def showLifeProps(w):
     val = getattr(w.g, f)
     smoothPrint('{}{}{} is now: {}'.format(
         bcolors.BOLD, f, bcolors.ENDC,
-        formatValueColored(val, val)), SMALL_DELAY)
+        formatValueColored(val * COEFFS[f], val)), SMALL_DELAY)
   print()
   return w
+
 
 def showSpecialProps(w, toPrint=[]):
   for f in [f for f in w.g._fields if f in toPrint]:
     val = getattr(w.g, f)
     smoothPrint('{}{}{} is now: {}'.format(
         bcolors.BOLD, f, bcolors.ENDC,
-        formatValueColored(val, val)), SMALL_DELAY)
+        formatValueColored(val * COEFFS[f], val)), SMALL_DELAY)
   print()
   return w
+
 
 def showProps(w):
   toExcept = '''
@@ -96,7 +98,7 @@ def showProps(w):
     val = getattr(w.g, f)
     smoothPrint('{}{}{} is now: {}'.format(
         bcolors.BOLD, f, bcolors.ENDC,
-        formatValueColored(val, val)), SMALL_DELAY)
+        formatValueColored(val * COEFFS[f], val)), SMALL_DELAY)
   print()
   return w
 
@@ -107,7 +109,7 @@ def showCharacter(w):
     val = getattr(w.g, f)
     smoothPrint('{}{}{} is now: {}'.format(
         bcolors.BOLD, f, bcolors.ENDC,
-        formatValueColored(val, val)), SMALL_DELAY)
+        formatValueColored(val * COEFFS[f], val)), SMALL_DELAY)
   print()
   return w
 

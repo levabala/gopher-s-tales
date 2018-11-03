@@ -33,4 +33,5 @@ def DownfallEvent(w):
       )), None),
       lambda w: (w, None),
       lambda w: (w, None),
+      showChangedPropsAfterAll=True
   )

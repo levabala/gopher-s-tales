@@ -3,7 +3,12 @@ from scripts.structures.Gopher import Gopher
 
 
 def isDead(gopher):
-  return gopher.health <= 0 or gopher.holeDeep <= 0 or gopher.weight <= 0
+  return (
+      not gopher.alive or
+      gopher.health <= 0 or
+      gopher.holeDeep <= 0 or
+      gopher.weight <= 0
+  )
 
 
 def isTypeInEquipement(gopher, t):

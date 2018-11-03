@@ -42,5 +42,4 @@ world = WorldState(
     yourBet=0,
 )
 
-
 runGameCycle(world)

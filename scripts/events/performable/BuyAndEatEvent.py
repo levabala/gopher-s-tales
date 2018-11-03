@@ -5,7 +5,7 @@ from scripts.WorldMethods import isPointerValid
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.visual.Methods import showMap, showStory, showSpecialProps
 from scripts.visual import ConsoleColors
-from scripts.GopherMethods import calcDiscountCoeff
+from scripts.GopherMethods import calcDiscountCoeff, normalizeProps
 from texts.events import EmptyTexts
 from scripts.structures.Point import Point
 from scripts.visual.Converter import COEFFS
@@ -82,7 +82,11 @@ def _process(w):
     return nextPlease(w)
 
   # buy&eat
-  return (w._replace(g=w.g._replace(
+  w = w._replace(g=w.g._replace(
       wealth=w.g.wealth - cost,
       weight=w.g.weight + food[num].value
-  )), None)
+  ))
+
+  w = normalizeProps(w)
+
+  return (w, None)

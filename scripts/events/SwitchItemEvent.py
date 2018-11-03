@@ -18,25 +18,34 @@ def SwitchItemEvent(w):
 
 
 def _process(w):
-  def nextPlease(w):
-    showStory('Invalid index', raw=True)
-    print()
-
-    return (w, SwitchItemEvent)
 
   num = w.itemSwitchIndex
 
-  t = w.g.inventory[num]['type']
+  item = w.g.inventory[num]
+  t = item['type']
+  equipement = sorted(w.g.equipement, key=lambda el: el['name'])
   if isTypeInEquipement(w.g, t):
     # unequip the first (and alone) item of the same type
     index = 0
-    for item in w.g.equipement:
-      if item['type'] == t:
+    for it in equipement:
+      if it['type'] == t:
         gopherAfter = unequipItem(w.g, index)
         w = w._replace(g=gopherAfter)
         break
+      index += 1
 
-  w = w._replace(g=equipItem(w.g, num))
+  inventory = sorted(w.g.inventory, key=lambda el: el['name'])
+  gen = (
+      i for i in range(len(inventory))
+      if inventory[i]['id'] == item['id']
+  )
+  index = next(gen)
+  w = w._replace(
+      g=equipItem(
+          w.g,
+          index
+      )
+  )
 
   showThings(w)
 

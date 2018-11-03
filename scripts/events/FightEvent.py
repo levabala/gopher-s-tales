@@ -36,6 +36,7 @@ def _process(w):
   w = w._replace(enemyState=w.enemyType.init())
 
   rounds = 0
+  gopherInBegging = deepcopy(w.g)
   while True:
     gopherBefore = deepcopy(w.g)
 
@@ -106,6 +107,6 @@ def _process(w):
   print()
   w = spendActionPoint(w)
 
-  showChangedProps(gopherBefore, w.g)
+  showChangedProps(gopherInBegging, w.g)
 
   return (w, None)

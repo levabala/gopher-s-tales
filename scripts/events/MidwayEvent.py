@@ -17,4 +17,4 @@ def MidwayEvent(w):
 
 
 def _process(w):
-  return (EventPipe(w, UserActionEvent, SleepEvent), None)
+  return (EventPipe(w, UserActionEvent), None)
