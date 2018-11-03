@@ -39,7 +39,7 @@ def RootArea(): return {
     'thing': lambda w: EventPipe(w, ShowThingEvent),
     'help': lambda w: help(w),
     'wait': wait,
-    'eat': eat,  # TODO: advance it
+    # 'eat': eat,  # TODO: advance it
 }
 
 

@@ -42,6 +42,10 @@ def unequipItem(gopher, index):
   )
 
 
+def isWinner(gopher):
+  return gopher.fame >= 1
+
+
 def sumArmor(target):
   props = {
       'sm': 0,  # smashing damage
@@ -76,3 +80,7 @@ def normalizeProps(w):
     g[prop] = max([min([g[prop], 1]), 0])
 
   return w._replace(g=Gopher(**g))
+
+
+def calcDiscountCoeff(gopher):
+  return (gopher.fame ** (1 / 2)) / 2

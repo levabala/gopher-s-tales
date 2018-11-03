@@ -15,9 +15,16 @@ def EventTrivialFunc(
     world,
     textsModule,
     changeFunc,
+    showChangedPropsAfterAll=False,
 ):
+  gopherBefore = deepcopy(world.g)
   showStory(textsModule.DESCRIBE)
-  return changeFunc(world)
+  tuplya = changeFunc(world)
+
+  if showChangedPropsAfterAll:
+    showChangedProps(gopherBefore, tuplya[0].g)
+
+  return tuplya
 
 
 def EventFunc(

@@ -3,7 +3,8 @@ from scripts.events.MidwayEvent import MidwayEvent
 from scripts.events.Event import EventTrivialFunc
 from texts.events import StartDayTexts
 from scripts.events.DieEvent import DieEvent
-from scripts.GopherMethods import isDead
+from scripts.events.WinGameEvent import WinGameEvent
+from scripts.GopherMethods import isDead, isWinner
 from scripts.visual.Methods import smoothPrint
 
 
@@ -27,5 +28,8 @@ def _process(w):
 
   if isDead(w.g):
     return (w, DieEvent)
+
+  if isWinner(w.g):
+    return (w, WinGameEvent)
 
   return (w, StartDayEvent)

@@ -1,6 +1,6 @@
 from math import pow
 from random import randint
-from scripts.visual.ConsoleColors import bcolors, green, blue
+from scripts.visual.ConsoleColors import bcolors, green, blue, bold
 from scripts.events.EmptyEvent import EmptyEvent
 from scripts.events.Event import EventFunc
 from scripts.Assets import showRollResult, showRollResultAttack, rollDice
@@ -47,8 +47,10 @@ def __preCalc__(w):
       noWeapon
   )
   # TODO: fix no-weapon bug
-  weaponProps = {k: v for k, v in weapon.items() if k != 'equiped' and isinstance(v,
-                                                                                  (int, float)) and v > 0}
+  weaponProps = {
+      k: v for k, v in weapon.items()
+      if k != 'equiped' and isinstance(v, (int, float)) and v > 0
+  }
   dice = rollDice(*weapon['dice'])
 
   armor = sumArmor(w.targetState)
@@ -74,9 +76,11 @@ def __preCalc__(w):
           green(dice),
           green(w.attackerState.fightingLevel)
       ),
-      'coeff * (d{}x{} + fightingLevel)'.format(
+      '{} * (d{}x{} + {})'.format(
+          'coeff',
           green(weapon['dice'][0]),
           green(weapon['dice'][1]),
+          'fightingLevel',
       ),
       attackPoints,
       w.targetState.evasion * COEFFS['health'] * MISS_DAMAGE_EVASION_COEFF,
