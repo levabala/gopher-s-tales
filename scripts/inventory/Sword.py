@@ -4,6 +4,7 @@ from scripts.structures.Thing import Thing
 def Sword(): return {
     'name': 'sword',
     'type': 'weapon',
+    'weight': 0.4,
     'dice': (12, 1),  # 12 edges and 1 dice to roll
     'sm': 1,  # smashing damage
     'sl': 6,  # slicing damage

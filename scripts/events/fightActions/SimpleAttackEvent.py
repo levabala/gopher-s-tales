@@ -49,7 +49,7 @@ def __preCalc__(w):
   # TODO: fix no-weapon bug
   weaponProps = {
       k: v for k, v in weapon.items()
-      if k != 'equiped' and isinstance(v, (int, float)) and v > 0
+      if k != 'equiped' and k != 'weight' and isinstance(v, (int, float)) and v > 0
   }
   dice = rollDice(*weapon['dice'])
 

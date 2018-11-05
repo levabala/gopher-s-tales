@@ -1,6 +1,6 @@
 from math import pow
 from random import randint
-from scripts.visual.ConsoleColors import bcolors, green, blue
+from scripts.visual.ConsoleColors import bcolors, green, blue, bold
 from scripts.events.EmptyEvent import EmptyEvent
 from scripts.events.Event import EventFunc
 from scripts.Assets import showRollResult, showRollResultAttack, rollDice
@@ -16,13 +16,16 @@ from scripts.Constants import (
     LIGHT_DAMAGE_EVASION_COEFF,
     FULL_DAMAGE_EVASION_COEFF,
     CRIT_DAMAGE_EVASION_COEFF,
+    STRONG_ATTACK_DAMAGE_COEFF,
+    STRONG_ATTACK_EVASION_COEFF,
+    STRONG_ATTACK_WEAPON_WEIGHT_COEFF,
 )
 from texts.events import SimpleAttackTexts
 from scripts.GopherMethods import sumArmor, getAttackCoeff
 from scripts.inventory.NoWeapon import NoWeapon
 
 
-def SimpleAttackEvent(w):
+def StrongAttackEvent(w):
   return EventFunc(
       w,
       __preCalc__,
@@ -46,7 +49,19 @@ def __preCalc__(w):
       (wea for wea in w.attackerState.equipement if wea['type'] == 'weapon'),
       noWeapon
   )
-  weaponProps = {k: v for k, v in weapon.items() if isinstance(v, (int, float)) and v > 0}
+
+  if (
+      weapon['weight'] * STRONG_ATTACK_WEAPON_WEIGHT_COEFF >
+      w.g.strength
+  ):
+    showStory('You\'re too weak to perform strong attack\nwith this weapon', True)
+    return w._replace(attackPoints=0)
+
+  # TODO: fix no-weapon bug
+  weaponProps = {
+      k: v for k, v in weapon.items()
+      if k != 'equiped' and k != 'weight' and isinstance(v, (int, float)) and v > 0
+  }
   dice = rollDice(*weapon['dice'])
 
   armor = sumArmor(w.targetState)
@@ -56,7 +71,7 @@ def __preCalc__(w):
   attackPoints = coeff * (dice + w.attackerState.fightingLevel)
 
   prop = attackProp[0]
-  showStory('{} performs a simple attack by {}'.format(
+  showStory('{} performs a strong attack by {}'.format(
       w.attackerName,
       blue(weapon['name']),
   ), True)
@@ -72,16 +87,22 @@ def __preCalc__(w):
           green(dice),
           green(w.attackerState.fightingLevel)
       ),
-      'coeff * (d{}x{} + fightingLevel)'.format(
+      '{} * (d{}x{} + {})'.format(
+          'coeff',
           green(weapon['dice'][0]),
           green(weapon['dice'][1]),
+          'fightingLevel',
       ),
       attackPoints,
-      w.targetState.evasion * COEFFS['health'] * MISS_DAMAGE_EVASION_COEFF,
-      w.targetState.evasion * COEFFS['health'] * LIGHT_DAMAGE_EVASION_COEFF,
-      w.targetState.evasion * COEFFS['health'] * FULL_DAMAGE_EVASION_COEFF,
+      w.targetState.evasion * COEFFS['health'] *
+      MISS_DAMAGE_EVASION_COEFF * STRONG_ATTACK_EVASION_COEFF,
+      w.targetState.evasion * COEFFS['health'] *
+      LIGHT_DAMAGE_EVASION_COEFF * STRONG_ATTACK_EVASION_COEFF,
+      w.targetState.evasion * COEFFS['health'] *
+      FULL_DAMAGE_EVASION_COEFF * STRONG_ATTACK_EVASION_COEFF,
   )
 
+  attackPoints *= STRONG_ATTACK_DAMAGE_COEFF
   attackPoints /= COEFFS['health']
 
   return w._replace(attackPoints=attackPoints)

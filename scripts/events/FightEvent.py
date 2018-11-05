@@ -9,6 +9,7 @@ from scripts.Assets import rollDice, showRollResult
 from scripts.visual.Converter import COEFFS
 from texts.events import EmptyTexts
 from scripts.GopherMethods import spendActionPoint
+from scripts.Completer import requestCompletableInputStrict
 from scripts.Constants import (
     LIGHT_DAMAGE_COEFF,
     FULL_DAMAGE_COEFF,
@@ -18,6 +19,7 @@ from scripts.Constants import (
 
 from scripts.events.RecognizeMonsterEvent import RecognizeMonsterEvent
 from scripts.events.fightActions.SimpleAttackEvent import SimpleAttackEvent
+from scripts.events.fightActions.StrongAttackEvent import StrongAttackEvent
 from scripts.events.performable.EquipItemEvent import EquipItemEvent
 from scripts.events.performable.UnequipItemEvent import UnequipItemEvent
 
@@ -49,7 +51,7 @@ def _process(w):
     # possible attack actions
     actions = {
         'attack': lambda w: EventPipe(w, SimpleAttackEvent),
-        'strong attack': lambda w: EventPipe(w, SimpleAttackEvent),
+        'strong attack': lambda w: EventPipe(w, StrongAttackEvent),
         'hold': lambda w: EventPipe(w, SimpleAttackEvent),
         'change weapon': lambda w: EventPipe(w, SimpleAttackEvent),
         'change thing': lambda w: EventPipe(w, SimpleAttackEvent),
@@ -58,12 +60,11 @@ def _process(w):
     }
 
     # get action name
-    actionName = ''
-    actionName = input('Enter fight action: ')
-
-    while not actionName in actions:
-      smoothPrint('No such action')
-      actionName = input('Enter fight action: ')
+    actionName = requestCompletableInputStrict(
+        options=actions.keys(),
+        requestString='Enter fight action: ',
+        wrongInputString='No such fight action'
+    )
 
     print()
 

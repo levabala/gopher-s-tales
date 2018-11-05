@@ -5,7 +5,7 @@ COEFFS = {
     'holeDeep': 100,
     'wealth': 100,
     'respect': 100,
-    'strenght': 100,
+    'strength': 100,
     'agility': 100,
     'intelligence': 10,
     'charisma': 100,
@@ -13,6 +13,7 @@ COEFFS = {
     'diggingLevel': 100,
     'fightingLevel': 100,
     'tradingLevel': 100,
+    'evasion': 100,
 }
 
 POSTFIXES = {
@@ -22,7 +23,7 @@ POSTFIXES = {
     'holeDeep': 'm',
     'wealth': 'w',
     'respect': 'r',
-    'strenght': 'str',
+    'strength': 'str',
     'agility': 'ag',
     'intelligence': 'int',
     'charisma': 'chr',
@@ -30,4 +31,5 @@ POSTFIXES = {
     'diggingLevel': 'level',
     'fightingLevel': 'level',
     'tradingLevel': 'level',
+    'evasion': 'ev',
 }

@@ -1,7 +1,7 @@
 import math
 from scripts.WorldMethods import getRegion
 from scripts.visual.Converter import COEFFS, POSTFIXES
-from scripts.visual.ConsoleColors import bcolors
+from scripts.visual.ConsoleColors import bcolors, green
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.Constants import SMALL_DELAY, MEDIUM_DELAY, BIG_DELAY
 
@@ -92,7 +92,7 @@ def showSpecialProps(w, toPrint=[]):
 def showProps(w):
   toExcept = '''
     name quickSlot
-    origin equipement inventory
+    origin equipement inventory alive
   '''.replace('\n', '').strip().split(' ')
   for f in [f for f in w.g._fields if not f in toExcept]:
     val = getattr(w.g, f)
@@ -246,6 +246,7 @@ def showThings(w):
 def showThingProps(thing):
   m = {
       'type': lambda p: 'type: {}{}{}'.format(bcolors.OKGREEN, p, bcolors.ENDC),
+      'weight': lambda p: 'weight: {}'.format(green(p * COEFFS['strength'])),
       'dice': lambda p: '(edges, count): d{}{}{}x{}{}{}'.format(
           bcolors.OKGREEN, p[0], bcolors.ENDC,
           bcolors.OKGREEN, p[1], bcolors.ENDC,

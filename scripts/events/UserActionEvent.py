@@ -4,6 +4,7 @@ from scripts.WorldMethods import getArea
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.visual.Methods import showMap
 from texts.events import UserActionTexts
+from scripts.Completer import requestCompletableInputStrict
 
 
 def UserActionEvent(w):
@@ -32,13 +33,11 @@ def _process(w):
 
 def _getUserAction(w):
   area = getArea(w, w.currentAreaPointer)
-  # request action
-  actionName = input('Enter action to do: ').strip()
-  print()
 
-  # check if action exists
-  if not actionName in area:
-    print('no such action!\n')
-    return _getUserAction(w)
-  else:
-    return area[actionName]
+  actionName = requestCompletableInputStrict(
+      options=area.keys(),
+      requestString='Enter action to do: ',
+      wrongInputString='No such action'
+  )
+
+  return area[actionName]

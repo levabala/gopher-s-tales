@@ -4,6 +4,7 @@ from scripts.structures.Thing import Thing
 def Сuirass(): return {
     'name': 'cuirass',
     'type': 'body armor',
+    'weight': 0.2,
     'sm': 2,  # smash resistance
     'sl': 9,  # slice resistance
     'pr': 6,  # pirce resistance
