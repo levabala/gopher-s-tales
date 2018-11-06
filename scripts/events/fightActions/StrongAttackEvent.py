@@ -105,7 +105,10 @@ def __preCalc__(w):
   attackPoints *= STRONG_ATTACK_DAMAGE_COEFF
   attackPoints /= COEFFS['health']
 
-  return w._replace(attackPoints=attackPoints)
+  return w._replace(
+      attackPoints=attackPoints,
+      g=w.g._replace(holdTurnsLeft=0),
+  )
 
 
 def __calcDice__(w):
