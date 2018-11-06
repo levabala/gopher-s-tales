@@ -11,7 +11,7 @@ MAX_MONSTERS_COUNT = 2
 
 
 def WasteGroundArea(): return {
-    'area name': 'Waste Ground',
+    'area name': 'Waste',
     'monsters count': randint(MIN_MONSTERS_COUNT, MAX_MONSTERS_COUNT),
     'monsters type': CrazyGopher,
     'purge': lambda w: EventPipe(w, PurgeEvent),

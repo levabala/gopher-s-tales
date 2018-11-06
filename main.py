@@ -7,6 +7,7 @@ from scripts.regions.MidTown import MidTownAreas
 
 from scripts.areas.EmptyArea import EmptyArea
 from scripts.areas.ForestArea import ForestArea
+from scripts.areas.WasteGround import WasteGroundArea
 from scripts.areas.RoadArea import RoadArea
 from scripts.areas.MarketArea import MarketArea
 from scripts.areas.HoleArea import HoleArea
@@ -18,8 +19,8 @@ from scripts.inventory.Сuirass import Сuirass
 
 regions = [
     [ForestArea(), ForestArea(), ForestArea()],
-    [ForestArea(), MidTownAreas(), ForestArea()],
-    [ForestArea(), ForestArea(), ForestArea()],
+    [WasteGroundArea(), MidTownAreas(), ForestArea()],
+    [WasteGroundArea(), WasteGroundArea(), WasteGroundArea()],
 ]
 
 simpleSword = Sword()

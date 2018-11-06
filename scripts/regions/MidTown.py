@@ -6,6 +6,7 @@ from scripts.areas.RoadArea import RoadArea
 from scripts.areas.MarketArea import MarketArea
 from scripts.areas.HoleArea import HoleArea
 from scripts.events.performable.EnterRegionEvent import EnterRegionEvent
+from scripts.areas.WasteGround import WasteGroundArea
 
 # TODO: make area possible to return different data: events, numbers etc.
 
@@ -16,7 +17,7 @@ def MidTownAreas(): return {
     'areas': [
         [ForestArea(), MarketArea(), ForestArea(), ForestArea()],
         [ForestArea(), HoleArea(), RoadArea(), ForestArea()],
-        [ForestArea(), ForestArea(), RoadArea(), MarketArea()],
+        [WasteGroundArea(), WasteGroundArea(), RoadArea(), MarketArea()],
     ],
     ** RootArea()
 }
