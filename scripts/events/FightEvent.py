@@ -1,6 +1,6 @@
 from copy import deepcopy
 from scripts.EventPipe import EventPipe
-from scripts.WorldMethods import getArea
+from scripts.WorldMethods import getArea, getCurrentArea
 from scripts.events.Event import EventTrivialFunc
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.visual.Methods import showStory, showChangedProps, formatValueColored
@@ -20,6 +20,7 @@ from scripts.Constants import (
 from scripts.events.RecognizeMonsterEvent import RecognizeMonsterEvent
 from scripts.events.fightActions.SimpleAttackEvent import SimpleAttackEvent
 from scripts.events.fightActions.StrongAttackEvent import StrongAttackEvent
+from scripts.events.fightActions.HoldEvent import HoldEvent
 from scripts.events.performable.EquipItemEvent import EquipItemEvent
 from scripts.events.performable.UnequipItemEvent import UnequipItemEvent
 
@@ -33,7 +34,10 @@ def FightEvent(w):
 
 
 def _process(w):
-  w = w._replace(enemyState=w.enemyType.init())
+  w = w._replace(
+      enemyState=w.enemyType.init(),
+      holdTurnsLeft=0,
+  )
 
   w = EventPipe(w, RecognizeMonsterEvent)
 
@@ -52,7 +56,7 @@ def _process(w):
     actions = {
         'attack': lambda w: EventPipe(w, SimpleAttackEvent),
         'strong attack': lambda w: EventPipe(w, StrongAttackEvent),
-        'hold': lambda w: EventPipe(w, SimpleAttackEvent),
+        'hold': lambda w: EventPipe(w, HoldEvent),
         'change weapon': lambda w: EventPipe(w, SimpleAttackEvent),
         'change thing': lambda w: EventPipe(w, SimpleAttackEvent),
         'equip': lambda w: EventPipe(w, EquipItemEvent),
@@ -85,7 +89,7 @@ def _process(w):
     if w.enemyState.health <= 0:
       smoothPrint('monster defeated')
       w = w._replace(g=w.g._replace(fame=w.g.fame + 0.1))
-      area = getArea(w, w.currentAreaPointer)
+      area = getCurrentArea(w)
       area['monsters count'] -= 1
 
       showStory('Monsters left: {}'.format(area['monsters count']), True)

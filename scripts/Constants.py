@@ -93,3 +93,7 @@ SLEEP_CHANGES = {
     'fame': -0.05,
     'holeDeep': -0.05,
 }
+
+# hold
+HOLD_DURATION = 3
+HOLD_EVASION_COEFF = 1.2

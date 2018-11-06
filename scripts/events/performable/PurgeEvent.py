@@ -1,4 +1,4 @@
-from scripts.WorldMethods import getArea
+from scripts.WorldMethods import getCurrentArea
 from scripts.events.Event import EventTrivialFunc
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.visual.Methods import showStory
@@ -17,7 +17,7 @@ def PurgeEvent(w):
 
 
 def _process(w):
-  area = getArea(w, w.currentAreaPointer)
+  area = getCurrentArea(w)
   if not 'monsters count' in area or area['monsters count'] == 0:
     showStory('No monsters here!')
     return (w, None)

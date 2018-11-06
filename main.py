@@ -42,6 +42,7 @@ world = WorldState(
     regions=regions,
     g=gopher,
     yourBet=0,
+    days=0,
 )
 
 runGameCycle(world)
