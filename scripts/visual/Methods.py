@@ -123,7 +123,7 @@ def showActionsLeft(gopher):
   print()
 
 
-def showChangedProps(gopher1, gopher2, propsExcept=[], prefix='', postPrint=True):
+def showChangedProps(gopher1, gopher2, propsExcept=[], prefix='', postPrint=True, printIfNothing=True):
   propsExcept += [
       'equipement',
       'inventory',
@@ -154,7 +154,7 @@ def showChangedProps(gopher1, gopher2, propsExcept=[], prefix='', postPrint=True
 
   if printed:
     print()
-  else:
+  elif printIfNothing:
     smoothPrint('>> nothing changed\n')
 
 

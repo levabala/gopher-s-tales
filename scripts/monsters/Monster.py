@@ -1,6 +1,7 @@
 from collections import namedtuple
 
 MonsterState = namedtuple('MonsterState', [
+    'name',
     'health',
     'evasion',
     'fightingLevel',
@@ -31,6 +32,7 @@ class Monster:
         fightingLevel=self.baseFightingLevel,
         equipement=[equipType() for equipType in self.baseEquipementTypes],
         holdTurnsLeft=0,
+        name=self.textModule.ONE_NAME,
     )
 
   def minDescription(self):

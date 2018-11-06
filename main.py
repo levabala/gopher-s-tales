@@ -37,7 +37,7 @@ gopher = defaultGopher('Jacob')._replace(
 world = WorldState(
     locationPath=[
         Point(x=1, y=1),
-        Point(x=1, y=0),
+        Point(x=0, y=0),
     ],
     regions=regions,
     g=gopher,

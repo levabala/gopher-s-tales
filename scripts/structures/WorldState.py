@@ -16,9 +16,11 @@ WorldState = namedtuple('WorldState', [
     'days',
     'itemSwitchIndex',
     'arenaLevel',
+    'escapedFight',
 ])
 
 WorldState.__new__.__defaults__ = (
+    None,
     None,
     None,
     None,

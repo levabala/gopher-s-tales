@@ -10,9 +10,9 @@ COEFFS = {
     'intelligence': 10,
     'charisma': 100,
     'actionPoints': 1,
-    'diggingLevel': 100,
-    'fightingLevel': 100,
-    'tradingLevel': 100,
+    'diggingLevel': 1,
+    'fightingLevel': 1,
+    'tradingLevel': 1,
     'evasion': 100,
     'holdTurnsLeft': 1,
 }

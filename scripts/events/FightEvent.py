@@ -20,6 +20,7 @@ from scripts.Constants import (
 from scripts.events.RecognizeMonsterEvent import RecognizeMonsterEvent
 from scripts.events.fightActions.SimpleAttackEvent import SimpleAttackEvent
 from scripts.events.fightActions.StrongAttackEvent import StrongAttackEvent
+from scripts.events.fightActions.EscapeEvent import EscapeEvent
 from scripts.events.fightActions.HoldEvent import HoldEvent
 from scripts.events.performable.EquipItemEvent import EquipItemEvent
 from scripts.events.performable.UnequipItemEvent import UnequipItemEvent
@@ -36,6 +37,7 @@ def FightEvent(w):
 def _process(w):
   w = w._replace(
       enemyState=w.enemyType.init(),
+      escapedFight=False,
   )
 
   w = EventPipe(w, RecognizeMonsterEvent)
@@ -58,6 +60,7 @@ def _process(w):
         'attack': lambda w: EventPipe(w, SimpleAttackEvent),
         'strong attack': lambda w: EventPipe(w, StrongAttackEvent),
         'hold': lambda w: EventPipe(w, HoldEvent),
+        'escape': lambda w: EventPipe(w, EscapeEvent),
         'change weapon': lambda w: EventPipe(w, SimpleAttackEvent),
         'change thing': lambda w: EventPipe(w, SimpleAttackEvent),
         'equip': lambda w: EventPipe(w, EquipItemEvent),
@@ -73,18 +76,23 @@ def _process(w):
 
     print()
 
-    # set monster as target and gopher as attacker
+    # set monster as g=w.g._replace(holdTurnsLeft=0),target and gopher as attacker
     w = w._replace(targetState=w.enemyState, attackerState=w.g, attackerName=w.g.name)
 
     # perform attack on monster
     monsterBefore = deepcopy(w.enemyState)
     w = actions[actionName](w)
 
-    # change monster's state
-    w = w._replace(enemyState=w.targetState)
+    # check if you escaped the situation
+    if w.escapedFight:
+      break
+
+    # change monster's and gopher's state
+    w = w._replace(enemyState=w.targetState, g=w.attackerState)
 
     print()
-    showChangedProps(monsterBefore, w.enemyState, prefix='monster\'s ')  # , postPrint=False)
+    showChangedProps(monsterBefore, w.enemyState, prefix='monster\'s ', )
+    showChangedProps(gopherBefore, w.attackerState, prefix='gopher\'s ', printIfNothing=False)
 
     # check if monster is dead
     if w.enemyState.health <= 0:
@@ -105,11 +113,16 @@ def _process(w):
     # perform attack on gopher
     w = actions['attack'](w)
 
-    # change gopher's state
-    w = w._replace(g=w.targetState)
+    # check if monster escaped the situation
+    if w.escapedFight:
+      break
+
+    # change gopher's and monster's state
+    w = w._replace(enemyState=w.attackerState, g=w.targetState)
 
     print()
     showChangedProps(gopherBefore, w.g, prefix='your ')
+    showChangedProps(monsterBefore, w.enemyState, prefix='monster\'s ', printIfNothing=False)
 
     if w.g.health <= 0:
       smoothPrint('you defeated')
@@ -118,6 +131,7 @@ def _process(w):
   print()
   w = spendActionPoint(w)
 
+  smoothPrint('All after-fight changes:')
   showChangedProps(gopherInBegging, w.g)
 
   return (w, None)
