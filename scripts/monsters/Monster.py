@@ -5,6 +5,7 @@ MonsterState = namedtuple('MonsterState', [
     'evasion',
     'fightingLevel',
     'equipement',
+    'holdTurnsLeft',
 ])
 
 
@@ -28,7 +29,8 @@ class Monster:
         health=self.baseHealth,
         evasion=self.baseEvasion,
         fightingLevel=self.baseFightingLevel,
-        equipement=[equipType() for equipType in self.baseEquipementTypes]
+        equipement=[equipType() for equipType in self.baseEquipementTypes],
+        holdTurnsLeft=0,
     )
 
   def minDescription(self):

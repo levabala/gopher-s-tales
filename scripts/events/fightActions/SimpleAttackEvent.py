@@ -16,6 +16,7 @@ from scripts.Constants import (
     LIGHT_DAMAGE_EVASION_COEFF,
     FULL_DAMAGE_EVASION_COEFF,
     CRIT_DAMAGE_EVASION_COEFF,
+    HOLD_EVASION_COEFF,
 )
 from texts.events import SimpleAttackTexts
 from scripts.GopherMethods import sumArmor, getAttackCoeff
@@ -28,10 +29,14 @@ def SimpleAttackEvent(w):
       __preCalc__,
       SimpleAttackTexts,
       __calcDice__,
-      w.targetState.evasion * MISS_DAMAGE_EVASION_COEFF,
-      w.targetState.evasion * LIGHT_DAMAGE_EVASION_COEFF,
-      w.targetState.evasion * FULL_DAMAGE_EVASION_COEFF,
-      w.targetState.evasion * CRIT_DAMAGE_EVASION_COEFF,
+      w.targetState.evasion * MISS_DAMAGE_EVASION_COEFF *
+      (HOLD_EVASION_COEFF if w.targetState.holdTurnsLeft > 0 else 1),
+      w.targetState.evasion * LIGHT_DAMAGE_EVASION_COEFF *
+      (HOLD_EVASION_COEFF if w.targetState.holdTurnsLeft > 0 else 1),
+      w.targetState.evasion * FULL_DAMAGE_EVASION_COEFF *
+      (HOLD_EVASION_COEFF if w.targetState.holdTurnsLeft > 0 else 1),
+      w.targetState.evasion * CRIT_DAMAGE_EVASION_COEFF *
+      (HOLD_EVASION_COEFF if w.targetState.holdTurnsLeft > 0 else 1),
       lambda w: (takeDamage(w, 0), None),
       lambda w: (takeDamage(w, w.attackPoints * LIGHT_DAMAGE_COEFF), None),
       lambda w: (takeDamage(w, w.attackPoints * FULL_DAMAGE_COEFF), None),
@@ -64,6 +69,12 @@ def __preCalc__(w):
       w.attackerName,
       blue(weapon['name']),
   ), True)
+
+  if w.targetState.holdTurnsLeft > 0:
+    showStory('Target\'s evasion multiplied by {}% because of holding'.format(
+        green(round((HOLD_EVASION_COEFF - 1) * 100))
+    ), True)
+
   showRollResultAttack(
       w.attackerName,
       '{} (because of max diff {} in {})'.format(
@@ -83,14 +94,20 @@ def __preCalc__(w):
           'fightingLevel',
       ),
       attackPoints,
-      w.targetState.evasion * COEFFS['health'] * MISS_DAMAGE_EVASION_COEFF,
-      w.targetState.evasion * COEFFS['health'] * LIGHT_DAMAGE_EVASION_COEFF,
-      w.targetState.evasion * COEFFS['health'] * FULL_DAMAGE_EVASION_COEFF,
+      w.targetState.evasion * COEFFS['health'] * MISS_DAMAGE_EVASION_COEFF *
+      (HOLD_EVASION_COEFF if w.targetState.holdTurnsLeft > 0 else 1),
+      w.targetState.evasion * COEFFS['health'] * LIGHT_DAMAGE_EVASION_COEFF *
+      (HOLD_EVASION_COEFF if w.targetState.holdTurnsLeft > 0 else 1),
+      w.targetState.evasion * COEFFS['health'] * FULL_DAMAGE_EVASION_COEFF *
+      (HOLD_EVASION_COEFF if w.targetState.holdTurnsLeft > 0 else 1),
   )
 
   attackPoints /= COEFFS['health']
 
-  return w._replace(attackPoints=attackPoints)
+  return w._replace(
+      attackPoints=attackPoints,
+      g=w.g._replace(holdTurnsLeft=0),
+  )
 
 
 def __calcDice__(w):

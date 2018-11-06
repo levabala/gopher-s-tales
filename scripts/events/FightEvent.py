@@ -36,7 +36,6 @@ def FightEvent(w):
 def _process(w):
   w = w._replace(
       enemyState=w.enemyType.init(),
-      holdTurnsLeft=0,
   )
 
   w = EventPipe(w, RecognizeMonsterEvent)
@@ -45,6 +44,8 @@ def _process(w):
   gopherInBegging = deepcopy(w.g)
   while True:
     gopherBefore = deepcopy(w.g)
+
+    w = w._replace(g=w.g._replace(holdTurnsLeft=max(w.g.holdTurnsLeft - 1, 0)))
 
     rounds += 1
     smoothPrint('--- Round {} ---'.format(rounds))

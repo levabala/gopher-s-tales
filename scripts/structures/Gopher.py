@@ -22,6 +22,7 @@ Gopher = namedtuple('Gopher', [
     'equipement',
     'inventory',
     'quickSlot',
+    'holdTurnsLeft',
 ])
 
 
@@ -38,6 +39,7 @@ def defaultGopher(name):
       agility=0.5,
       intelligence=0.5,
       charisma=0.5,
+      holdTurnsLeft=0,
       origin=None,
       evasion=0.14,
       actionPoints=0,

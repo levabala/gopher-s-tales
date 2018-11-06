@@ -14,6 +14,7 @@ COEFFS = {
     'fightingLevel': 100,
     'tradingLevel': 100,
     'evasion': 100,
+    'holdTurnsLeft': 1,
 }
 
 POSTFIXES = {
@@ -32,4 +33,5 @@ POSTFIXES = {
     'fightingLevel': 'level',
     'tradingLevel': 'level',
     'evasion': 'ev',
+    'holdTurnsLeft': 't'
 }

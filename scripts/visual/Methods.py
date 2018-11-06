@@ -130,7 +130,7 @@ def showChangedProps(gopher1, gopher2, propsExcept=[], prefix='', postPrint=True
       'quickSlot',
       'alive',
       'origin',
-      'name'
+      'name',
   ]  # default except
 
   arr = [field for field in gopher1._fields if not field in propsExcept]
