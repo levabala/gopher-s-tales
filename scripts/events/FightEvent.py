@@ -85,6 +85,11 @@ def _process(w):
     if w.enemyState.health <= 0:
       smoothPrint('monster defeated')
       w = w._replace(g=w.g._replace(fame=w.g.fame + 0.1))
+      area = getArea(w, w.currentAreaPointer)
+      area['monsters count'] -= 1
+
+      showStory('Monsters left: {}'.format(area['monsters count']), True)
+
       break
 
     input('Press Enter...\n')
