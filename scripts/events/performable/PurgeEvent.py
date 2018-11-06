@@ -5,7 +5,7 @@ from scripts.visual.Methods import showStory
 from texts.events import PurgeTexts
 
 from scripts.events.FightEvent import FightEvent
-from scripts.monsters import SlugMonster
+from scripts.monsters.SlugMonster import SlugMonster
 
 
 def PurgeEvent(w):
@@ -22,4 +22,13 @@ def _process(w):
     showStory('No monsters here!')
     return (w, None)
 
-  return (w._replace(enemyType=SlugMonster), FightEvent)
+  monstersType = area['monsters type']
+  showStory(
+      'People say that here are about {} {}'.format(
+          area['monsters count'],
+          monstersType.textModule.MANY_NAME,
+      ),
+      True
+  )
+
+  return (w._replace(enemyType=monstersType), FightEvent)

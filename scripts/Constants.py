@@ -84,6 +84,7 @@ CRIT_DAMAGE_EVASION_COEFF = inf
 # other
 YOU_STRING = 'you'
 MONSTER_STRING = 'monster'
+UNFRIENDLY_GOPHER_STRING = 'hostile gopher'
 
 # sleep changes
 SLEEP_CHANGES = {

@@ -14,3 +14,6 @@ MEDIUM_DESCRIPTION = '''
 FULL_DESCRIPTION = '''
   SLUGGG!!1!
 '''
+
+ONE_NAME = 'Slug'
+MANY_NAME = 'Slugs'

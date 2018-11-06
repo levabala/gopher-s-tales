@@ -16,6 +16,7 @@ WorldState = namedtuple('WorldState', [
     'moveDelta',
     'days',
     'itemSwitchIndex',
+    'arenaLevel',
 ])
 
 WorldState.__new__.__defaults__ = (
@@ -32,5 +33,6 @@ WorldState.__new__.__defaults__ = (
     None,
     None,
     0,
-    None
+    None,
+    0,
 )

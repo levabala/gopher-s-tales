@@ -39,5 +39,6 @@ def requestCompletableInput(options, requestString=''):
 
   ans = input(requestString)
   print(ans)
+  print()
 
   return ans.strip()
