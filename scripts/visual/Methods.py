@@ -1,5 +1,5 @@
 import math
-from scripts.WorldMethods import getRegion
+from scripts.WorldMethods import getCurrentArea, getCurrentRegion
 from scripts.visual.Converter import COEFFS, POSTFIXES
 from scripts.visual.ConsoleColors import bcolors, green
 from scripts.visual.SmoothPrint import smoothPrint
@@ -158,17 +158,11 @@ def showChangedProps(gopher1, gopher2, propsExcept=[], prefix='', postPrint=True
     smoothPrint('>> nothing changed\n')
 
 
-def getCurrentMapCollection(w):
-  if w.currentAreaPointer is None:
-    return (w.regions, w.currentRegionPointer)
-  else:
-    region = getRegion(w, w.currentRegionPointer)
-    return (region['areas'], w.currentAreaPointer)
-
-
 def showMap(w):
   y = 0
-  collection, pointer = getCurrentMapCollection(w)
+  pointer = w.locationPath[-1]
+
+  collection = getCurrentRegion(w)['areas']
   for line in collection:
     elements = [el['area name'].center(8) for el in line]
 

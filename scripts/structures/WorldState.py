@@ -2,8 +2,7 @@ from collections import namedtuple
 from scripts.structures.Point import Point
 
 WorldState = namedtuple('WorldState', [
-    'currentAreaPointer',
-    'currentRegionPointer',
+    'locationPath',
     'regions',
     'g',
     'yourBet',

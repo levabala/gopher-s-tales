@@ -1,6 +1,6 @@
 from scripts.events.EmptyEvent import EmptyEvent
 from scripts.events.Event import EventTrivialFunc
-from scripts.WorldMethods import getArea
+from scripts.WorldMethods import getCurrentArea
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.visual.Methods import showMap
 from texts.events import UserActionTexts
@@ -32,7 +32,7 @@ def _process(w):
 
 
 def _getUserAction(w):
-  area = getArea(w, w.currentAreaPointer)
+  area = getCurrentArea(w)
 
   actionName = requestCompletableInputStrict(
       options=area.keys(),

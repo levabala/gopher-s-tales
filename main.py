@@ -35,8 +35,10 @@ gopher = defaultGopher('Jacob')._replace(
 )
 
 world = WorldState(
-    currentAreaPointer=Point(x=1, y=0),
-    currentRegionPointer=Point(x=1, y=1),
+    locationPath=[
+        Point(x=1, y=1),
+        Point(x=1, y=0),
+    ],
     regions=regions,
     g=gopher,
     yourBet=0,
