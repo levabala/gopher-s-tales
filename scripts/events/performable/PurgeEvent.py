@@ -19,7 +19,7 @@ def PurgeEvent(w):
 def _process(w):
   area = getCurrentArea(w)
   if not 'monsters count' in area or area['monsters count'] == 0:
-    showStory('No monsters here!')
+    showStory('No monsters here!', True)
     return (w, None)
 
   monstersType = area['monsters type']

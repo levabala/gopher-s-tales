@@ -1,6 +1,6 @@
 from copy import deepcopy
 from scripts.visual.SmoothPrint import smoothPrint
-from scripts.WorldMethods import getArea
+from scripts.WorldMethods import getCurrentArea
 from scripts.EventPipe import EventPipe
 from scripts.visual.Methods import (
     showMap, showThings, showStory,
@@ -70,7 +70,7 @@ def help(w):
 
 
 def showActions(w):
-  area = getArea(w, w.currentAreaPointer)
+  area = getCurrentArea(w)
 
   smoothPrint('Available actions:')
   for key in sorted(area.keys()):

@@ -31,6 +31,7 @@ def StrongAttackEvent(w):
       __preCalc__,
       SimpleAttackTexts,
       __calcDice__,
+      # TODO: multiply by STRONG_ATTACK_EVASION_COEFF
       w.targetState.evasion * MISS_DAMAGE_EVASION_COEFF,
       w.targetState.evasion * LIGHT_DAMAGE_EVASION_COEFF,
       w.targetState.evasion * FULL_DAMAGE_EVASION_COEFF,
@@ -82,10 +83,11 @@ def __preCalc__(w):
           green(attackProp[1]),
           green(prop),
       ),
-      '{} * ({} + {})'.format(
+      '{} * {} * ({} + {})'.format(
           green(round(coeff, 2)),
           green(dice),
-          green(w.attackerState.fightingLevel)
+          green(w.attackerState.fightingLevel),
+          green(round(STRONG_ATTACK_DAMAGE_COEFF, 2)),
       ),
       '{} * (d{}x{} + {})'.format(
           'coeff',

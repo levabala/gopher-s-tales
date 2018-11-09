@@ -108,7 +108,7 @@ def _process(w):
     input('Press Enter...\n')
 
     # now set gopher as target and monster as attacker
-    w = w._replace(targetState=w.g, attackerState=w.enemyState, attackerName='Slug')
+    w = w._replace(targetState=w.g, attackerState=w.enemyState, attackerName=w.enemyState.name)
 
     # perform attack on gopher
     w = actions['attack'](w)

@@ -109,7 +109,10 @@ def showCharacter(w):
     val = getattr(w.g, f)
     smoothPrint('{}{}{} is now: {}'.format(
         bcolors.BOLD, f, bcolors.ENDC,
-        formatValueColored(val * COEFFS[f], val)), SMALL_DELAY)
+        formatValueColored(
+            val * COEFFS[f] if type(val) == int or type(val) == float else val, val
+        )
+    ), SMALL_DELAY)
   print()
   return w
 
