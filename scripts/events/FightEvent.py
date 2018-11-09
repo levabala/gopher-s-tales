@@ -88,7 +88,8 @@ def _process(w):
       break
 
     # change monster's and gopher's state
-    w = w._replace(enemyState=w.targetState, g=w.attackerState)
+    w = w._replace(enemyState=w.targetState, g=w.attackerState._replace(
+        equipement=w.g.equipement, inventory=w.g.inventory))
 
     print()
     showChangedProps(monsterBefore, w.enemyState, prefix='monster\'s ', )

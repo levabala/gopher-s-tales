@@ -85,12 +85,13 @@ def __preCalc__(w):
       ),
       '{} * {} * ({} + {})'.format(
           green(round(coeff, 2)),
+          green(round(STRONG_ATTACK_DAMAGE_COEFF, 2)),
           green(dice),
           green(w.attackerState.fightingLevel),
-          green(round(STRONG_ATTACK_DAMAGE_COEFF, 2)),
       ),
-      '{} * (d{}x{} + {})'.format(
+      '{} * {} * (d{}x{} + {})'.format(
           'coeff',
+          's.a.c.',
           green(weapon['dice'][0]),
           green(weapon['dice'][1]),
           'fightingLevel',

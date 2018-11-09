@@ -8,7 +8,6 @@ from scripts.inventory.GooSlap import GooSlap
 HEALTH_POINTS = 0.3
 EVASION_POINTS = 0.07
 FIGHTING_LEVEL = 5
-DICE = 10
 
 SlugMonster = Monster(
     TEXT_MODULE,

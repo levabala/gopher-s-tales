@@ -1,4 +1,5 @@
 from math import pow
+from infinity import inf
 from random import randint
 from scripts.visual.ConsoleColors import bcolors, green, blue, bold
 from scripts.events.EmptyEvent import EmptyEvent
@@ -59,8 +60,17 @@ def __preCalc__(w):
   dice = rollDice(*weapon['dice'])
 
   armor = sumArmor(w.targetState)
-  attackProp = max(weaponProps.items(), key=lambda a: armor[a[0]] - a[1])
-  coeff = getAttackCoeff(attackProp[1])
+  diff = -inf
+  weapons = list(weaponProps.items())
+  prop = weapons[0]
+  for wea in weapons:
+    d = wea[1] - armor[wea[0]]
+    if d > diff:
+      diff = d
+      prop = wea
+
+  attackProp = prop
+  coeff = getAttackCoeff(diff)
 
   attackPoints = coeff * (dice + w.attackerState.fightingLevel)
 
@@ -79,7 +89,7 @@ def __preCalc__(w):
       w.attackerName,
       '{} (because of max diff {} in {})'.format(
           green(round(coeff, 2)),
-          green(attackProp[1]),
+          green(diff),
           green(prop),
       ),
       '{} * ({} + {})'.format(
