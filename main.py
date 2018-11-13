@@ -2,6 +2,7 @@ from scripts.GameCycle import runGameCycle
 from scripts.structures.WorldState import WorldState
 from scripts.structures.Point import Point
 from scripts.structures.Gopher import defaultGopher
+from scripts.MapScripts import stringMapToAreas
 
 from scripts.regions.MidTown import MidTownAreas
 
@@ -17,11 +18,28 @@ from scripts.inventory.BlackSword import BlackSword
 from scripts.inventory.Dagger import Dagger
 from scripts.inventory.Сuirass import Сuirass
 
-regions = [
-    [ForestArea(), ForestArea(), ForestArea()],
-    [WasteGroundArea(), MidTownAreas(), ForestArea()],
-    [WasteGroundArea(), WasteGroundArea(), WasteGroundArea()],
-]
+m = '''
+    H |LLLL:::::::::::::::::::::::::::::::FFFFFFFFFFF-----------------SSSSS-|
+    I |LLLL::::::::::::::::::::::::::::::::::FFFFFFFFF---~~~-----------SSSS-|
+    C |L::::::::::::::::::###########:::::::::::FFFFF------~~~~~--------SSS-|
+      |###::::::::::::::##############:::::::FFFFFF---~~~~~~~~~~~~~~~~~~----|
+    S |:###:::########:::::#####:::::::::::::::FFF--~~~~~--------~~~~~~~--FF|
+    U |^:#::::::#####::^::::GGG####:::::::::FFF-@~~~~~@--FFFFFF---~~~~~--FFF|
+    N |^^::::::::#####^^###GGGG#############FF-~~~~-FFFFFFFFFFFF-~--~~~~---F|
+    T |/\^^^:::::###^^^####GGG##########FF#FFF-~~~~-FFFFFFFFFFFFFFF-----FFFF|
+      |/\/\/\^^::::^/\^^####FFFFFFFFFFF########-~~~~-FFFFFFFFFFFFFFFFFFFFFFF|
+    D |/\/\/\/\^^:^^/\^^######FFFFF^FFFFFF####-~~~~TTTTFFFFFFFFFFFFFFFFFFFFF|
+    R |/\/\/\/\/\^^/\^^^###FFFFFF^^FFFFFF####-~~~~TTTQTFFFFFFFFFFFFFFFFFFFFF|
+    A |/\/\/\/\/\/\/\^^^##^^^FFF^^FFFFF#######-~~~~-FFFFFFFFFFFFFFFFFFFFFFFF|
+    C |/\/\/\/\/\/\/\/\^^^^^^^^^/\^FFF##########-~~~~-FFFFFFFFFFFFFFFFFFFFFF|
+    O |/\/\/\/\/\/\^CCC^^^^^^/\^^F###########-~~~~~-FFFFFFFFFFFFFFFFFFFWWWWF|
+    N |/\/\/\/\/\/\^CCCC^/\/\^^^FFFF####-~~~~~~~~~--FFFFFFFFFFFFFFFFFFWWWWWF|
+    E |/\/\/\/\/\/\/\/\/\/\/\^FF########-~~~~~~~~~~~~-FFFFFFFFFFFFFFFFWWWWWF|
+    S |_____________________________________________________________________|
+'''
+
+regions = stringMapToAreas(m)
+
 
 simpleSword = Sword()
 blackSword = BlackSword()
@@ -37,7 +55,6 @@ gopher = defaultGopher('Jacob')._replace(
 
 world = WorldState(
     locationPath=[
-        Point(x=1, y=1),
         Point(x=0, y=0),
     ],
     regions=regions,

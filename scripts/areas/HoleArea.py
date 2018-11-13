@@ -7,6 +7,7 @@ from scripts.events.performable.DigEvent import DigEvent
 
 def HoleArea(): return {
     'area name': 'Hole',
+    'symbol': 'H',
     'dig': lambda w: EventPipe(w, DigEvent),
     **RootArea()
 }

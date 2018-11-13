@@ -8,6 +8,7 @@ from scripts.events.performable.BuyAndEatEvent import BuyAndEatEvent
 
 def ArenaArea(): return {
     'area name': 'Arena',
+    'symbol': 'A',
     'fight': lambda w: w,
     'level': lambda w: w,
     **RootArea()

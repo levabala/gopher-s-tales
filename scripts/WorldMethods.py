@@ -1,3 +1,5 @@
+
+
 def getArea(world, locationPath):
   originPointer = locationPath[0]
   area = world.regions[originPointer.y][originPointer.x]

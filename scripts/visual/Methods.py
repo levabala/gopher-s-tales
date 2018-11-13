@@ -164,7 +164,7 @@ def showMap(w):
 
   collection = getCurrentRegion(w)['areas']
   for line in collection:
-    elements = [el['area name'].center(8) for el in line]
+    elements = [el['symbol'] for el in line]
 
     string = ''
     x = 0
@@ -176,11 +176,9 @@ def showMap(w):
         string += '{}{}{}'.format(bcolors.BOLD, el, bcolors.ENDC)
       else:
         string += el
-      string += ' '
       x += 1
 
-    smoothPrint(string)
-    smoothPrint()
+    smoothPrint(string, SMALL_DELAY)
 
     y += 1
 

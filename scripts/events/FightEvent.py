@@ -61,8 +61,6 @@ def _process(w):
         'strong attack': lambda w: EventPipe(w, StrongAttackEvent),
         'hold': lambda w: EventPipe(w, HoldEvent),
         'escape': lambda w: EventPipe(w, EscapeEvent),
-        'change weapon': lambda w: EventPipe(w, SimpleAttackEvent),
-        'change thing': lambda w: EventPipe(w, SimpleAttackEvent),
         'equip': lambda w: EventPipe(w, EquipItemEvent),
         'unequip': lambda w: EventPipe(w, UnequipItemEvent),
     }
@@ -87,8 +85,8 @@ def _process(w):
     if w.escapedFight:
       break
 
-    # change monster's and gopher's state
-    w = w._replace(enemyState=w.targetState, g=w.attackerState)
+    # change monster's state
+    w = w._replace(enemyState=w.targetState)
 
     print()
     showChangedProps(monsterBefore, w.enemyState, prefix='monster\'s ', )
@@ -117,8 +115,8 @@ def _process(w):
     if w.escapedFight:
       break
 
-    # change gopher's and monster's state
-    w = w._replace(enemyState=w.attackerState, g=w.targetState)
+    # change gopher'sstate
+    w = w._replace(g=w.targetState)
 
     print()
     showChangedProps(gopherBefore, w.g, prefix='your ')

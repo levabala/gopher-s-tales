@@ -20,4 +20,5 @@ def _process(w):
       green(round((HOLD_EVASION_COEFF - 1) * 100))
   ), True)
 
-  return (w._replace(g=w.g._replace(holdTurnsLeft=HOLD_DURATION)), None)
+  w = w._replace(g=w.g._replace(holdTurnsLeft=HOLD_DURATION))
+  return (w, None)

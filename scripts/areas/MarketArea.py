@@ -8,6 +8,7 @@ from scripts.events.performable.BuyAndEatEvent import BuyAndEatEvent
 
 def MarketArea(): return {
     'area name': 'Market',
+    'symbol': '$',
     'trade': lambda w: EventPipe(w, TradeEvent),
     'buyeat': lambda w: EventPipe(w, BuyAndEatEvent),
     **RootArea()

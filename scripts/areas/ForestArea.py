@@ -12,6 +12,7 @@ MAX_MONSTERS_COUNT = 10
 
 def ForestArea(): return {
     'area name': 'Forest',
+    'symbol': 'F',
     'monsters count': randint(MIN_MONSTERS_COUNT, MAX_MONSTERS_COUNT),
     'monsters type': SlugMonster,
     'purge': lambda w: EventPipe(w, PurgeEvent),
