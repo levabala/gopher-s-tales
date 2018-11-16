@@ -15,5 +15,6 @@ def WasteGroundArea(): return {
     'monsters count': randint(MIN_MONSTERS_COUNT, MAX_MONSTERS_COUNT),
     'monsters type': CrazyGopher,
     'purge': lambda w: EventPipe(w, PurgeEvent),
+    'move cost': 1,
     **RootArea()
 }

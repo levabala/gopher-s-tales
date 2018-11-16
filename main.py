@@ -1,3 +1,7 @@
+from scripts.inventory.Сuirass import Сuirass
+from scripts.inventory.Dagger import Dagger
+from scripts.inventory.BlackSword import BlackSword
+from scripts.inventory.Sword import Sword
 from scripts.GameCycle import runGameCycle
 from scripts.structures.WorldState import WorldState
 from scripts.structures.Point import Point
@@ -6,39 +10,67 @@ from scripts.MapScripts import stringMapToAreas
 
 from scripts.regions.MidTown import MidTownAreas
 
-from scripts.areas.EmptyArea import EmptyArea
+from scripts.areas.SandArea import SandArea
 from scripts.areas.ForestArea import ForestArea
-from scripts.areas.WasteGround import WasteGroundArea
-from scripts.areas.RoadArea import RoadArea
+from scripts.areas.TownArea import TownArea
+from scripts.areas.MainTownArea import MainTownArea
+from scripts.areas.SlimesArea import SlimesArea
+from scripts.areas.WildWolvesArea import WildWolvesArea
+from scripts.areas.FireLizardsArea import FireLizardsArea
+from scripts.areas.MountainFeet import MountainFeetArea
+from scripts.areas.LeftMountainArea import LeftMountainArea
+from scripts.areas.RightMountainArea import RightMountainArea
+from scripts.areas.WaterArea import WaterArea
 from scripts.areas.MarketArea import MarketArea
-from scripts.areas.HoleArea import HoleArea
+from scripts.areas.MarshesArea import MarshesArea
+from scripts.areas.EmptyArea import EmptyArea
+from scripts.areas.VastFieldArea import VastFieldArea
+from scripts.areas.GrifonesArea import GrifonesArea
+from scripts.areas.FerryArea import FerryArea
+from scripts.areas.CaveTrollsArea import CaveTrollsArea
 
-from scripts.inventory.Sword import Sword
-from scripts.inventory.BlackSword import BlackSword
-from scripts.inventory.Dagger import Dagger
-from scripts.inventory.Сuirass import Сuirass
+topRegionAreas = [
+    SandArea,
+    ForestArea,
+    TownArea,
+    MainTownArea,
+    SlimesArea,
+    WildWolvesArea,
+    FireLizardsArea,
+    MountainFeetArea,
+    LeftMountainArea,
+    RightMountainArea,
+    WaterArea,
+    MarketArea,
+    MarshesArea,
+    VastFieldArea,
+    GrifonesArea,
+    FerryArea,
+    CaveTrollsArea,
+]
+
 
 m = '''
-    H |LLLL:::::::::::::::::::::::::::::::FFFFFFFFFFF-----------------SSSSS-|
-    I |LLLL::::::::::::::::::::::::::::::::::FFFFFFFFF---~~~-----------SSSS-|
-    C |L::::::::::::::::::###########:::::::::::FFFFF------~~~~~--------SSS-|
-      |###::::::::::::::##############:::::::FFFFFF---~~~~~~~~~~~~~~~~~~----|
-    S |:###:::########:::::#####:::::::::::::::FFF--~~~~~--------~~~~~~~--FF|
-    U |^:#::::::#####::^::::GGG####:::::::::FFF-@~~~~~@--FFFFFF---~~~~~--FFF|
-    N |^^::::::::#####^^###GGGG#############FF-~~~~-FFFFFFFFFFFF-~--~~~~---F|
-    T |/\^^^:::::###^^^####GGG##########FF#FFF-~~~~-FFFFFFFFFFFFFFF-----FFFF|
-      |/\/\/\^^::::^/\^^####FFFFFFFFFFF########-~~~~-FFFFFFFFFFFFFFFFFFFFFFF|
-    D |/\/\/\/\^^:^^/\^^######FFFFF^FFFFFF####-~~~~TTTTFFFFFFFFFFFFFFFFFFFFF|
-    R |/\/\/\/\/\^^/\^^^###FFFFFF^^FFFFFF####-~~~~TTTQTFFFFFFFFFFFFFFFFFFFFF|
-    A |/\/\/\/\/\/\/\^^^##^^^FFF^^FFFFF#######-~~~~-FFFFFFFFFFFFFFFFFFFFFFFF|
-    C |/\/\/\/\/\/\/\/\^^^^^^^^^/\^FFF##########-~~~~-FFFFFFFFFFFFFFFFFFFFFF|
-    O |/\/\/\/\/\/\^CCC^^^^^^/\^^F###########-~~~~~-FFFFFFFFFFFFFFFFFFFWWWWF|
-    N |/\/\/\/\/\/\^CCCC^/\/\^^^FFFF####-~~~~~~~~~--FFFFFFFFFFFFFFFFFFWWWWWF|
-    E |/\/\/\/\/\/\/\/\/\/\/\^FF########-~~~~~~~~~~~~-FFFFFFFFFFFFFFFFWWWWWF|
-    S |_____________________________________________________________________|
+    |LLLL:::::::::::::::::::::::::::::::FFFFFFFFFFF-----------------SSSSS-|
+    |LLLL::::::::::::::::::::::::::::::::::FFFFFFFFF---~~~-----------SSSS-|
+    |L::::::::::::::::::###########:::::::::::FFFFF------~~~~~--------SSS-|
+    |###::::::::::::::##############:::::::FFFFFF---~~~~~~~~~~~~~~~~~~----|
+    |:###:::########:::::#####:::::::::::::::FFF--~~~~~--------~~~~~~~--FF|
+    |^:#::::::#####::^::::GGG####:::::::::FFF::::::::::FFFFFF---~~~~~--FFF|
+    |^^::::::::#####^^###GGGG#############FF-~~~~-FFFFFFFFFFFF-~--~~~~---F|
+    |/\^^^:::::###^^^####GGG##########FF#FFF-~~~~-FFFFFFFFFFFFFFF-----FFFF|
+    |/\/\/\^^::::^/\^^####FFFFFFFFFFF########-~~~~-FFFFFFFFFFFFFFFFFFFFFFF|
+    |/\/\/\/\^^:^^/\^^######FFFFF^FFFFFF####-~~~~TTTTFFFFFFFFFFFFFFFFFFFFF|
+    |/\/\/\/\/\^^/\^^^###FFFFFF^^FFFFFF####-~~~~TTTQTFFFFFFFFFFFFFFFFFFFFF|
+    |/\/\/\/\/\/\/\^^^##^^^FFF^^FFFFF#######-~~~~-FFFFFFFFFFFFFFFFFFFFFFFF|
+    |/\/\/\/\/\/\/\/\^^^^^^^^^/\^FFF##########-~~~~-FFFFFFFFFFFFFFFFFFFFFF|
+    |/\/\/\/\/\/\^CCC^^^^^^/\^^F###########-~~~~~-FFFFFFFFFFFFFFFFFFFWWWWF|
+    |/\/\/\/\/\/\^CCCC^/\/\^^^FFFF####-~~~~~~~~~--FFFFFFFFFFFFFFFFFFWWWWWF|
+    |/\/\/\/\/\/\/\/\/\/\/\^FF########-~~~~~~~~~~~~-FFFFFFFFFFFFFFFFWWWWWF|
+    |_____________________________________________________________________|
 '''
 
-regions = stringMapToAreas(m)
+regions = stringMapToAreas(m, topRegionAreas)
 
 
 simpleSword = Sword()
@@ -55,7 +87,7 @@ gopher = defaultGopher('Jacob')._replace(
 
 world = WorldState(
     locationPath=[
-        Point(x=0, y=0),
+        Point(x=46, y=10),
     ],
     regions=regions,
     g=gopher,

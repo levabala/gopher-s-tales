@@ -17,6 +17,7 @@ WorldState = namedtuple('WorldState', [
     'itemSwitchIndex',
     'arenaLevel',
     'escapedFight',
+    'fastMoveMode',
 ])
 
 WorldState.__new__.__defaults__ = (

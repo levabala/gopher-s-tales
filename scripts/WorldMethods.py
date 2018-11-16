@@ -1,5 +1,3 @@
-
-
 def getArea(world, locationPath):
   originPointer = locationPath[0]
   area = world.regions[originPointer.y][originPointer.x]
@@ -29,7 +27,9 @@ def getCurrentRegion(world):
 def isPointerValid(world, pointer, region):
   return (
       pointer.y >= 0 and pointer.y < len(region) and
-      pointer.x >= 0 and pointer.x < len(region[0])
+      pointer.x >= 0 and pointer.x < len(region[0]) and
+      (not 'unwalkable' in region[pointer.y][pointer.x].keys() or
+       not region[pointer.y][pointer.x]['unwalkable'])
   )
 
 

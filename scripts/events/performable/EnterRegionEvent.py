@@ -18,9 +18,16 @@ def EnterRegionEvent(w):
 
 
 def _process(w):
-  # TODO: entering from different sides
-
-  w = w._replace(locationPath=w.locationPath + [Point(0, 0)])
+  enterLocation = getArea(w, w.locationPath)
+  w = w._replace(
+      locationPath=w.locationPath +
+      [
+          Point(0, 0)
+          if not 'enter point' in enterLocation
+          else
+          enterLocation['enter point']
+      ]
+  )
 
   showMap(w)
 

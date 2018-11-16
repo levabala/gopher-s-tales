@@ -19,9 +19,11 @@ from scripts.events.performable.LeaveRegionEvent import LeaveRegionEvent
 from scripts.events.performable.EquipItemEvent import EquipItemEvent
 from scripts.events.performable.UnequipItemEvent import UnequipItemEvent
 from scripts.events.performable.ShowThingEvent import ShowThingEvent
+from scripts.events.performable.FastMoveEvent import FastMoveEvent
 
 
 def RootArea(): return {
+    'move': lambda w: EventPipe(w, FastMoveEvent),
     'go north': lambda w: EventPipe(w, MoveNorthEvent),
     'go east': lambda w: EventPipe(w, MoveEastEvent),
     'go south': lambda w: EventPipe(w, MoveSouthEvent),
@@ -58,7 +60,7 @@ def eat(w):
 
 def wait(w):
   gopherBefore = deepcopy(w.g)
-  w = spendActionPoint(w)
+  w = w._replace(g=w.g._replace(stamina=0))
   showChangedProps(gopherBefore, w.g)
 
   return w

@@ -1,9 +1,9 @@
 from scripts.areas.RootArea import RootArea
 
 
-def FerryArea(): return {
-    'area name': 'Old Ferry',
-    'symbol': '@',
+def ArenaArea(): return {
+    'area name': 'Arena',
+    'symbol': 'A',
     'move cost': 0,
     **RootArea()
 }

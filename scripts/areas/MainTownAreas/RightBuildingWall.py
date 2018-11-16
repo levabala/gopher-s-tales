@@ -1,10 +1,10 @@
 from scripts.areas.RootArea import RootArea
 
 
-def RightMountainArea(): return {
-    'area name': 'Mountain',
+def RightBuildingWallArea(): return {
+    'area name': 'Right building wall',
     'symbol': '\\',
+    'move cost': 0,
     'unwalkable': True,
-    'move cost': 5,
     **RootArea()
 }

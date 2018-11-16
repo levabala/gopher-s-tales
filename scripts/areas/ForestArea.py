@@ -16,5 +16,6 @@ def ForestArea(): return {
     'monsters count': randint(MIN_MONSTERS_COUNT, MAX_MONSTERS_COUNT),
     'monsters type': SlugMonster,
     'purge': lambda w: EventPipe(w, PurgeEvent),
+    'move cost': 2,
     **RootArea()
 }

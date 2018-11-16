@@ -11,5 +11,6 @@ def MarketArea(): return {
     'symbol': '$',
     'trade': lambda w: EventPipe(w, TradeEvent),
     'buyeat': lambda w: EventPipe(w, BuyAndEatEvent),
+    'move cost': 0,
     **RootArea()
 }

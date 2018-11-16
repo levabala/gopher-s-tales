@@ -13,6 +13,7 @@ COEFFS = {
     'diggingLevel': 1,
     'fightingLevel': 1,
     'tradingLevel': 1,
+    'stamina': 1,
     'evasion': 100,
     'holdTurnsLeft': 1,
 }

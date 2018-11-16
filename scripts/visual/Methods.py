@@ -1,7 +1,8 @@
 import math
+import sys
 from scripts.WorldMethods import getCurrentArea, getCurrentRegion
 from scripts.visual.Converter import COEFFS, POSTFIXES
-from scripts.visual.ConsoleColors import bcolors, green
+from scripts.visual.ConsoleColors import bcolors, green, blue, bold
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.Constants import SMALL_DELAY, MEDIUM_DELAY, BIG_DELAY
 
@@ -158,11 +159,24 @@ def showChangedProps(gopher1, gopher2, propsExcept=[], prefix='', postPrint=True
     smoothPrint('>> nothing changed\n')
 
 
-def showMap(w):
+def moveUpCursor(count):
+  while count:
+    sys.stdout.write("\033[F")  # Cursor up one line
+    count -= 1
+
+
+def showMap(w, instantly=False):
   y = 0
   pointer = w.locationPath[-1]
 
   collection = getCurrentRegion(w)['areas']
+  if instantly:
+    sys.stdout.write("\033[K")  # Clear to the end of line
+  print('current location: {}, {}'.format(pointer.x, pointer.y))
+  if instantly:
+    sys.stdout.write("\033[K")  # Clear to the end of line
+  print('current stamina: {}'.format(w.g.stamina))
+  all = []
   for line in collection:
     elements = [el['symbol'] for el in line]
 
@@ -173,14 +187,19 @@ def showMap(w):
           y == pointer.y and
           x == pointer.x
       ):
-        string += '{}{}{}'.format(bcolors.BOLD, el, bcolors.ENDC)
+        string += green(el)
       else:
-        string += el
+        string += bold(el)
       x += 1
 
-    smoothPrint(string, SMALL_DELAY)
+    all.append(string)
+    if not instantly:
+      smoothPrint(string, SMALL_DELAY)
 
     y += 1
+
+  if instantly:
+    print('\n'.join(all))
 
   print()
 

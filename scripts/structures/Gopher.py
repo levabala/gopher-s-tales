@@ -1,4 +1,5 @@
 from collections import namedtuple
+from scripts.Constants import MAX_STAMINA
 
 Gopher = namedtuple('Gopher', [
     'name',
@@ -23,6 +24,7 @@ Gopher = namedtuple('Gopher', [
     'inventory',
     'quickSlot',
     'holdTurnsLeft',
+    'stamina',
 ])
 
 
@@ -46,6 +48,7 @@ def defaultGopher(name):
       diggingLevel=1.0,
       fightingLevel=2.0,
       tradingLevel=1.0,
+      stamina=MAX_STAMINA,
       alive=True,
       inventory=[],
       quickSlot=[],

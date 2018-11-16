@@ -17,7 +17,7 @@ def UserActionEvent(w):
 
 
 def _process(w):
-  while w.g.actionPoints > 0 and w.g.alive:
+  while w.g.alive and w.g.stamina > 0:
     action = _getUserAction(w)
 
     if type(action) is str:
@@ -34,8 +34,14 @@ def _process(w):
 def _getUserAction(w):
   area = getCurrentArea(w)
 
+  keys = list(area.keys())
+
+  if 'service fields' in keys:
+    for field in area['service fields']:
+      keys.remove(field)
+
   actionName = requestCompletableInputStrict(
-      options=area.keys(),
+      options=keys,
       requestString='Enter action to do: ',
       wrongInputString='No such action'
   )

@@ -11,5 +11,6 @@ def ArenaArea(): return {
     'symbol': 'A',
     'fight': lambda w: w,
     'level': lambda w: w,
+    'move cost': 0,
     **RootArea()
 }

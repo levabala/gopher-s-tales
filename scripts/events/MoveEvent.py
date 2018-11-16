@@ -1,8 +1,10 @@
 from scripts.events.Event import EventTrivialFunc
 from scripts.visual.Methods import showMap
 from scripts.visual.SmoothPrint import smoothPrint
-from scripts.WorldMethods import getCurrentRegion, isPointerValid
+from scripts.WorldMethods import getCurrentRegion, isPointerValid, getCurrentArea
 from texts.events import EmptyTexts
+
+from scripts.events.SleepEvent import SleepEvent
 
 
 def MoveEvent(w):
@@ -15,6 +17,7 @@ def MoveEvent(w):
 
 def _processAreaMoving(w):
   currentRegion = getCurrentRegion(w)
+  currentArea = getCurrentArea(w)
 
   nowPointer = w.locationPath[-1]
   newPointer = nowPointer._replace(
@@ -23,9 +26,13 @@ def _processAreaMoving(w):
   )
 
   if isPointerValid(w, newPointer, currentRegion['areas']):
+    w = w._replace(g=w.g._replace(stamina=w.g.stamina - currentArea['move cost']))
     w = w._replace(locationPath=w.locationPath[:-1] + [newPointer])
-    showMap(w)
+    if not w.fastMoveMode:
+      showMap(w)
+
     return (w, None)
   else:
-    smoothPrint('You can\'t move this direction')
+    if not w.fastMoveMode:
+      smoothPrint('You can\'t move this direction')
     return (w, None)

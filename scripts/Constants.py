@@ -12,6 +12,8 @@ RESPECT_B_COEFF = 1
 DIG_INTELLIGENCE_COEFF = 1
 DIG_STRENGTH_COEFF = 1
 
+MAX_STAMINA = 200
+
 # start values
 START_WEALTH = 0.3
 
@@ -92,6 +94,15 @@ SLEEP_CHANGES = {
     'weight': -0.1,
     'fame': -0.05,
     'holeDeep': -0.05,
+    'stamina': 150,
+}
+
+BAD_SLEEP_CHANGES = {
+    'health': 0.05,
+    'weight': -0.2,
+    'fame': -0.08,
+    'holeDeep': -0.04,
+    'stamina': 100,
 }
 
 # hold
