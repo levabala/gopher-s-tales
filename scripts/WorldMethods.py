@@ -17,6 +17,15 @@ def getCurrentArea(world):
   return getArea(world, world.locationPath)
 
 
+def forEachArea(processor, regions):
+  for y in range(len(regions)):
+    for x in range(len(regions[y])):
+      area = regions[y][x]
+      if 'areas' in area:
+        forEachArea(processor, area['areas'])
+      processor(area)
+
+
 def getCurrentRegion(world):
   if len(world.locationPath) == 1:
     return {'areas': world.regions}

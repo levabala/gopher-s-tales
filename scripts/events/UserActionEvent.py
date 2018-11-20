@@ -20,12 +20,11 @@ def _process(w):
   while w.g.alive and w.g.stamina > 0:
     action = _getUserAction(w)
 
-    if type(action) is str:
+    if callable(action):
+      w = action(w)
+    else:
       smoothPrint(action)
-      print()
-      continue
 
-    w = action(w)
     print()
 
   return (w, None)
@@ -37,7 +36,7 @@ def _getUserAction(w):
   keys = list(area.keys())
 
   if 'service fields' in keys:
-    for field in area['service fields']:
+    for field in area['service fields'] + ['areas']:
       keys.remove(field)
 
   actionName = requestCompletableInputStrict(

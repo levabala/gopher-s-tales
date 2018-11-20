@@ -7,6 +7,7 @@ from scripts.events.WinGameEvent import WinGameEvent
 from scripts.GopherMethods import isDead, isWinner
 from scripts.visual.Methods import smoothPrint
 from scripts.events.SleepEvent import SleepEvent
+from scripts.events.SpawnMonstersEvent import SpawnMonstersEvent
 
 
 def StartDayEvent(w):
@@ -22,7 +23,7 @@ def _process(w):
   smoothPrint('\n--- DAY {} ---\n'.format(w.days))
 
   w = w._replace(g=w.g._replace(actionPoints=3))
-  w = EventPipe(w, MidwayEvent)
+  w = EventPipe(w, MidwayEvent, SpawnMonstersEvent)
 
   if isDead(w.g):
     return (w, DieEvent)
