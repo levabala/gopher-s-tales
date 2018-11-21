@@ -18,8 +18,12 @@ from scripts.areas.MainTownAreas.RightWall import RightWallArea
 from scripts.areas.MainTownAreas.StockExchange import StockExchangeArea
 from scripts.areas.MainTownAreas.StraightBuildingWall import StraightBuildingWallArea
 from scripts.areas.MainTownAreas.OutGates import OutGatesArea
+from scripts.areas.MainTownAreas.Rice import RiceArea
 from scripts.areas.WaterArea import WaterArea
 from scripts.areas.SandArea import SandArea
+from scripts.areas.MarshesArea import MarshesArea
+
+from texts.areas import MAIN_TOWN_DESCRIPTIONS
 
 mainTownAreas = [
     ArenaArea,
@@ -38,6 +42,8 @@ mainTownAreas = [
     OutGatesArea,
     WaterArea,
     SandArea,
+    MarshesArea,
+    RiceArea,
 ]
 
 townString = '''
@@ -68,5 +74,6 @@ def MainTownArea(): return {
     'move cost': 1,
     'enter point': Point(29, 15),
     'service fields': ['enter point', 'symbol'],
+    'custom descriptions': MAIN_TOWN_DESCRIPTIONS,
     ** RootArea()
 }

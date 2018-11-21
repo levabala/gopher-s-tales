@@ -8,8 +8,6 @@ from scripts.structures.Point import Point
 from scripts.structures.Gopher import defaultGopher
 from scripts.MapScripts import stringMapToAreas
 
-from scripts.regions.MidTown import MidTownAreas
-
 from scripts.areas.SandArea import SandArea
 from scripts.areas.ForestArea import ForestArea
 from scripts.areas.TownArea import TownArea
@@ -67,7 +65,6 @@ m = '''
     |/\/\/\/\/\/\^CCC^^^^^^/\^^F###########-~~~~~-FFFFFFFFFFFFFFFFFFFWWWWF|
     |/\/\/\/\/\/\^CCCC^/\/\^^^FFFF####-~~~~~~~~~--FFFFFFFFFFFFFFFFFFWWWWWF|
     |/\/\/\/\/\/\/\/\/\/\/\^FF########-~~~~~~~~~~~~-FFFFFFFFFFFFFFFFWWWWWF|
-    |_____________________________________________________________________|
 '''
 
 regions = stringMapToAreas(m, topRegionAreas)

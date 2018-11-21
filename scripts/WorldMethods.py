@@ -1,3 +1,6 @@
+from scripts.structures.Point import Point
+
+
 def getArea(world, locationPath):
   originPointer = locationPath[0]
   area = world.regions[originPointer.y][originPointer.x]
@@ -17,13 +20,42 @@ def getCurrentArea(world):
   return getArea(world, world.locationPath)
 
 
-def forEachArea(processor, regions):
+def forEachArea(processor, regions, path=[]):
+  regionPath = path.copy()
   for y in range(len(regions)):
     for x in range(len(regions[y])):
+      path = regionPath + [Point(x, y)]
+
       area = regions[y][x]
       if 'areas' in area:
-        forEachArea(processor, area['areas'])
-      processor(area)
+        forEachArea(processor, area['areas'], path.copy())
+
+      processor(area, path)
+
+
+def getMonstersInLocation(w, locationPath):
+  monsters = []
+  for i in range(len(w.monstersInTheWorld)):
+    monster = w.monstersInTheWorld[i]
+    if monster.state.health <= 0:
+      continue
+
+    print('{} vs {}'.format(monster.locationPath, locationPath))
+    if len(monster.locationPath) != len(locationPath):
+      continue
+
+    same = True
+    for ii in range(len(monster.locationPath)):
+      p1 = monster.locationPath[ii]
+      p2 = locationPath[ii]
+      if p1.x != p2.x or p1.y != p2.y:
+        same = False
+        break
+
+    if same:
+      monsters.append(monster)
+
+  return monsters
 
 
 def getCurrentRegion(world):

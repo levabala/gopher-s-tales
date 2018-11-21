@@ -1,6 +1,6 @@
 from copy import deepcopy
 from scripts.visual.SmoothPrint import smoothPrint
-from scripts.WorldMethods import getArea
+from scripts.WorldMethods import getArea, getMonstersInLocation, getCurrentArea, getCurrentRegion
 from scripts.EventPipe import EventPipe
 from scripts.visual.Methods import (
     showMap, showThings, showStory,
@@ -9,6 +9,7 @@ from scripts.visual.Methods import (
 )
 from scripts.GopherMethods import spendActionPoint
 from scripts.Constants import SMALL_DELAY
+from texts import areas
 
 # possible events
 from scripts.events.performable.MoveNorthEvent import MoveNorthEvent
@@ -39,9 +40,39 @@ def RootArea(): return {
     'equip': lambda w: EventPipe(w, EquipItemEvent),
     'unequip': lambda w: EventPipe(w, UnequipItemEvent),
     'thing': lambda w: EventPipe(w, ShowThingEvent),
-    'help': lambda w: help(w),
+    'help': help,
     'wait': wait,
+    'check for monsters': checkForMonsters,
+    'description': showDescription,
 }
+
+
+def showDescription(w):
+  area = getCurrentArea(w)
+  region = getCurrentRegion(w)
+
+  if 'custom descriptions' in region:
+    if not area['symbol'] in region['custom descriptions']:
+      smoothPrint('No description here..')
+      return w
+
+    showStory(region['custom descriptions'][area['symbol']])
+    return w
+
+  if not area['symbol'] in areas.DESCRIPTIONS:
+    smoothPrint('No description here..')
+  else:
+    showStory(areas.DESCRIPTIONS[area['symbol']])
+
+  return w
+
+
+def checkForMonsters(w):
+  monsters = getMonstersInLocation(w, w.locationPath)
+  if monsters:
+    print('Here are {}'.format(', '.join([m.state.name for m in monsters])))
+
+  return w
 
 
 def eat(w):

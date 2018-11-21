@@ -1,4 +1,5 @@
-from scripts.WorldMethods import getCurrentArea
+from random import randint
+from scripts.WorldMethods import getCurrentArea, getMonstersInLocation
 from scripts.events.Event import EventTrivialFunc
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.visual.Methods import showStory
@@ -17,18 +18,19 @@ def PurgeEvent(w):
 
 
 def _process(w):
-  area = getCurrentArea(w)
-  if not 'monsters count' in area or area['monsters count'] == 0:
-    showStory('No monsters here!')
+  monsters = getMonstersInLocation(w, w.locationPath)
+
+  if not monsters:
+    showStory('No monsters here!', True)
     return (w, None)
 
-  monstersType = area['monsters type']
   showStory(
-      'People say that here are about {} {}'.format(
-          area['monsters count'],
-          monstersType.textModule.MANY_NAME,
+      'People say they saw here {}'.format(
+          ', '.join([m.state.name for m in monsters])
       ),
       True
   )
 
-  return (w._replace(enemyType=monstersType), FightEvent)
+  monsterToFight = monsters[randint(0, len(monsters) - 1)]
+
+  return (w._replace(enemyType=monsterToFight.monster, enemyState=monsterToFight.state), FightEvent)

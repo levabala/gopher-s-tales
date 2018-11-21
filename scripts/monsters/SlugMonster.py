@@ -1,4 +1,4 @@
-import texts.monsters.SlugTexts as TEXT_MODULE
+import texts.monsters.SlimeTexts as TEXT_MODULE
 from scripts.monsters.Monster import Monster
 
 from scripts.inventory.GooArmor import GooArmor
