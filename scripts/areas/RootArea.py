@@ -21,14 +21,15 @@ from scripts.events.performable.EquipItemEvent import EquipItemEvent
 from scripts.events.performable.UnequipItemEvent import UnequipItemEvent
 from scripts.events.performable.ShowThingEvent import ShowThingEvent
 from scripts.events.performable.FastMoveEvent import FastMoveEvent
+from scripts.events.performable.ShowLegendEvent import ShowLegendEvent
 
 
 def RootArea(): return {
     'move': lambda w: EventPipe(w, FastMoveEvent),
-    'go north': lambda w: EventPipe(w, MoveNorthEvent),
-    'go east': lambda w: EventPipe(w, MoveEastEvent),
-    'go south': lambda w: EventPipe(w, MoveSouthEvent),
-    'go west': lambda w: EventPipe(w, MoveWestEvent),
+    'move north': lambda w: EventPipe(w, MoveNorthEvent),
+    'move east': lambda w: EventPipe(w, MoveEastEvent),
+    'move south': lambda w: EventPipe(w, MoveSouthEvent),
+    'move west': lambda w: EventPipe(w, MoveWestEvent),
     'die': lambda w: w._replace(g=w.g._replace(alive=False)),
     'inventory': showThings,
     'actions': showActions,
@@ -40,10 +41,10 @@ def RootArea(): return {
     'equip': lambda w: EventPipe(w, EquipItemEvent),
     'unequip': lambda w: EventPipe(w, UnequipItemEvent),
     'thing': lambda w: EventPipe(w, ShowThingEvent),
-    'help': help,
+    # 'help': help,
     'wait': wait,
-    'check for monsters': checkForMonsters,
-    'description': showDescription,
+    'show legend': lambda w: EventPipe(w, ShowLegendEvent),
+    'look around': showDescription,
 }
 
 

@@ -40,7 +40,7 @@ def getMonstersInLocation(w, locationPath):
     if monster.state.health <= 0:
       continue
 
-    print('{} vs {}'.format(monster.locationPath, locationPath))
+    # print('{} vs {}'.format(monster.locationPath, locationPath))
     if len(monster.locationPath) != len(locationPath):
       continue
 
@@ -63,7 +63,6 @@ def getCurrentRegion(world):
     return {'areas': world.regions}
   else:
     return getArea(world, world.locationPath[:-1])
-
 
 def isPointerValid(world, pointer, region):
   return (

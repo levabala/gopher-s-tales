@@ -49,7 +49,7 @@ def _process(w):
 
     w = EventPipe(w, m[k])
     region = getCurrentRegion(w)['areas']
-    height = len(region) + 3
+    height = len(region) + 4
     moveUpCursor(height)
     showMap(w, True)
 

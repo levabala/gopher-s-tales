@@ -1,10 +1,11 @@
 import math
 import sys
-from scripts.WorldMethods import getCurrentArea, getCurrentRegion
+from scripts.WorldMethods import getCurrentArea, getCurrentRegion, getMonstersInLocation
 from scripts.visual.Converter import COEFFS, POSTFIXES
 from scripts.visual.ConsoleColors import bcolors, green, blue, bold
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.Constants import SMALL_DELAY, MEDIUM_DELAY, BIG_DELAY
+from scripts.structures.Point import Point
 
 ROUND_DIGITS = 2
 
@@ -161,6 +162,7 @@ def showChangedProps(gopher1, gopher2, propsExcept=[], prefix='', postPrint=True
 
 def moveUpCursor(count):
   while count:
+    # sys.stdout.write("\033[K")  # Clear to the end of line
     sys.stdout.write("\033[F")  # Cursor up one line
     count -= 1
 
@@ -168,15 +170,22 @@ def moveUpCursor(count):
 def showMap(w, instantly=False):
   y = 0
   pointer = w.locationPath[-1]
+  region = getCurrentRegion(w)
 
-  collection = getCurrentRegion(w)['areas']
+  collection = region['areas']
   if instantly:
     sys.stdout.write("\033[K")  # Clear to the end of line
   print('current location: {}, {}'.format(pointer.x, pointer.y))
   if instantly:
     sys.stdout.write("\033[K")  # Clear to the end of line
-  print('current stamina: {}'.format(w.g.stamina))
+  print('current stamina: {}'.format(w.g.stamina))  
+  
+  if instantly:
+    sys.stdout.write("\033[K")  # Clear to the end of line
+  print()
+  
   all = []
+
   for line in collection:
     elements = [el['symbol'] for el in line]
 
@@ -187,7 +196,9 @@ def showMap(w, instantly=False):
           y == pointer.y and
           x == pointer.x
       ):
-        string += green(el)
+        string += green(el)         
+      elif getMonstersInLocation(w, w.locationPath[:-1] + [Point(x, y)]):
+        string += blue(el)
       else:
         string += bold(el)
       x += 1
@@ -197,7 +208,7 @@ def showMap(w, instantly=False):
       smoothPrint(string, SMALL_DELAY)
 
     y += 1
-
+  
   if instantly:
     print('\n'.join(all))
 
