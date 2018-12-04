@@ -36,8 +36,9 @@ def _getUserAction(w):
   keys = list(area.keys())
 
   if 'service fields' in keys:
-    for field in area['service fields'] + ['areas']:
+    for field in area['service fields'] + ['areas', 'symbol']:
       keys.remove(field)
+    keys.remove('service fields')
 
   actionName = requestCompletableInputStrict(
       options=keys,

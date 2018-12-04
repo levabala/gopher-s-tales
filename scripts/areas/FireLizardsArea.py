@@ -1,5 +1,6 @@
 from scripts.areas.RootArea import RootArea
 from scripts.monsters.FireLizards import FireLizard
+from scripts.areas.MonstersArea import MonstersArea
 
 
 def FireLizardsArea(): return {
@@ -8,5 +9,6 @@ def FireLizardsArea(): return {
     'move cost': 2,
     'monster generate chance': 0.3,
     'monster type': FireLizard,
-    **RootArea()
+    **RootArea(),
+    **MonstersArea(),
 }

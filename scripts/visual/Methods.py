@@ -182,7 +182,7 @@ def showMap(w, instantly=False):
   
   if instantly:
     sys.stdout.write("\033[K")  # Clear to the end of line
-  print()
+  print('')
   
   all = []
 

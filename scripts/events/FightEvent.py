@@ -2,6 +2,7 @@ from copy import deepcopy
 from scripts.EventPipe import EventPipe
 from scripts.WorldMethods import getArea, getCurrentArea
 from scripts.events.Event import EventTrivialFunc
+from scripts.events.DieEvent import DieEvent
 from scripts.visual.SmoothPrint import smoothPrint
 from scripts.visual.Methods import showStory, showChangedProps, formatValueColored
 from scripts.EventPipe import EventPipe
@@ -131,5 +132,8 @@ def _process(w):
 
   smoothPrint('All after-fight changes:')
   showChangedProps(gopherInBegging, w.g)
+
+  if w.g.health <= 0:
+    return (w, DieEvent)
 
   return (w, None)
