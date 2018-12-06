@@ -7,6 +7,7 @@ from scripts.Constants import (
     TRADE_EVENT_FAILURE_SIMPLE_BOUND,
     TRADE_EVENT_SUCCESS_SIMPLE_BOUND,
     TRADE_EVENT_SUCCESS_CRIT_BOUND,
+    STAMINA_TRADE_COST,
     WEEK_TAX,
     YOU_STRING
 )
@@ -28,19 +29,19 @@ def TradeEvent(w):
       TRADE_EVENT_SUCCESS_CRIT_BOUND,
       lambda w: (w._replace(g=w.g._replace(
           wealth=w.g.wealth - w.yourBet,
-          actionPoints=w.g.actionPoints - 1
+          stamina=w.g.stamina - STAMINA_TRADE_COST,
       )), None),
       lambda w: (w._replace(g=w.g._replace(
           wealth=w.g.wealth + WEEK_TAX / 7,
-          actionPoints=w.g.actionPoints - 1
+          stamina=w.g.stamina - STAMINA_TRADE_COST,
       )), None),
       lambda w: (w._replace(g=w.g._replace(
           wealth=w.g.wealth + w.yourBet * (1 / 3),
-          actionPoints=w.g.actionPoints - 1
+          stamina=w.g.stamina - STAMINA_TRADE_COST,
       )), None),
       lambda w: (w._replace(g=w.g._replace(
           wealth=w.g.wealth + w.yourBet * (3 / 3),
-          actionPoints=w.g.actionPoints - 1
+          stamina=w.g.stamina - STAMINA_TRADE_COST,
       )), None),
       showChangedPropsAfterAll=True
   )

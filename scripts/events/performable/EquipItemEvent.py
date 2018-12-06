@@ -47,25 +47,10 @@ def _process(w):
 
   t = w.g.inventory[num]['type']
   if isTypeInEquipement(w.g, t):
-    showStory('You are trying to have to things of the same type equiped', True)
+    showStory('You\'ve replaced you item with other one the same type', True)
 
-    msg = 'Enter action index:'
-    msg += '\n1. switch item'
-    msg += '\n2. change item to equip index\n'
-
-    actionIndex = input(msg)
-    print()
-
-    if not actionIndex.isdigit():
-      return nextPlease(w)
-
-    actionIndex = int(actionIndex)
-
-    if actionIndex != 1:
-      return nextPlease(w)
-    else:
-      w = w._replace(itemSwitchIndex=num)
-      return (w, SwitchItemEvent)
+    w = w._replace(itemSwitchIndex=num)
+    return (w, SwitchItemEvent)
 
   w = w._replace(g=equipItem(w.g, num))
 

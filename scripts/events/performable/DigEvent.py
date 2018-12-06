@@ -12,6 +12,7 @@ from scripts.Constants import (
     LEVEL_DIGGING_COEFF,
     DIG_INTELLIGENCE_COEFF,
     DIG_STRENGTH_COEFF,
+    STAMINA_DIG_COST,
     YOU_STRING
 )
 from texts.events import DigTexts
@@ -32,14 +33,14 @@ def DigEvent(w):
       DIGGING_EVENT_SUCCESS_SIMPLE_BOUND,
       DIGGING_EVENT_SUCCESS_SIMPLE_BOUND,
       lambda w: (w._replace(
-          g=w.g._replace(actionPoints=0)
+          g=w.g._replace(stamina=0)
       ), FloodEvent if randint(0, 1) else DownfallEvent),
       lambda w: (w._replace(g=w.g._replace(
-          actionPoints=w.g.actionPoints-1)
+          stamina=w.g.stamina-STAMINA_DIG_COST)
       ), None),
       lambda w: (w._replace(g=w.g._replace(
           holeDeep=w.g.holeDeep + DIGGING_NORMAL_DEEP,
-          actionPoints=w.g.actionPoints-1)
+          stamina=w.g.stamina-STAMINA_DIG_COST)
       ), None),
       lambda w: (w, None),
       showChangedPropsAfterAll=True,
@@ -49,7 +50,7 @@ def DigEvent(w):
 def __calcDice__(rt):
   digLA = LEVEL_DIGGING_COEFF * rt.g.diggingLevel
   digI = DIG_INTELLIGENCE_COEFF * rt.g.intelligence + digLA
-  digS = DIG_STRENGTH_COEFF * rt.g.strenght + digLA
+  digS = DIG_STRENGTH_COEFF * rt.g.strength + digLA
   avrg = (digI + digS) / 2
   digBuff = min(avrg, max(digI, digS))
 

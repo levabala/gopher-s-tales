@@ -128,7 +128,6 @@ def _process(w):
       break
 
   print()
-  w = spendActionPoint(w)
 
   smoothPrint('All after-fight changes:')
   showChangedProps(gopherInBegging, w.g)

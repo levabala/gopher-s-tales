@@ -23,7 +23,6 @@ def _process(w):
   smoothPrint('\n--- DAY {} ---\n'.format(w.days))
 
   w = EventPipe(w, SpawnMonstersEvent)
-  w = w._replace(g=w.g._replace(actionPoints=3))
   w = EventPipe(w, MidwayEvent)
 
   if isDead(w.g):
