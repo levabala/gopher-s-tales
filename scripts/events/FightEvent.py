@@ -99,7 +99,8 @@ def _process(w):
       smoothPrint('monster defeated')
       w = w._replace(g=w.g._replace(fame=w.g.fame + 0.1))
       area = getCurrentArea(w)
-      area['monsters count'] -= 1
+
+      w.monstersInTheWorld.remove(w.monsterToFight)
 
       showStory('Monsters left: {}'.format(area['monsters count']), True)
 

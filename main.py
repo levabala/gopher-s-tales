@@ -88,6 +88,7 @@ gopher = defaultGopher('Jacob')._replace(
     ],
     equipement=[simpleSword],
 )
+simpleSword['equiped'] = True
 
 world = WorldState(
     locationPath=[

@@ -26,4 +26,4 @@ def _process(w):
 
   monsterToFight = monsters[randint(0, len(monsters) - 1)]
 
-  return (w._replace(enemyType=monsterToFight.monster, enemyState=monsterToFight.state), FightEvent)
+  return (w._replace(monsterToFight=monsterToFight, enemyType=monsterToFight.monster, enemyState=monsterToFight.state), FightEvent)

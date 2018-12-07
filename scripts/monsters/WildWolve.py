@@ -2,7 +2,7 @@ import texts.monsters.WildWolveTexts as TEXT_MODULE
 from scripts.monsters.Monster import Monster
 
 from scripts.inventory.LeatherArmor import LeatherArmor
-from scripts.inventory.RustSword import RustSword
+from scripts.inventory.WolfTeeth import WolfTeeth
 
 
 HEALTH_POINTS = 0.7
@@ -14,5 +14,5 @@ WildWolve = Monster(
     HEALTH_POINTS,
     EVASION_POINTS,
     FIGHTING_LEVEL,
-    [LeatherArmor, RustSword]
+    [LeatherArmor, WolfTeeth]
 )

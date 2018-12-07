@@ -19,6 +19,7 @@ WorldState = namedtuple('WorldState', [
     'escapedFight',
     'fastMoveMode',
     'monstersInTheWorld',
+    'monsterToFight',
 ])
 
 WorldState.__new__.__defaults__ = (
