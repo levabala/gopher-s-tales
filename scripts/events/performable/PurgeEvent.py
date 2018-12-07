@@ -24,13 +24,6 @@ def _process(w):
     showStory('No monsters here!', True)
     return (w, None)
 
-  showStory(
-      'People say they saw here {}'.format(
-          ', '.join([m.state.name for m in monsters])
-      ),
-      True
-  )
-
   monsterToFight = monsters[randint(0, len(monsters) - 1)]
 
   return (w._replace(enemyType=monsterToFight.monster, enemyState=monsterToFight.state), FightEvent)

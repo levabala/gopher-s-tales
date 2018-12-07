@@ -106,12 +106,12 @@ def showProps(w):
 
 
 def showCharacter(w):
-  toPrint = 'name strenght agility intelligence charisma origin'.split(' ')
+  toPrint = 'strenght agility intelligence charisma evasion fightingLevel'.split(' ')
   for f in [f for f in w.g._fields if f in toPrint]:
     val = getattr(w.g, f)
     smoothPrint('{}{}{} is now: {}'.format(
         bcolors.BOLD, f, bcolors.ENDC,
-        formatValueColored(val * COEFFS[f], val)), SMALL_DELAY)
+        formatValueColored(val * COEFFS[f] if f in COEFFS else val, val)), SMALL_DELAY)
   print()
   return w
 
@@ -178,12 +178,12 @@ def showMap(w, instantly=False):
   print('current location: {}, {}'.format(pointer.x, pointer.y))
   if instantly:
     sys.stdout.write("\033[K")  # Clear to the end of line
-  print('current stamina: {}'.format(w.g.stamina))  
-  
+  print('current stamina: {}'.format(w.g.stamina))
+
   if instantly:
     sys.stdout.write("\033[K")  # Clear to the end of line
   print('')
-  
+
   all = []
 
   for line in collection:
@@ -196,7 +196,7 @@ def showMap(w, instantly=False):
           y == pointer.y and
           x == pointer.x
       ):
-        string += green(el)         
+        string += green(el)
       elif getMonstersInLocation(w, w.locationPath[:-1] + [Point(x, y)]):
         string += blue(el)
       else:
@@ -208,7 +208,7 @@ def showMap(w, instantly=False):
       smoothPrint(string, SMALL_DELAY)
 
     y += 1
-  
+
   if instantly:
     print('\n'.join(all))
 

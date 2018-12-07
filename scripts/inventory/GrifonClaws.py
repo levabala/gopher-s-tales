@@ -2,7 +2,7 @@ from scripts.structures.Thing import Thing
 
 
 def GrifonClaws(): return {
-    'name': 'hammer',
+    'name': 'grifon claws',
     'type': 'weapon',
     'weight': 0.7,
     'dice': (10, 2),  # 14 edges and 1 dice to roll

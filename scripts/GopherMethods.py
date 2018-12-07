@@ -71,7 +71,7 @@ def sumArmor(target):
 
 
 def getAttackCoeff(diff):
-  return 1 + tanh(diff / 10) ** 1
+  return (1 + tanh(diff / 10) ** 1) * 1
 
 
 def normalizeProps(w):

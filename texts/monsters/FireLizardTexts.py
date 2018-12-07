@@ -3,7 +3,13 @@ MIN_DESCRIPTION = '''
 '''
 
 MEDIUM_DESCRIPTION = '''
-  Just a Fire Lizard
+  "Fire Lizard"
+  Defense: 
+  - absolute resistance for fire&acid
+  - medium resistance for smash&slice
+  - afraids of pierce attacks
+  Attack:
+  - huge fire damage via FIRE BREATH
 '''
 
 FULL_DESCRIPTION = '''

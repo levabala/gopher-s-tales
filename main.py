@@ -2,6 +2,10 @@ from scripts.inventory.Сuirass import Сuirass
 from scripts.inventory.Dagger import Dagger
 from scripts.inventory.BlackSword import BlackSword
 from scripts.inventory.Sword import Sword
+from scripts.inventory.FireBall import FireBall
+from scripts.inventory.MetalPlates import MetalPlates
+from scripts.inventory.AwesomeArmor import AwesomeArmor
+
 from scripts.GameCycle import runGameCycle
 from scripts.structures.WorldState import WorldState
 from scripts.structures.Point import Point
@@ -74,10 +78,13 @@ simpleSword = Sword()
 blackSword = BlackSword()
 dagger = Dagger()
 simpleCuirass = Сuirass()
+fireBall = FireBall()
+metalPlates = MetalPlates()
+awesomeArmor = AwesomeArmor()
 
 gopher = defaultGopher('Jacob')._replace(
     inventory=[
-        blackSword, simpleCuirass, dagger
+        blackSword, simpleCuirass, dagger, fireBall, metalPlates, awesomeArmor
     ],
     equipement=[simpleSword],
 )

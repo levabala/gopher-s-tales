@@ -59,8 +59,8 @@ def __preCalc__(w):
   dice = rollDice(*weapon['dice'])
 
   armor = sumArmor(w.targetState)
-  attackProp = max(weaponProps.items(), key=lambda a: armor[a[0]] - a[1])
-  coeff = getAttackCoeff(attackProp[1])
+  attackProp = max(weaponProps.items(), key=lambda a: a[1] - armor[a[0]])
+  coeff = getAttackCoeff(attackProp[1] - armor[attackProp[0]])
 
   attackPoints = coeff * (dice + w.attackerState.fightingLevel)
 
@@ -79,7 +79,7 @@ def __preCalc__(w):
       w.attackerName,
       '{} (because of max diff {} in {})'.format(
           green(round(coeff, 2)),
-          green(attackProp[1]),
+          green(attackProp[1] - armor[attackProp[0]]),
           green(prop),
       ),
       '{} * ({} + {})'.format(

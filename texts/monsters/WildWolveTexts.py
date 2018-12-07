@@ -3,11 +3,15 @@ MIN_DESCRIPTION = '''
 '''
 
 MEDIUM_DESCRIPTION = '''
-  
+  "Wild Wolve"
+  Defense: 
+  - high smash&pierce resistance
+  Attack:
+  - high slice damage
 '''
 
 FULL_DESCRIPTION = '''
-  
+  Just a Wild Wolve
 '''
 
 

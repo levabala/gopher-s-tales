@@ -5,7 +5,7 @@ from scripts.inventory.LeatherArmor import LeatherArmor
 from scripts.inventory.RustSword import RustSword
 
 
-HEALTH_POINTS = 0.5
+HEALTH_POINTS = 0.7
 EVASION_POINTS = 0.1
 FIGHTING_LEVEL = 7
 

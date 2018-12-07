@@ -3,7 +3,12 @@ MIN_DESCRIPTION = '''
 '''
 
 MEDIUM_DESCRIPTION = '''
-  Just a Cave Troll
+  "Cave Troll"
+  Defense: 
+  - afraids of smash and pierce attacks
+  - huge resistance for acid and fire
+  Attack:
+  - huge smash damage
 '''
 
 FULL_DESCRIPTION = '''

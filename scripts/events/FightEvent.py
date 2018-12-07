@@ -4,7 +4,7 @@ from scripts.WorldMethods import getArea, getCurrentArea
 from scripts.events.Event import EventTrivialFunc
 from scripts.events.DieEvent import DieEvent
 from scripts.visual.SmoothPrint import smoothPrint
-from scripts.visual.Methods import showStory, showChangedProps, formatValueColored
+from scripts.visual.Methods import showStory, showChangedProps, formatValueColored, showCharacter
 from scripts.EventPipe import EventPipe
 from scripts.Assets import rollDice, showRollResult
 from scripts.visual.Converter import COEFFS
@@ -64,6 +64,7 @@ def _process(w):
         'escape': lambda w: EventPipe(w, EscapeEvent),
         'equip': lambda w: EventPipe(w, EquipItemEvent),
         'unequip': lambda w: EventPipe(w, UnequipItemEvent),
+        'character': showCharacter,
     }
 
     # get action name
@@ -132,7 +133,7 @@ def _process(w):
   smoothPrint('All after-fight changes:')
   showChangedProps(gopherInBegging, w.g)
 
-  if w.g.health <= 0:
-    return (w, DieEvent)
-
-  return (w, None)
+  # if w.g.health <= 0:
+  #  return (w, DieEvent)
+  alive = w.g.health > 0
+  return (w._replace(g=w.g._replace(alive=alive)), None)
